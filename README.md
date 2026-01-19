@@ -1,24 +1,37 @@
 # Fando
 
-**F**elix **and** **O**scar - a pair of complementary Claude Code skills for plan refinement and implementation verification.
+Claude and Codex - the odd couple of AI-assisted development.
 
-Like the odd couple, these skills work together: one creates refined plans, the other verifies implementations match those plans.
+Like Felix and Oscar from *The Odd Couple*, these two AI systems have different strengths and work better together:
+
+- **Claude** (the orchestrator) - handles planning, user interaction, code generation, and workflow management
+- **Codex** (the reviewer) - provides external review, catches blind spots, and validates implementations
+
+Fando is a collection of Claude Code skills that leverage this collaboration.
 
 ## Skills
 
-### `/refine-plan-codex`
+### `/fando-plan`
 
-Iteratively refines implementation plans using OpenAI Codex as a reviewer. Creates a plan, sends it for review, and iterates until approved.
+Iteratively refines implementation plans using Codex as a reviewer. Claude creates a plan, sends it to Codex for critique, and iterates until approved.
+
+**Workflow:**
+1. Claude creates initial plan for your task
+2. Codex reviews and flags issues (HIGH/MEDIUM/LOW risk)
+3. Claude addresses feedback and resubmits
+4. Repeat until LGTM or max iterations
 
 **Features:**
-- Automated plan review with risk classification (HIGH/MEDIUM/LOW)
+- Automated plan review with risk classification
 - Secret detection and redaction before sending to external API
 - Iteration tracking with configurable limits
 - Plan history saved to `~/.claude/plan-reviews/`
 
-### `/verify-implementation-codex`
+### `/fando-verify`
 
-Verifies an implementation against its plan, categorizing each item as:
+Verifies an implementation against its plan. After you've built something, Codex compares what you built to what you planned.
+
+**Categories:**
 
 | Category | Description |
 |----------|-------------|
@@ -42,11 +55,12 @@ Clone to your Claude Code skills directory:
 git clone https://github.com/vu1n/fando.git ~/.claude/skills
 ```
 
-Or if you already have a skills directory:
+Or add to an existing skills directory:
 
 ```bash
 cd ~/.claude/skills
 git remote add origin https://github.com/vu1n/fando.git
+git pull origin main
 ```
 
 ## Requirements
@@ -57,30 +71,68 @@ git remote add origin https://github.com/vu1n/fando.git
 
 ## Usage
 
-### Refine a Plan
+### Plan a Feature
 
 ```
-/refine-plan-codex Add JWT authentication with refresh tokens
+/fando-plan Add JWT authentication with refresh tokens
 ```
 
-### Verify Implementation
+Claude creates a plan, Codex reviews it, and they iterate until the plan is solid.
+
+### Verify Your Implementation
+
+After implementing, verify it matches the plan:
 
 ```
-/verify-implementation-codex
+/fando-verify
 ```
 
 Or with explicit plan path:
 
 ```
-/verify-implementation-codex --path=~/.claude/plan-reviews/my-project/2026-01-19-auth.md
+/fando-verify --path=~/.claude/plan-reviews/my-project/2026-01-19-auth.md
 ```
 
-## Shared Components
+## Typical Workflow
 
-Both skills share common utilities in `refine-plan-codex/scripts/`:
+```
+1. /fando-plan Add user authentication
+   → Claude + Codex iterate on the plan
+   → Plan saved to ~/.claude/plan-reviews/my-project/2026-01-19-auth.md
 
-- `call_codex.py` - Safe Codex CLI invocation via stdin
-- `secrets.py` - Secret detection and redaction
+2. Implement the feature (with Claude's help)
+
+3. /fando-verify
+   → Codex compares implementation to plan
+   → Highlights matches, improvements, regressions, missing items
+```
+
+## Directory Structure
+
+```
+~/.claude/skills/
+├── fando-plan/
+│   ├── SKILL.md
+│   ├── scripts/
+│   │   ├── call_codex.py      # Codex CLI wrapper
+│   │   ├── parse_findings.py  # Parse review response
+│   │   └── secrets.py         # Secret detection
+│   ├── references/
+│   └── examples/
+├── fando-verify/
+│   ├── SKILL.md
+│   ├── scripts/
+│   │   ├── find_plan.py           # Auto-detect plans
+│   │   ├── gather_implementation.py  # Git diff collector
+│   │   └── parse_verification.py  # Parse verification
+│   ├── references/
+│   └── examples/
+└── README.md
+```
+
+## Why "Fando"?
+
+**F**elix **and** **O**scar - the characters from *The Odd Couple*. Claude and Codex are different AI systems with different approaches, but they complement each other well. One plans and builds, the other reviews and validates.
 
 ## License
 

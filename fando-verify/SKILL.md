@@ -1,10 +1,10 @@
-# Skill: /verify-implementation-codex
+# Skill: /fando-verify
 
-Verifies an implementation against its plan using OpenAI Codex, identifying matches, improvements, regressions, and missing items. Closes the feedback loop with `/refine-plan-codex`.
+Verifies an implementation against its plan using OpenAI Codex, identifying matches, improvements, regressions, and missing items. Closes the feedback loop with `/fando-plan`. Part of the Fando toolkit - Claude and Codex working together as the "odd couple" of AI-assisted development.
 
 ## Trigger
 
-User runs `/verify-implementation-codex [plan-path]`
+User runs `/fando-verify [plan-path]`
 
 If no plan path is provided, the skill auto-detects the plan from `~/.claude/plan-reviews/{project}/`.
 
@@ -20,7 +20,7 @@ If no plan path is provided, the skill auto-detects the plan from `~/.claude/pla
 
 2. **Find the plan to verify against:**
    ```bash
-   python3 ~/.claude/skills/verify-implementation-codex/scripts/find_plan.py [explicit-path]
+   python3 ~/.claude/skills/fando-verify/scripts/find_plan.py [explicit-path]
    ```
    - If explicit path provided, use that
    - Otherwise, find latest plan in `~/.claude/plan-reviews/{project}/`
@@ -32,7 +32,7 @@ If no plan path is provided, the skill auto-detects the plan from `~/.claude/pla
 
 1. **Gather implementation diff:**
    ```bash
-   python3 ~/.claude/skills/verify-implementation-codex/scripts/gather_implementation.py [--ref=<commit>]
+   python3 ~/.claude/skills/fando-verify/scripts/gather_implementation.py [--ref=<commit>]
    ```
    - Default: diff against merge-base with main/master
    - Optional: diff against specific commit/ref
@@ -47,7 +47,7 @@ If no plan path is provided, the skill auto-detects the plan from `~/.claude/pla
 
 1. **Scan for secrets** in both plan and diff:
    ```bash
-   python3 ~/.claude/skills/refine-plan-codex/scripts/secrets.py --mode=check <<< "$CONTENT"
+   python3 ~/.claude/skills/fando-plan/scripts/secrets.py --mode=check <<< "$CONTENT"
    ```
    - If secrets found, show warning and offer options:
      - [Redact and proceed] - mask secrets before sending
@@ -74,12 +74,12 @@ If no plan path is provided, the skill auto-detects the plan from `~/.claude/pla
 
 4. **Call Codex:**
    ```bash
-   python3 ~/.claude/skills/refine-plan-codex/scripts/call_codex.py "$VERIFICATION_PROMPT" <<< "$PLAN_AND_DIFF"
+   python3 ~/.claude/skills/fando-plan/scripts/call_codex.py "$VERIFICATION_PROMPT" <<< "$PLAN_AND_DIFF"
    ```
 
 5. **Parse results:**
    ```bash
-   python3 ~/.claude/skills/verify-implementation-codex/scripts/parse_verification.py <<< "$CODEX_RESPONSE"
+   python3 ~/.claude/skills/fando-verify/scripts/parse_verification.py <<< "$CODEX_RESPONSE"
    ```
 
 ### Phase 4: Results & Documentation
@@ -180,9 +180,9 @@ Verification saved to: ~/.claude/plan-reviews/my-api/2026-01-19-jwt-auth-verify.
 | `references/verification_prompts.md` | Prompt templates for verification |
 | `examples/sample_verification.md` | Example verification workflow |
 
-## Reused Scripts (from refine-plan-codex)
+## Reused Scripts (from fando-plan)
 
 | Script | Path |
 |--------|------|
-| `call_codex.py` | `~/.claude/skills/refine-plan-codex/scripts/call_codex.py` |
-| `secrets.py` | `~/.claude/skills/refine-plan-codex/scripts/secrets.py` |
+| `call_codex.py` | `~/.claude/skills/fando-plan/scripts/call_codex.py` |
+| `secrets.py` | `~/.claude/skills/fando-plan/scripts/secrets.py` |

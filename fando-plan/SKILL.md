@@ -1,10 +1,10 @@
-# Skill: /refine-plan-codex
+# Skill: /fando-plan
 
-Automates the workflow of creating a plan, sending it to OpenAI Codex for review, and iterating until the plan is refined.
+Automates the workflow of creating a plan, sending it to OpenAI Codex for review, and iterating until the plan is refined. Part of the Fando toolkit - Claude and Codex working together as the "odd couple" of AI-assisted development.
 
 ## Trigger
 
-User runs `/refine-plan-codex <task description>`
+User runs `/fando-plan <task description>`
 
 ## Workflow
 
@@ -20,7 +20,7 @@ User runs `/refine-plan-codex <task description>`
 
 3. **Scan for secrets** before proceeding:
    ```bash
-   python3 ~/.claude/skills/refine-plan-codex/scripts/secrets.py --mode=check <<< "$PLAN"
+   python3 ~/.claude/skills/fando-plan/scripts/secrets.py --mode=check <<< "$PLAN"
    ```
    - If secrets found, show warning and offer options:
      - [Redact and proceed] - mask secrets before sending
@@ -52,12 +52,12 @@ For each iteration:
 
 2. **Call Codex for review:**
    ```bash
-   python3 ~/.claude/skills/refine-plan-codex/scripts/call_codex.py "$REVIEW_PROMPT" <<< "$PLAN"
+   python3 ~/.claude/skills/fando-plan/scripts/call_codex.py "$REVIEW_PROMPT" <<< "$PLAN"
    ```
 
 3. **Parse the response:**
    ```bash
-   python3 ~/.claude/skills/refine-plan-codex/scripts/parse_findings.py <<< "$CODEX_RESPONSE"
+   python3 ~/.claude/skills/fando-plan/scripts/parse_findings.py <<< "$CODEX_RESPONSE"
    ```
 
 4. **Check stop conditions:**
