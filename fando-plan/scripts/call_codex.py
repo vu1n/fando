@@ -57,7 +57,7 @@ def verify_codex_cli() -> dict:
     return result
 
 
-def call_codex(prompt: str, plan: str, timeout: int = 120) -> CodexResult:
+def call_codex(prompt: str, plan: str, timeout: int = 600) -> CodexResult:
     """
     Call Codex exec with plan passed via stdin.
 
@@ -141,8 +141,8 @@ def main():
     parser.add_argument(
         '--timeout',
         type=int,
-        default=120,
-        help='Timeout in seconds (default: 120)'
+        default=600,
+        help='Timeout in seconds (default: 600 / 10 minutes)'
     )
     parser.add_argument(
         '--check-only',

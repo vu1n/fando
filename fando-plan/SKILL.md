@@ -129,7 +129,7 @@ Documentation saved to: ~/.claude/plan-reviews/my-project/2026-01-19-auth.md
 | Error | Action |
 |-------|--------|
 | Codex CLI not found | Show installation instructions |
-| Codex timeout (>120s) | Retry once, then ask user |
+| Codex timeout (>10min) | Retry once, then ask user |
 | Codex returns error | Show error, ask user how to proceed |
 | Parsing fails | Show raw response, continue with manual review |
 | Secrets detected | Block by default, offer redact option |
@@ -137,7 +137,7 @@ Documentation saved to: ~/.claude/plan-reviews/my-project/2026-01-19-auth.md
 ## Configuration
 
 - **Max iterations**: 5 (configurable)
-- **Timeout**: 120 seconds per Codex call
+- **Timeout**: 10 minutes per Codex call
 - **Min Codex version**: v0.85.0
 
 ## Files

@@ -160,14 +160,14 @@ Verification saved to: ~/.claude/plan-reviews/my-api/2026-01-19-jwt-auth-verify.
 | No plan found | Ask user to provide plan path or content |
 | Not in git repo | Ask user to specify diff manually or provide file list |
 | No changes found | Inform user, offer to compare working tree |
-| Codex timeout (>120s) | Retry once, then ask user |
+| Codex timeout (>10min) | Retry once, then ask user |
 | Codex returns error | Show error, ask user how to proceed |
 | Parsing fails | Show raw response, continue with manual review |
 | Secrets detected | Block by default, offer redact option |
 
 ## Configuration
 
-- **Timeout**: 120 seconds per Codex call
+- **Timeout**: 10 minutes per Codex call
 - **Plan search path**: `~/.claude/plan-reviews/{project}/`
 
 ## Files
