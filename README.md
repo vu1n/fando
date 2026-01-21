@@ -13,23 +13,23 @@ Fando is a collection of Claude Code skills that leverage this collaboration.
 
 ### `/fando-plan`
 
-Iteratively refines implementation plans using Codex as a reviewer. Claude creates a plan, sends it to Codex for critique, and iterates until approved.
+Iteratively refines implementation plans using Codex as a reviewer. Uses **autonomous iteration** ([Ralph-style](https://ghuntley.com/ralph/)) - once you consent, Claude loops automatically until the plan is approved.
 
 **Workflow:**
 1. Claude creates initial plan for your task
 2. Codex reviews and flags issues (HIGH/MEDIUM/LOW risk)
 3. Claude addresses feedback and resubmits
-4. Repeat until LGTM or max iterations
+4. **Loop automatically** until LGTM or max iterations (no user input needed between iterations)
 
 **Features:**
-- Automated plan review with risk classification
+- Autonomous iteration - no babysitting required
+- Risk classification (HIGH/MEDIUM/LOW)
 - Secret detection and redaction before sending to external API
-- Iteration tracking with configurable limits
 - Plan history saved to `~/.claude/plan-reviews/`
 
 ### `/fando-verify`
 
-Verifies an implementation against its plan. After you've built something, Codex compares what you built to what you planned.
+**Single-pass diagnostic** that verifies your implementation against its plan. Codex compares what you built to what you planned and categorizes each item.
 
 **Categories:**
 
@@ -40,6 +40,11 @@ Verifies an implementation against its plan. After you've built something, Codex
 | **REGRESSION** | Deviation that's worse than planned |
 | **MISSING** | Planned but not implemented |
 | **UNPLANNED** | Implemented but not in plan |
+
+**After verification, you decide:**
+- Regressions/missing items? → Fix them, re-verify
+- Major scope change needed? → Run `/fando-plan` again
+- All good? → Ship it
 
 **Features:**
 - Auto-detects plans from `~/.claude/plan-reviews/`
@@ -96,15 +101,34 @@ Or with explicit plan path:
 ## Typical Workflow
 
 ```
-1. /fando-plan Add user authentication
-   → Claude + Codex iterate on the plan
-   → Plan saved to ~/.claude/plan-reviews/my-project/2026-01-19-auth.md
-
-2. Implement the feature (with Claude's help)
-
-3. /fando-verify
-   → Codex compares implementation to plan
-   → Highlights matches, improvements, regressions, missing items
+┌─────────────────────────────────────────────────────────────┐
+│  /fando-plan Add user authentication                        │
+│      ↓                                                      │
+│  [Autonomous loop - no user input needed]                   │
+│      Claude creates plan → Codex reviews → Claude refines   │
+│      ↓                                                      │
+│  Plan approved & saved to ~/.claude/plan-reviews/           │
+└─────────────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Implement the feature (with Claude's help)                 │
+└─────────────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│  /fando-verify                                              │
+│      ↓                                                      │
+│  [Single pass - diagnostic checkpoint]                      │
+│      Codex compares implementation to plan                  │
+│      ↓                                                      │
+│  Results: matches, improvements, regressions, missing       │
+└─────────────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│  You decide:                                                │
+│    • Regressions/missing? → Fix & re-verify                 │
+│    • Major change needed? → /fando-plan again               │
+│    • All good? → Ship it                                    │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ## Directory Structure
