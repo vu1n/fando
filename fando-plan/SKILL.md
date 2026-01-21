@@ -6,6 +6,17 @@ Automates the workflow of creating a plan, sending it to OpenAI Codex for review
 
 User runs `/fando-plan <task description>`
 
+## Autonomous Iteration (Ralph-style)
+
+**IMPORTANT**: This skill uses autonomous iteration. Once the user consents to start, Claude should:
+
+1. **Iterate automatically** - Do NOT ask for user input between iterations
+2. **Keep looping** - Continue refining the plan until a stop condition is met
+3. **Show progress** - Display each iteration's feedback and plan updates as you go
+4. **Only pause when necessary** - See stop conditions below
+
+This follows the "Ralph method" philosophy: iterate continuously, accept imperfection, refine until done.
+
 ## Workflow
 
 ### Phase 1: Consent & Initialization
@@ -41,9 +52,9 @@ User runs `/fando-plan <task description>`
    ```
    Only proceed if user consents.
 
-### Phase 2: Iteration Loop (max 5 iterations)
+### Phase 2: Autonomous Iteration Loop (max 5 iterations)
 
-For each iteration:
+**Loop automatically without user input.** For each iteration:
 
 1. **Build the review prompt** with:
    - Current plan (inline)
@@ -60,15 +71,26 @@ For each iteration:
    python3 ~/.claude/skills/fando-plan/scripts/parse_findings.py <<< "$CODEX_RESPONSE"
    ```
 
-4. **Check stop conditions:**
+4. **Display iteration results** to user (but do NOT wait for input):
+   ```
+   Iteration 2/5 - Codex feedback:
+   - [HIGH] Missing error handling for network failures
+   - [MEDIUM] Consider rate limiting
+
+   Addressing feedback...
+   ```
+
+5. **Check stop conditions:**
+
    | Condition | Action |
    |-----------|--------|
-   | LGTM or 0 HIGH + 0 MEDIUM | **Stop** - plan approved |
-   | Only LOW/NITPICK | **Ask user** - "Only minor findings. Continue?" |
-   | Same HIGH/MEDIUM repeated | **Stop** - Codex is looping, surface to user |
-   | 5 iterations reached | **Ask user** - "Cap reached. Continue?" |
+   | LGTM or 0 HIGH + 0 MEDIUM | **Stop** - plan approved, proceed to Phase 3 |
+   | HIGH or MEDIUM findings | **Continue automatically** - update plan and loop |
+   | Only LOW/NITPICK remaining | **Stop** - plan approved (minor issues noted) |
+   | Same HIGH/MEDIUM repeated 2x | **Stop** - Codex is stuck, surface to user |
+   | 5 iterations reached | **Stop** - ask user if they want to continue |
 
-5. **If continuing:** Update the plan based on Codex feedback, show changes to user
+6. **If continuing:** Update the plan to address feedback, then **immediately loop back to step 1**
 
 ### Phase 3: Documentation
 
@@ -100,24 +122,33 @@ Use the prompts from `references/review_prompts.md`:
 
 ## Output Format
 
-Show progress to user throughout:
+Show progress continuously (no pausing for input during iteration):
+
 ```
 Creating initial plan for "{task}"...
 [Shows plan]
 
-Sending to Codex for review (iteration 1/5)...
+Starting autonomous review loop...
+
+━━━ Iteration 1/5 ━━━
+Sending to Codex...
 
 Codex feedback:
-- [HIGH] Finding 1...
-- [MEDIUM] Finding 2...
+- [HIGH] Missing authentication on admin endpoints
+- [MEDIUM] No rate limiting specified
 
-Updating plan to address feedback...
-[Shows updated plan with changes highlighted]
+Addressing feedback...
+[Shows key changes to plan]
 
-Sending to Codex for review (iteration 2/5)...
+━━━ Iteration 2/5 ━━━
+Sending to Codex...
 
-Codex: LGTM - no further changes needed
+Codex feedback:
+- [LOW] Consider adding request logging
 
+✓ Plan approved (only minor findings remain)
+
+━━━ Final Result ━━━
 Plan approved after 2 iterations.
 Documentation saved to: ~/.claude/plan-reviews/my-project/2026-01-19-auth.md
 
