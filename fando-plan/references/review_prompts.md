@@ -1,5 +1,27 @@
 # Review Prompts for Codex
 
+## Specialized Reviewer Profiles
+
+For domain-specific reviews, use the prompts in the `profiles/` directory:
+
+| Profile | File | Use When |
+|---------|------|----------|
+| Security | `profiles/security.md` | Auth, secrets, input validation |
+| Frontend | `profiles/frontend.md` | UI components, state, accessibility |
+| Data | `profiles/data.md` | Database schema, queries, migrations |
+| API | `profiles/api.md` | Endpoints, contracts, versioning |
+| DevOps | `profiles/devops.md` | Deployment, CI/CD, observability |
+| Performance | `profiles/performance.md` | Caching, optimization, scaling |
+| Architect | `profiles/architect.md` | Final review, conflict resolution |
+
+These profiles are auto-selected by `scripts/detect_profiles.py` based on plan content keywords.
+
+---
+
+## Generic Prompts (Legacy)
+
+The prompts below are used for single-reviewer mode or as fallbacks.
+
 ## Initial Review Prompt
 
 ```
