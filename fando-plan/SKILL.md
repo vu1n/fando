@@ -4,7 +4,13 @@ Automates the workflow of creating a plan, sending it to OpenAI Codex for review
 
 ## Trigger
 
-User runs `/fando-plan <task description>`
+User runs `/fando-plan [--security=<level>] <task description>`
+
+**Options:**
+- `--security=personal` - Minimal security review (side projects)
+- `--security=internal` - Standard security (internal tools)
+- `--security=public` - Strict security (customer-facing) [default]
+- `--security=enterprise` - Maximum security (regulated/compliance)
 
 ## Autonomous Iteration (Ralph-style)
 
@@ -38,7 +44,29 @@ This follows the "Ralph method" philosophy: iterate continuously, accept imperfe
      - [Cancel] - abort the review
      - [I understand, send anyway] - proceed with secrets (user acknowledges risk)
 
-4. **Show consent prompt:**
+4. **Detect or confirm security level:**
+   ```bash
+   python3 ~/.claude/skills/fando-plan/scripts/detect_security_level.py <<< "$PLAN"
+   ```
+
+   - If `--security=X` flag provided: use that level
+   - If auto-detected with high confidence (>0.7): use detected level
+   - Otherwise: show detected level and ask user to confirm:
+     ```
+     Detected security level: internal (matched: "admin dashboard", "employee")
+
+     Options:
+     1. Yes, use internal
+     2. Change to: personal / public / enterprise
+     ```
+
+   Display the level being used:
+   ```
+   Security level: internal
+   └─ Auth issues flagged, compliance checks skipped
+   ```
+
+5. **Show consent prompt:**
    ```
    This will send your plan to Codex for review.
 
@@ -92,7 +120,9 @@ Running specialist reviewers in parallel:
 
 1. **Run ALL selected reviewers in parallel:**
    ```bash
-   python3 ~/.claude/skills/fando-plan/scripts/run_parallel_reviews.py security frontend api <<< "$PLAN"
+   python3 ~/.claude/skills/fando-plan/scripts/run_parallel_reviews.py \
+     --security-level=$SECURITY_LEVEL \
+     security frontend api <<< "$PLAN"
    ```
 
 2. **Aggregate findings from all reviewers:**
@@ -327,6 +357,7 @@ Documentation saved to: ~/.claude/plan-reviews/my-project/2026-01-21-jwt-dashboa
 | `scripts/parse_findings.py` | Extract risk counts from response |
 | `scripts/secrets.py` | Secret detection and redaction |
 | `scripts/detect_profiles.py` | Analyze plan, return relevant reviewer profiles |
+| `scripts/detect_security_level.py` | Detect security level from plan content |
 | `scripts/run_parallel_reviews.py` | Orchestrate parallel Codex calls |
 | `scripts/aggregate_findings.py` | Merge and dedupe findings from all reviewers |
 | `references/review_prompts.md` | Generic prompt templates |

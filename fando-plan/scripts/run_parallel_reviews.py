@@ -69,7 +69,8 @@ def load_profile_prompt(profile_name: str) -> Optional[str]:
 def run_single_review(
     profile: str,
     plan: str,
-    timeout: int = 600
+    timeout: int = 600,
+    security_level: str = 'public'
 ) -> ReviewResult:
     """
     Run a single reviewer profile against the plan.
@@ -88,6 +89,10 @@ def run_single_review(
     try:
         # Load profile-specific prompt
         prompt = load_profile_prompt(profile)
+
+        # Inject security level for security profile
+        if profile == 'security' and prompt:
+            prompt = f"Security Level: {security_level}\n\n{prompt}"
 
         if not prompt:
             # Use generic fallback if profile prompt not found
@@ -135,7 +140,8 @@ def run_parallel_reviews(
     plan: str,
     profiles: list[str],
     max_workers: Optional[int] = None,
-    timeout: int = 600
+    timeout: int = 600,
+    security_level: str = 'public'
 ) -> ParallelReviewResult:
     """
     Run multiple reviewers in parallel on the same plan version.
@@ -161,7 +167,7 @@ def run_parallel_reviews(
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit all reviews
         future_to_profile = {
-            executor.submit(run_single_review, profile, plan, timeout): profile
+            executor.submit(run_single_review, profile, plan, timeout, security_level): profile
             for profile in profiles
         }
 
@@ -273,6 +279,12 @@ def main():
         action='store_true',
         help='Only verify Codex CLI is available'
     )
+    parser.add_argument(
+        '--security-level',
+        default='public',
+        choices=['personal', 'internal', 'public', 'enterprise'],
+        help='Security level for severity calibration (default: public)'
+    )
 
     args = parser.parse_args()
 
@@ -314,7 +326,8 @@ def main():
         plan=plan,
         profiles=profiles,
         max_workers=args.max_workers,
-        timeout=args.timeout
+        timeout=args.timeout,
+        security_level=args.security_level
     )
 
     # Output results
