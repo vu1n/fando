@@ -348,6 +348,61 @@ Documentation saved to: ~/.claude/plan-reviews/my-project/2026-01-21-jwt-dashboa
 - **Max iterations**: 5 (configurable)
 - **Timeout**: 10 minutes per Codex call
 - **Min Codex version**: v0.85.0
+- **Matryoshka threshold**: 300 lines (configurable)
+
+## Matryoshka Token Optimization
+
+For large plans (300+ lines), fando-plan uses **Matryoshka MCP** to achieve 75%+ token savings when sending plans to multiple reviewers.
+
+### How It Works
+
+Instead of sending the full plan (3000+ tokens) to each of 6 reviewers:
+1. Plan is loaded into Matryoshka once
+2. Domain-specific slices are extracted per reviewer:
+   - Security reviewer gets auth/security sections only (~400 tokens)
+   - Frontend reviewer gets component/UI sections only (~500 tokens)
+   - etc.
+
+**Before Matryoshka**: 6 reviewers × 3000 tokens = 18,000 tokens/iteration
+**After Matryoshka**: ~2,500 tokens total/iteration (83% savings)
+
+### Activation
+
+Matryoshka mode activates automatically when:
+- Plan exceeds 300 lines (configurable via `--matryoshka-threshold`)
+- Matryoshka MCP server is available
+
+### Display
+
+When Matryoshka is active, output shows token efficiency:
+```
+━━━ Token Efficiency ━━━
+Token efficiency: 1,324 tokens sent (vs. 7,623 without slicing)
+Savings: 83%
+Profiles sliced: 5, fallback: 1
+```
+
+### Fallback Behavior
+
+| Scenario | Response |
+|----------|----------|
+| Plan < 300 lines | Skip Matryoshka, direct mode |
+| MCP unavailable | Graceful fallback to full plan |
+| Query returns empty | Use full plan for that profile |
+| Slice too small (<50 tokens) | Use full plan for that profile |
+| Session close fails | Log warning, continue |
+
+### Setup
+
+Run the setup script to configure Matryoshka MCP:
+```bash
+./scripts/install.sh
+```
+
+To disable Matryoshka for a run:
+```bash
+python3 run_parallel_reviews.py --no-matryoshka security frontend api <<< "$PLAN"
+```
 
 ## Files
 
@@ -360,6 +415,7 @@ Documentation saved to: ~/.claude/plan-reviews/my-project/2026-01-21-jwt-dashboa
 | `scripts/detect_security_level.py` | Detect security level from plan content |
 | `scripts/run_parallel_reviews.py` | Orchestrate parallel Codex calls |
 | `scripts/aggregate_findings.py` | Merge and dedupe findings from all reviewers |
+| `scripts/matryoshka_client.py` | MCP wrapper for Matryoshka token optimization |
 | `references/review_prompts.md` | Generic prompt templates |
 | `references/profiles/security.md` | Security reviewer prompt |
 | `references/profiles/frontend.md` | Frontend architect prompt |
@@ -369,3 +425,10 @@ Documentation saved to: ~/.claude/plan-reviews/my-project/2026-01-21-jwt-dashboa
 | `references/profiles/performance.md` | Performance engineer prompt |
 | `references/profiles/architect.md` | Final systems architect prompt |
 | `examples/sample_session.md` | Example workflow |
+
+### Project-level Files
+
+| File | Purpose |
+|------|---------|
+| `scripts/install.sh` | Setup script for Matryoshka MCP (bunx/npx detection) |
+| `.claude/settings.local.json` | Claude Code MCP configuration (generated) |
