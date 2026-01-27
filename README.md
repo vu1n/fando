@@ -25,7 +25,7 @@ Iteratively refines implementation plans using Codex as a reviewer. Uses **auton
 - Autonomous iteration - no babysitting required
 - Risk classification (HIGH/MEDIUM/LOW)
 - Parallel specialist reviewers (Security, Frontend, API, Data, DevOps, Performance)
-- **Matryoshka token optimization** - 75%+ savings on large plans (300+ lines)
+- Focused prompts - reviewers get full context but stay in their lane
 - Secret detection and redaction before sending to external API
 - Plan history saved to `~/.claude/plan-reviews/`
 
@@ -75,17 +75,6 @@ git pull origin main
 - Python 3.10+
 - [OpenAI Codex CLI](https://github.com/openai/codex) installed and configured
 - Git (for implementation verification)
-- **Optional:** [Matryoshka MCP](https://github.com/anthropics/matryoshka-rlm) for token optimization on large plans
-
-### Matryoshka Setup (Optional)
-
-For 75%+ token savings on plans with 300+ lines:
-
-```bash
-./scripts/install.sh
-```
-
-This configures Matryoshka MCP to extract domain-specific slices per reviewer instead of sending the full plan to each.
 
 ## Usage
 
@@ -154,8 +143,7 @@ Or with explicit plan path:
 │   │   ├── call_codex.py           # Codex CLI wrapper
 │   │   ├── parse_findings.py       # Parse review response
 │   │   ├── secrets.py              # Secret detection
-│   │   ├── run_parallel_reviews.py # Parallel reviewer orchestration
-│   │   └── matryoshka_client.py    # MCP wrapper for token optimization
+│   │   └── run_parallel_reviews.py # Parallel reviewer orchestration
 │   ├── references/
 │   └── examples/
 ├── fando-verify/
@@ -166,8 +154,6 @@ Or with explicit plan path:
 │   │   └── parse_verification.py  # Parse verification
 │   ├── references/
 │   └── examples/
-├── scripts/
-│   └── install.sh              # Matryoshka MCP setup
 └── README.md
 ```
 

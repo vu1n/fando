@@ -6,10 +6,6 @@ Usage:
     echo "$PLAN" | python3 run_parallel_reviews.py security frontend api
     python3 run_parallel_reviews.py --profiles=security,frontend < plan.md
 
-With Matryoshka (75%+ token savings for large plans):
-    echo "$PLAN" | python3 run_parallel_reviews.py --matryoshka-threshold=300 security frontend
-    echo "$PLAN" | python3 run_parallel_reviews.py --no-matryoshka security frontend
-
 Output (JSON):
     {
         "results": {
@@ -21,12 +17,6 @@ Output (JSON):
             "total_medium": 3,
             "profiles_completed": 2,
             "profiles_failed": 0
-        },
-        "matryoshka": {
-            "enabled": true,
-            "tokens_sent": 1324,
-            "tokens_without_slicing": 7623,
-            "savings_percent": 83
         }
     }
 """
@@ -36,18 +26,34 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 # Import sibling modules
 from call_codex import call_codex, verify_codex_cli
 from parse_findings import parse_findings, ParseResult
 from detect_profiles import PROFILES, get_profile_prompt_path
-from matryoshka_client import (
-    MatryoshkaClient,
-    MatryoshkaContext,
-    MatryoshkaStats,
-    SliceResult,
-)
+
+
+# Focus context added to each reviewer prompt
+FOCUS_PREAMBLE = """
+## Your Role in This Review
+
+You are one of several specialist reviewers examining this plan. You have the FULL plan
+for context - this helps you understand WHY decisions were made and how your domain
+connects to others.
+
+**However**: Only flag issues in YOUR domain. Other specialists cover other areas.
+- Understand the full context and reasoning
+- But only raise findings for your area of expertise
+- If something in your domain depends on another domain's decision, note it but don't
+  flag the other domain's choice
+
+This focused approach prevents duplicate findings and lets each specialist go deep
+in their area.
+
+---
+
+"""
 
 
 @dataclass
@@ -69,8 +75,6 @@ class ParallelReviewResult:
     profiles_completed: int = 0
     profiles_failed: int = 0
     has_outstanding_issues: bool = False
-    # Matryoshka stats (None if not used)
-    matryoshka_stats: Optional[MatryoshkaStats] = None
 
 
 def load_profile_prompt(profile_name: str) -> Optional[str]:
@@ -89,35 +93,21 @@ def run_single_review(
     plan: str,
     timeout: int = 600,
     security_level: str = 'public',
-    slice_result: Optional[SliceResult] = None,
 ) -> ReviewResult:
     """
     Run a single reviewer profile against the plan.
 
     Args:
         profile: Profile name (e.g., 'security', 'frontend')
-        plan: The plan content to review (or slice if using Matryoshka)
+        plan: The full plan content to review
         timeout: Maximum seconds to wait for Codex response
         security_level: Security level for severity calibration
-        slice_result: Optional SliceResult from Matryoshka (for context)
 
     Returns:
         ReviewResult with output, parsed findings, and any errors
     """
     result = ReviewResult(profile=profile)
     start_time = time.time()
-
-    # Use slice content if available, otherwise full plan
-    review_content = plan
-    slice_context = None
-
-    if slice_result and not slice_result.used_fallback:
-        review_content = slice_result.content
-        slice_context = (
-            f"Note: You are reviewing a focused slice of the plan containing "
-            f"{profile}-related content ({slice_result.token_count} tokens). "
-            f"This was extracted using query: {slice_result.query_used}"
-        )
 
     try:
         # Load profile-specific prompt
@@ -150,10 +140,11 @@ X high, Y medium, Z low, W nitpick findings.
 If no issues: "LGTM - no concerns in my domain"
 """
 
-        # Call Codex with optional slice context
-        codex_result = call_codex(
-            prompt, review_content, timeout=timeout, slice_context=slice_context
-        )
+        # Add focus preamble to help reviewer stay in lane
+        full_prompt = FOCUS_PREAMBLE + prompt
+
+        # Call Codex with full plan
+        codex_result = call_codex(full_prompt, plan, timeout=timeout)
 
         if codex_result.error:
             result.error = codex_result.error
@@ -181,11 +172,15 @@ def run_parallel_reviews(
     """
     Run multiple reviewers in parallel on the same plan version.
 
+    Each reviewer gets the FULL plan for context understanding, but is
+    instructed to only flag issues in their specific domain.
+
     Args:
         plan: The plan content to review
         profiles: List of profile names to run
         max_workers: Maximum parallel workers (default: number of profiles)
         timeout: Timeout per reviewer in seconds
+        security_level: Security level for severity calibration
 
     Returns:
         ParallelReviewResult with all results and aggregated counts
@@ -239,130 +234,6 @@ def run_parallel_reviews(
     return result
 
 
-def run_parallel_reviews_with_matryoshka(
-    plan: str,
-    profiles: list[str],
-    mcp_tools: Optional[dict[str, Callable]] = None,
-    max_workers: Optional[int] = None,
-    timeout: int = 600,
-    security_level: str = 'public',
-    threshold_lines: int = 300,
-    force_disable: bool = False,
-) -> ParallelReviewResult:
-    """
-    Run multiple reviewers with Matryoshka token optimization.
-
-    Loads plan into Matryoshka once, extracts domain-specific slices per
-    reviewer. Falls back to full plan if Matryoshka unavailable or plan
-    is below threshold.
-
-    Args:
-        plan: The plan content to review
-        profiles: List of profile names to run
-        mcp_tools: Dict of MCP tool callables (from Claude Code)
-        max_workers: Maximum parallel workers (default: number of profiles)
-        timeout: Timeout per reviewer in seconds
-        security_level: Security level for severity calibration
-        threshold_lines: Minimum lines to activate Matryoshka (default: 300)
-        force_disable: If True, skip Matryoshka entirely
-
-    Returns:
-        ParallelReviewResult with all results, counts, and Matryoshka stats
-    """
-    result = ParallelReviewResult()
-
-    if not profiles:
-        return result
-
-    # Create Matryoshka client
-    client = MatryoshkaClient(mcp_tools)
-
-    # Check if we should use Matryoshka
-    use_matryoshka = (
-        not force_disable
-        and client.should_use_matryoshka(plan, threshold_lines)
-    )
-
-    if not use_matryoshka:
-        # Fall back to standard parallel reviews
-        return run_parallel_reviews(
-            plan=plan,
-            profiles=profiles,
-            max_workers=max_workers,
-            timeout=timeout,
-            security_level=security_level,
-        )
-
-    # Use Matryoshka with guaranteed cleanup
-    with MatryoshkaContext(client, plan, threshold_lines) as ctx:
-        if not ctx.session:
-            # Session creation failed - fall back
-            return run_parallel_reviews(
-                plan=plan,
-                profiles=profiles,
-                max_workers=max_workers,
-                timeout=timeout,
-                security_level=security_level,
-            )
-
-        # Extract slices for all profiles
-        slices = client.get_slices_parallel(ctx.session, profiles, max_workers)
-
-        # Compute stats
-        stats = client.compute_stats(slices)
-        result.matryoshka_stats = stats
-
-        # Default to running all profiles in parallel
-        if max_workers is None:
-            max_workers = len(profiles)
-
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            # Submit all reviews with their slices
-            future_to_profile = {
-                executor.submit(
-                    run_single_review,
-                    profile,
-                    plan,  # Pass full plan, but slice_result provides context
-                    timeout,
-                    security_level,
-                    slices.get(profile),
-                ): profile
-                for profile in profiles
-            }
-
-            # Collect results as they complete
-            for future in as_completed(future_to_profile):
-                profile = future_to_profile[future]
-
-                try:
-                    review_result = future.result()
-                    result.results[profile] = review_result
-
-                    if review_result.error:
-                        result.profiles_failed += 1
-                    else:
-                        result.profiles_completed += 1
-
-                        # Aggregate findings
-                        if review_result.findings:
-                            result.total_high += review_result.findings.high
-                            result.total_medium += review_result.findings.medium
-                            result.total_low += review_result.findings.low
-                            result.total_nitpick += review_result.findings.nitpick
-
-                except Exception as e:
-                    result.results[profile] = ReviewResult(
-                        profile=profile,
-                        error=f"Future execution error: {str(e)}"
-                    )
-                    result.profiles_failed += 1
-
-    # Determine if there are outstanding issues
-    result.has_outstanding_issues = result.total_high > 0 or result.total_medium > 0
-
-    return result
-
-
 def format_results_for_display(result: ParallelReviewResult) -> str:
     """Format parallel review results for terminal display."""
     lines = []
@@ -372,11 +243,11 @@ def format_results_for_display(result: ParallelReviewResult) -> str:
         lines.append(f"\n{display_name}:")
 
         if review.error:
-            lines.append(f"  ⚠️  Error: {review.error}")
+            lines.append(f"  Error: {review.error}")
             continue
 
         if not review.findings or not review.findings.findings:
-            lines.append("  ✓ No issues found")
+            lines.append("  No issues found")
             continue
 
         # Group findings by level
@@ -384,24 +255,16 @@ def format_results_for_display(result: ParallelReviewResult) -> str:
             lines.append(f"  - [{finding.level}] {finding.text}")
 
     # Summary
-    lines.append(f"\n━━━ Summary ━━━")
+    lines.append(f"\n--- Summary ---")
     lines.append(f"Total: {result.total_high} HIGH, {result.total_medium} MEDIUM, "
                  f"{result.total_low} LOW, {result.total_nitpick} NITPICK")
     lines.append(f"Profiles: {result.profiles_completed} completed, "
                  f"{result.profiles_failed} failed")
 
-    # Matryoshka stats
-    if result.matryoshka_stats:
-        stats = result.matryoshka_stats
-        lines.append(f"\n━━━ Token Efficiency ━━━")
-        lines.append(stats.format_summary())
-        lines.append(f"Profiles sliced: {stats.profiles_sliced}, "
-                     f"fallback: {stats.profiles_fallback}")
-
     if result.has_outstanding_issues:
-        lines.append("\n⚠️  Outstanding issues require addressing")
+        lines.append("\nOutstanding issues require addressing")
     else:
-        lines.append("\n✓ All specialists satisfied")
+        lines.append("\nAll specialists satisfied")
 
     return '\n'.join(lines)
 
@@ -452,18 +315,6 @@ def main():
         choices=['personal', 'internal', 'public', 'enterprise'],
         help='Security level for severity calibration (default: public)'
     )
-    parser.add_argument(
-        '--no-matryoshka',
-        action='store_true',
-        help='Disable Matryoshka token optimization, use full plan'
-    )
-    parser.add_argument(
-        '--matryoshka-threshold',
-        type=int,
-        default=300,
-        metavar='N',
-        help='Line threshold for Matryoshka activation (default: 300)'
-    )
 
     args = parser.parse_args()
 
@@ -500,18 +351,13 @@ def main():
         print("Error: No plan content provided on stdin", file=sys.stderr)
         sys.exit(1)
 
-    # Run parallel reviews (with or without Matryoshka)
-    # Note: mcp_tools would be passed in when called from Claude Code
-    # For CLI usage, Matryoshka won't be available
-    result = run_parallel_reviews_with_matryoshka(
+    # Run parallel reviews
+    result = run_parallel_reviews(
         plan=plan,
         profiles=profiles,
-        mcp_tools=None,  # CLI mode - no MCP tools available
         max_workers=args.max_workers,
         timeout=args.timeout,
         security_level=args.security_level,
-        threshold_lines=args.matryoshka_threshold,
-        force_disable=args.no_matryoshka,
     )
 
     # Output results
@@ -527,20 +373,7 @@ def main():
                 'profiles_failed': result.profiles_failed,
                 'has_outstanding_issues': result.has_outstanding_issues
             },
-            'matryoshka': None,
         }
-
-        # Add Matryoshka stats if used
-        if result.matryoshka_stats:
-            stats = result.matryoshka_stats
-            output['matryoshka'] = {
-                'enabled': True,
-                'tokens_sent': stats.total_tokens_sent,
-                'tokens_without_slicing': stats.total_tokens_without_slicing,
-                'savings_percent': round(stats.savings_percent),
-                'profiles_sliced': stats.profiles_sliced,
-                'profiles_fallback': stats.profiles_fallback,
-            }
 
         for profile, review in result.results.items():
             output['results'][profile] = {

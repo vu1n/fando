@@ -61,7 +61,6 @@ def call_codex(
     prompt: str,
     plan: str,
     timeout: int = 600,
-    slice_context: str | None = None,
 ) -> CodexResult:
     """
     Call Codex exec with plan passed via stdin.
@@ -70,16 +69,12 @@ def call_codex(
         prompt: The review instructions
         plan: The plan content to review
         timeout: Maximum seconds to wait for response
-        slice_context: Optional context about what slice contains (Matryoshka)
 
     Returns:
         CodexResult with stdout, stderr, exit_code, and any error message.
     """
     # Build the full prompt
-    if slice_context:
-        full_prompt = f"{prompt}\n\n{slice_context}\n\n## Plan to Review\n\n{plan}"
-    else:
-        full_prompt = f"{prompt}\n\n## Plan to Review\n\n{plan}"
+    full_prompt = f"{prompt}\n\n## Plan to Review\n\n{plan}"
 
     # Check CLI capabilities first
     cli_info = verify_codex_cli()
