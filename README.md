@@ -79,7 +79,7 @@ git pull origin main
 
 ### Optional (Recommended for Large Codebases)
 
-- [Canopy](https://github.com/vu1n/canopy) - Token-efficient codebase indexing for repos >1000 files. Enables 68% token reduction through handle-based exploration vs full file reads.
+- [Canopy v0.1.0](https://github.com/vu1n/canopy/releases/tag/v0.1.0) - Token-efficient codebase indexing for repos >1000 files. Enables 68% token reduction through handle-based exploration vs full file reads.
 
 ## Usage
 
