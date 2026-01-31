@@ -33,9 +33,11 @@ This follows the "Ralph method" philosophy: iterate continuously, accept imperfe
    ```
    If not installed, inform user: "Codex CLI not found. Install from https://github.com/openai/codex"
 
-2. **Create initial plan** for the user's task using standard planning approach
+2. **Explore codebase** to inform the plan (see [Codebase Exploration Strategy](#codebase-exploration-strategy) below)
 
-3. **Scan for secrets** before proceeding:
+3. **Create initial plan** for the user's task using insights from exploration
+
+4. **Scan for secrets** before proceeding:
    ```bash
    python3 ~/.claude/skills/fando-plan/scripts/secrets.py --mode=check <<< "$PLAN"
    ```
@@ -44,7 +46,7 @@ This follows the "Ralph method" philosophy: iterate continuously, accept imperfe
      - [Cancel] - abort the review
      - [I understand, send anyway] - proceed with secrets (user acknowledges risk)
 
-4. **Detect or confirm security level:**
+5. **Detect or confirm security level:**
    ```bash
    python3 ~/.claude/skills/fando-plan/scripts/detect_security_level.py <<< "$PLAN"
    ```
@@ -66,7 +68,7 @@ This follows the "Ralph method" philosophy: iterate continuously, accept imperfe
    └─ Auth issues flagged, compliance checks skipped
    ```
 
-5. **Show consent prompt:**
+6. **Show consent prompt:**
    ```
    This will send your plan to Codex for review.
 
@@ -358,6 +360,72 @@ Each specialist reviewer receives the **full plan** for context understanding, b
 - **Enables cross-domain awareness**: Reviewers can note dependencies without flagging other domains' choices
 
 A focus preamble is automatically added to each reviewer prompt explaining their role in the multi-reviewer setup.
+
+## Codebase Exploration Strategy
+
+Before creating a plan, Claude should explore the codebase to understand existing architecture, patterns, and relevant code. Use the appropriate tool based on codebase size and query type.
+
+### Decision Framework
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Is the codebase large (>1000 files)?                       │
+│     ↓ Yes                              ↓ No                 │
+│  ┌─────────────────────┐    ┌─────────────────────────────┐ │
+│  │ Use Canopy          │    │ Use native tools            │ │
+│  │ (token-efficient)   │    │ (Grep, Glob, Read)          │ │
+│  └─────────────────────┘    └─────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Tool Selection Guide
+
+| Query Type | Large Repo (>1000 files) | Small Repo (<500 files) |
+|------------|--------------------------|-------------------------|
+| "How does X work?" | `canopy_query` with pattern | Grep + Read |
+| Find symbol definition | `canopy_query` with symbol | Grep for function/class |
+| Cross-file tracing | `canopy_query` → `canopy_expand` | Grep + manual Read |
+| Known file path | Read directly | Read directly |
+| Literal text search | Grep | Grep |
+| File name pattern | Glob | Glob |
+
+### Using Canopy (Large Codebases)
+
+**Step 1: Check if indexed**
+```
+mcp__canopy__canopy_status(path="/path/to/repo")
+```
+
+**Step 2: Query for relevant code**
+```
+# Symbol search (functions, classes)
+mcp__canopy__canopy_query(path="/path/to/repo", symbol="AuthController")
+
+# Pattern search (concepts, keywords)
+mcp__canopy__canopy_query(path="/path/to/repo", pattern="authentication")
+
+# Scoped search
+mcp__canopy__canopy_query(path="/path/to/repo", pattern="login", glob="src/**/*.ts")
+```
+
+**Step 3: Expand relevant handles**
+```
+mcp__canopy__canopy_expand(path="/path/to/repo", handle_ids=["h1a2b3c4d5e6"])
+```
+
+### Benefits of Canopy for Planning
+
+- **68% token reduction** through handle-based previews vs full file reads
+- **2.3x more detailed** symbol discovery
+- **Cross-file tracing** without reading entire files
+- **Predictive indexing** - no blocking on first query
+
+### When to Skip Canopy
+
+- Codebase under 500 files (native tools are fast enough)
+- Looking for literal text patterns (Grep is faster)
+- Reading known file paths (Read directly)
+- Simple file discovery (Glob is sufficient)
 
 ## Experimental: DSPy Prompt Optimization
 

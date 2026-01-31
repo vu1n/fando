@@ -26,6 +26,7 @@ Iteratively refines implementation plans using Codex as a reviewer. Uses **auton
 - Risk classification (HIGH/MEDIUM/LOW)
 - Parallel specialist reviewers (Security, Frontend, API, Data, DevOps, Performance)
 - Focused prompts - reviewers get full context but stay in their lane
+- Canopy integration for token-efficient codebase exploration (large repos)
 - Secret detection and redaction before sending to external API
 - Plan history saved to `~/.claude/plan-reviews/`
 
@@ -75,6 +76,10 @@ git pull origin main
 - Python 3.10+
 - [OpenAI Codex CLI](https://github.com/openai/codex) installed and configured
 - Git (for implementation verification)
+
+### Optional (Recommended for Large Codebases)
+
+- [Canopy](https://github.com/vu1n/canopy) - Token-efficient codebase indexing for repos >1000 files. Enables 68% token reduction through handle-based exploration vs full file reads.
 
 ## Usage
 

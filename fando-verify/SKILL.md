@@ -170,6 +170,42 @@ Verification saved to: ~/.claude/plan-reviews/my-api/2026-01-19-jwt-auth-verify.
 - **Timeout**: 10 minutes per Codex call
 - **Plan search path**: `~/.claude/plan-reviews/{project}/`
 
+## Related Code Discovery (Optional)
+
+For large codebases (>1000 files), use Canopy to discover related code that may have been affected by the implementation. This enhances verification by finding:
+
+- **Callers of modified functions** - Did they handle new return types/errors?
+- **Implementations of changed interfaces** - Are they still compatible?
+- **Related test files** - Were appropriate tests added/updated?
+
+### When to Use
+
+| Scenario | Action |
+|----------|--------|
+| Large codebase, complex change | Use Canopy to trace dependencies |
+| Small codebase or simple change | Skip - git diff is sufficient |
+| Plan mentions specific integrations | Query those symbols |
+
+### Usage
+
+```
+# Find references to modified symbols
+mcp__canopy__canopy_query(
+  path="/path/to/repo",
+  symbol="AuthService",
+  kind="reference"
+)
+
+# Trace related code
+mcp__canopy__canopy_query(
+  path="/path/to/repo",
+  pattern="authentication",
+  glob="**/*.test.ts"
+)
+```
+
+Include discovered related files in the verification context when relevant.
+
 ## Files
 
 | File | Purpose |
