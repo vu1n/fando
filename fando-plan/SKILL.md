@@ -427,18 +427,71 @@ mcp__canopy__canopy_expand(path="/path/to/repo", handle_ids=["h1a2b3c4d5e6"])
 - Reading known file paths (Read directly)
 - Simple file discovery (Glob is sufficient)
 
-## Experimental: DSPy Prompt Optimization
+## DSPy Review Backend
 
-The `dspy_reviewers.py` module scaffolds integration with DSPy's GEPA optimizer for
-automatic prompt improvement. Currently disabled - requires training data.
+The default review backend uses DSPy Signatures with per-domain docstrings encoding
+reviewer expertise. This replaces the legacy markdown prompt approach with structured,
+optimizable prompts.
 
-**To activate in the future:**
-1. Collect training data from fando-plan sessions (plan + reviews + outcomes)
-2. Label which findings were acted on vs ignored
-3. Run GEPA optimization: `python3 dspy_reviewers.py --optimize`
-4. Export optimized prompts back to profile files
+### Backend Selection
 
-See `scripts/dspy_reviewers.py` for implementation details.
+```bash
+# DSPy backend (default) — structured Signatures via CodexLM adapter
+echo "$PLAN" | python3 run_parallel_reviews.py --backend=dspy security api
+
+# Legacy codex backend — hand-crafted markdown prompts
+echo "$PLAN" | python3 run_parallel_reviews.py --backend=codex security api
+
+# DSPy without GEPA-optimized modules
+echo "$PLAN" | python3 run_parallel_reviews.py --backend=dspy --no-optimized security api
+```
+
+If DSPy is not installed, the CLI falls back to the codex backend automatically.
+
+### Architecture
+
+```
+detect_profiles → DSPy DomainReviewModule.forward()
+                    → CodexLM adapter
+                      → codex exec (subprocess)
+                    → dspy.Prediction
+                  → prediction_to_review_output()
+                    → parse_findings() (unchanged)
+```
+
+Each domain has its own DSPy Signature class with a rich docstring derived from
+`references/profiles/*.md`. The docstrings are the source of truth for reviewer
+behavior; the markdown files are kept as human-readable documentation.
+
+### GEPA Prompt Optimization
+
+Training data is collected automatically during plan review sessions. Once you
+have enough labeled examples (10+ per domain, 50+ recommended), you can optimize
+reviewer prompts using GEPA.
+
+```bash
+# Check training data status
+python3 optimize.py --stats
+
+# Optimize a single domain
+python3 optimize.py --domain security --reflection-model openai/gpt-4o --auto light
+
+# Optimize all domains with sufficient data
+python3 optimize.py --all --reflection-model openai/gpt-4o
+
+# Export optimized instructions to markdown for inspection
+python3 optimize.py --export
+```
+
+**Note:** GEPA requires an API key for the reflection model (one-time optimization
+cost). Runtime inference uses Codex CLI — no API keys needed.
+
+### Training Data & Optimized Modules
+
+| Path | Purpose |
+|------|---------|
+| `~/.claude/skills/fando-plan/training_data/*.json` | Labeled training examples |
+| `~/.claude/skills/fando-plan/optimized/{domain}.json` | GEPA-optimized module state |
 
 ## Files
 
@@ -451,8 +504,11 @@ See `scripts/dspy_reviewers.py` for implementation details.
 | `scripts/detect_security_level.py` | Detect security level from plan content |
 | `scripts/run_parallel_reviews.py` | Orchestrate parallel Codex calls with focus prompts |
 | `scripts/aggregate_findings.py` | Merge and dedupe findings from all reviewers |
-| `scripts/dspy_reviewers.py` | Experimental DSPy/GEPA prompt optimization |
-| `references/review_prompts.md` | Generic prompt templates |
+| `scripts/dspy_reviewers.py` | DSPy Signatures, Modules, metrics, training data collection |
+| `scripts/codex_lm.py` | CodexLM adapter — DSPy LM provider wrapping codex exec |
+| `scripts/optimize.py` | GEPA optimization CLI for reviewer prompts |
+| `pyproject.toml` | Project dependencies (dspy optional) |
+| `references/review_prompts.md` | Generic prompt templates (legacy reference) |
 | `references/profiles/security.md` | Security reviewer prompt |
 | `references/profiles/frontend.md` | Frontend architect prompt |
 | `references/profiles/data.md` | Data architect prompt |

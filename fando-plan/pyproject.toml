@@ -1,0 +1,13 @@
+[project]
+name = "fando-plan"
+version = "0.1.0"
+description = "AI-assisted plan review with parallel specialist reviewers"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dspy = ["dspy>=2.6.0"]
+
+[project.scripts]
+fando-review = "scripts.run_parallel_reviews:main"
+fando-optimize = "scripts.optimize:main"

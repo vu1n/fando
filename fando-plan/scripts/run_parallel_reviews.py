@@ -33,6 +33,16 @@ from call_codex import call_codex, verify_codex_cli
 from parse_findings import parse_findings, ParseResult
 from detect_profiles import PROFILES, get_profile_prompt_path
 
+# DSPy backend - optional
+try:
+    from dspy_reviewers import (
+        DSPY_AVAILABLE,
+        run_dspy_review,
+        prediction_to_review_output,
+    )
+except ImportError:
+    DSPY_AVAILABLE = False
+
 
 # Focus context added to each reviewer prompt
 FOCUS_PREAMBLE = """
@@ -234,6 +244,56 @@ def run_parallel_reviews(
     return result
 
 
+def run_parallel_reviews_dspy(
+    plan: str,
+    profiles: list[str],
+    security_level: str = 'public',
+    use_optimized: bool = True,
+) -> ParallelReviewResult:
+    """Run parallel reviews using DSPy backend.
+
+    Calls dspy_reviewers.run_dspy_review(), converts predictions to text,
+    then feeds through parse_findings() so the output type matches the
+    Codex backend exactly.
+    """
+    result = ParallelReviewResult()
+
+    if not DSPY_AVAILABLE:
+        raise ImportError("DSPy backend requires: uv pip install -e '.[dspy]'")
+
+    predictions = run_dspy_review(
+        plan=plan,
+        profiles=profiles,
+        security_level=security_level,
+        use_optimized=use_optimized,
+    )
+
+    for profile, prediction in predictions.items():
+        start_time = time.time()
+        review = ReviewResult(profile=profile)
+
+        try:
+            text_output = prediction_to_review_output(prediction)
+            review.output = text_output
+            review.findings = parse_findings(text_output)
+            result.profiles_completed += 1
+
+            if review.findings:
+                result.total_high += review.findings.high
+                result.total_medium += review.findings.medium
+                result.total_low += review.findings.low
+                result.total_nitpick += review.findings.nitpick
+        except Exception as e:
+            review.error = f"DSPy review error: {e}"
+            result.profiles_failed += 1
+
+        review.duration_seconds = time.time() - start_time
+        result.results[profile] = review
+
+    result.has_outstanding_issues = result.total_high > 0 or result.total_medium > 0
+    return result
+
+
 def format_results_for_display(result: ParallelReviewResult) -> str:
     """Format parallel review results for terminal display."""
     lines = []
@@ -315,6 +375,17 @@ def main():
         choices=['personal', 'internal', 'public', 'enterprise'],
         help='Security level for severity calibration (default: public)'
     )
+    parser.add_argument(
+        '--backend',
+        choices=['dspy', 'codex'],
+        default='dspy',
+        help='Review backend: dspy (structured Signatures) or codex (legacy markdown prompts). Default: dspy'
+    )
+    parser.add_argument(
+        '--no-optimized',
+        action='store_true',
+        help='Skip loading GEPA-optimized modules (DSPy backend only)'
+    )
 
     args = parser.parse_args()
 
@@ -351,14 +422,28 @@ def main():
         print("Error: No plan content provided on stdin", file=sys.stderr)
         sys.exit(1)
 
+    # Select backend
+    backend = args.backend
+    if backend == 'dspy' and not DSPY_AVAILABLE:
+        print("DSPy not available, falling back to codex backend", file=sys.stderr)
+        backend = 'codex'
+
     # Run parallel reviews
-    result = run_parallel_reviews(
-        plan=plan,
-        profiles=profiles,
-        max_workers=args.max_workers,
-        timeout=args.timeout,
-        security_level=args.security_level,
-    )
+    if backend == 'dspy':
+        result = run_parallel_reviews_dspy(
+            plan=plan,
+            profiles=profiles,
+            security_level=args.security_level,
+            use_optimized=not args.no_optimized,
+        )
+    else:
+        result = run_parallel_reviews(
+            plan=plan,
+            profiles=profiles,
+            max_workers=args.max_workers,
+            timeout=args.timeout,
+            security_level=args.security_level,
+        )
 
     # Output results
     if args.format == 'json':
