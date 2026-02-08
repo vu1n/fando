@@ -172,6 +172,18 @@ Running specialist reviewers in parallel:
    ✓ [ADDRESSED] Rate limiting → Added to API spec
    ```
 
+7. **Collect training data** (if logging enabled):
+   For each reviewer profile, save a training example:
+   ```bash
+   python3 ~/.claude/skills/fando-plan/scripts/collect_training.py \
+     --domain $PROFILE --other-domains "$OTHER_PROFILES" \
+     --security-level $SECURITY_LEVEL \
+     --plan-id "$PROJECT-$DATE" --iteration $ITER \
+     --plan-before $PLAN_BEFORE_FILE \
+     --plan-after $PLAN_AFTER_FILE \
+     <<< "$REVIEW_OUTPUT_FOR_PROFILE"
+   ```
+
 #### 2.4 Final Systems Architect Review
 
 After all specialists are satisfied (0 HIGH/MEDIUM findings):
@@ -507,6 +519,8 @@ cost). Runtime inference uses Codex CLI — no API keys needed.
 | `scripts/dspy_reviewers.py` | DSPy Signatures, Modules, metrics, training data collection |
 | `scripts/codex_lm.py` | CodexLM adapter — DSPy LM provider wrapping codex exec |
 | `scripts/optimize.py` | GEPA optimization CLI for reviewer prompts |
+| `scripts/backfill_training.py` | Backfill training data from existing plan review logs |
+| `scripts/collect_training.py` | Collect training data during plan review iterations |
 | `pyproject.toml` | Project dependencies (dspy optional) |
 | `references/review_prompts.md` | Generic prompt templates (legacy reference) |
 | `references/profiles/security.md` | Security reviewer prompt |
