@@ -102,15 +102,25 @@ def list_plans(project: str = None) -> list[PlanInfo]:
         project: Project name. If None, list all projects.
 
     Returns:
-        List of PlanInfo objects.
+        List of PlanInfo objects. Returns empty list if directory doesn't exist.
     """
     base_dir = get_plan_reviews_dir()
+
+    # Handle missing or inaccessible base directory
+    if not base_dir.exists():
+        return []
+    if not base_dir.is_dir():
+        return []
+
     plans = []
 
     if project:
         project_dirs = [base_dir / project] if (base_dir / project).exists() else []
     else:
-        project_dirs = [d for d in base_dir.iterdir() if d.is_dir()]
+        try:
+            project_dirs = [d for d in base_dir.iterdir() if d.is_dir()]
+        except (OSError, PermissionError):
+            return []
 
     for project_dir in project_dirs:
         proj_name = project_dir.name
