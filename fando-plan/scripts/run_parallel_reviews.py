@@ -39,6 +39,7 @@ try:
         DSPY_AVAILABLE,
         run_dspy_review,
         prediction_to_review_output,
+        prediction_to_parse_result,
     )
 except ImportError:
     DSPY_AVAILABLE = False
@@ -64,6 +65,37 @@ in their area.
 ---
 
 """
+
+
+def aggregate_review_result(
+    result: ParallelReviewResult,
+    profile: str,
+    review: ReviewResult,
+) -> None:
+    """
+    Shared aggregation logic for updating ParallelReviewResult from a single review.
+
+    This function is used by both Codex and DSPy backends to ensure consistent
+    aggregation behavior and reduce duplication.
+
+    Args:
+        result: The ParallelReviewResult to update
+        profile: The profile name for this review
+        review: The ReviewResult to aggregate into the result
+    """
+    result.results[profile] = review
+
+    if review.error:
+        result.profiles_failed += 1
+    else:
+        result.profiles_completed += 1
+        if review.findings:
+            result.total_high += review.findings.high
+            result.total_medium += review.findings.medium
+            result.total_low += review.findings.low
+            result.total_nitpick += review.findings.nitpick
+
+    result.has_outstanding_issues = result.total_high > 0 or result.total_medium > 0
 
 
 @dataclass
@@ -217,29 +249,15 @@ def run_parallel_reviews(
 
             try:
                 review_result = future.result()
-                result.results[profile] = review_result
-
-                if review_result.error:
-                    result.profiles_failed += 1
-                else:
-                    result.profiles_completed += 1
-
-                    # Aggregate findings
-                    if review_result.findings:
-                        result.total_high += review_result.findings.high
-                        result.total_medium += review_result.findings.medium
-                        result.total_low += review_result.findings.low
-                        result.total_nitpick += review_result.findings.nitpick
+                # Use shared aggregation logic
+                aggregate_review_result(result, profile, review_result)
 
             except Exception as e:
-                result.results[profile] = ReviewResult(
+                review_result = ReviewResult(
                     profile=profile,
                     error=f"Future execution error: {str(e)}"
                 )
-                result.profiles_failed += 1
-
-    # Determine if there are outstanding issues
-    result.has_outstanding_issues = result.total_high > 0 or result.total_medium > 0
+                aggregate_review_result(result, profile, review_result)
 
     return result
 
@@ -276,33 +294,27 @@ def run_parallel_reviews_dspy(
             # Check if prediction is an exception before processing
             if isinstance(prediction, Exception):
                 review.error = f"DSPy prediction failed: {prediction}"
-                result.profiles_failed += 1
+                aggregate_review_result(result, profile, review)
             else:
-                text_output = prediction_to_review_output(prediction)
-                review.output = text_output
-                review.findings = parse_findings(text_output)
+                # Direct structured conversion from DSPy prediction (bypasses markdown roundtrip)
+                review.findings = prediction_to_parse_result(prediction)
 
-                # Check for explicit error markers in the output
-                if review.output and "Error:" in review.output and "## Findings\n\n## Summary" in review.output:
-                    # This is the error format from prediction_to_review_output
-                    review.error = "DSPy review produced error output"
+                # Check if the prediction resulted in an error
+                if review.findings.error:
+                    review.error = review.findings.error
+                    # Still aggregate to track the failure
                     result.profiles_failed += 1
+                    result.results[profile] = review
                 else:
-                    # Only count as completed if no error
-                    result.profiles_completed += 1
-                    if review.findings:
-                        result.total_high += review.findings.high
-                        result.total_medium += review.findings.medium
-                        result.total_low += review.findings.low
-                        result.total_nitpick += review.findings.nitpick
+                    # Successful review - also generate text output for display
+                    review.output = prediction_to_review_output(prediction)
+                    # Use shared aggregation logic
+                    aggregate_review_result(result, profile, review)
         except Exception as e:
             review.error = f"DSPy review error: {e}"
-            result.profiles_failed += 1
+            aggregate_review_result(result, profile, review)
 
         review.duration_seconds = time.time() - start_time
-        result.results[profile] = review
-
-    result.has_outstanding_issues = result.total_high > 0 or result.total_medium > 0
     return result
 
 
