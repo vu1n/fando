@@ -10,6 +10,8 @@ Usage:
     python3 backfill_training.py --dry-run          # Preview without writing
     python3 backfill_training.py --stats            # Show results after
 """
+from __future__ import annotations
+
 import argparse
 import re
 import sys
