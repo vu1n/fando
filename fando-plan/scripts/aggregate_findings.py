@@ -21,12 +21,7 @@ from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 from typing import Optional
 
-
-@dataclass
-class Finding:
-    level: str
-    text: str
-    source: str  # which reviewer
+from review_models import AnnotatedFinding as Finding
 
 
 @dataclass

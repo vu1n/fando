@@ -30,7 +30,8 @@ from typing import Any, Optional
 
 # Import sibling modules
 from call_codex import call_codex, verify_codex_cli, CodexError
-from parse_findings import parse_findings, ParseResult
+from parse_findings import parse_findings
+from review_models import ParseResult, ReviewResult, ParallelReviewResult
 from detect_profiles import PROFILES, get_profile_prompt_path
 from constants import DEFAULT_CODEX_TIMEOUT, DEFAULT_SECURITY_LEVEL
 
@@ -98,27 +99,6 @@ def aggregate_review_result(
             result.total_nitpick += review.findings.nitpick
 
     result.has_outstanding_issues = result.total_high > 0 or result.total_medium > 0
-
-
-@dataclass
-class ReviewResult:
-    profile: str
-    output: str = ""
-    findings: Optional[ParseResult] = None
-    error: Optional[str] = None
-    duration_seconds: float = 0.0
-
-
-@dataclass
-class ParallelReviewResult:
-    results: dict[str, ReviewResult] = field(default_factory=dict)
-    total_high: int = 0
-    total_medium: int = 0
-    total_low: int = 0
-    total_nitpick: int = 0
-    profiles_completed: int = 0
-    profiles_failed: int = 0
-    has_outstanding_issues: bool = False
 
 
 def load_profile_prompt(profile_name: str) -> Optional[str]:

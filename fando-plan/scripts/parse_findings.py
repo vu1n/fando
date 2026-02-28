@@ -24,28 +24,10 @@ Output (JSON):
 import json
 import re
 import sys
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict
 from typing import Optional
 
-
-@dataclass
-class Finding:
-    level: str
-    text: str
-
-
-@dataclass
-class ParseResult:
-    high: int = 0
-    medium: int = 0
-    low: int = 0
-    nitpick: int = 0
-    lgtm: bool = False
-    findings: list[Finding] = field(default_factory=list)
-    should_stop: bool = False
-    stop_reason: Optional[str] = None
-    error: Optional[str] = None
-    raw: Optional[str] = None
+from review_models import Finding, ParseResult
 
 
 def parse_findings(response: str) -> ParseResult:
