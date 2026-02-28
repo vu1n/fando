@@ -1,36 +1,36 @@
 {
   "version": 1,
   "created": "2026-02-28T17:23:02+00:00",
-  "last_scan": "2026-02-28T22:46:12+00:00",
-  "scan_count": 5,
-  "overall_score": 47.1,
-  "objective_score": 56.4,
-  "strict_score": 47.1,
-  "verified_strict_score": 55.3,
+  "last_scan": "2026-02-28T22:54:08+00:00",
+  "scan_count": 6,
+  "overall_score": 47.0,
+  "objective_score": 56.0,
+  "strict_score": 47.0,
+  "verified_strict_score": 54.9,
   "stats": {
-    "total": 150,
-    "open": 102,
+    "total": 156,
+    "open": 106,
     "fixed": 4,
-    "auto_resolved": 36,
+    "auto_resolved": 38,
     "wontfix": 0,
     "false_positive": 8,
     "by_tier": {
       "2": {
-        "open": 13,
+        "open": 17,
         "fixed": 0,
         "auto_resolved": 2,
         "wontfix": 0,
         "false_positive": 0
       },
       "3": {
-        "open": 80,
+        "open": 79,
         "fixed": 4,
-        "auto_resolved": 14,
+        "auto_resolved": 16,
         "wontfix": 0,
         "false_positive": 8
       },
       "4": {
-        "open": 9,
+        "open": 10,
         "fixed": 0,
         "auto_resolved": 20,
         "wontfix": 0,
@@ -57,7 +57,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -79,7 +79,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -101,7 +101,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -116,14 +116,14 @@
       "file": "optimize.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Needs decomposition: large (319 LOC)",
+      "summary": "Needs decomposition: large (337 LOC)",
       "detail": {
-        "loc": 319
+        "loc": 337
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -145,7 +145,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -175,7 +175,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -197,7 +197,7 @@
       "status": "false_positive",
       "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
@@ -225,7 +225,7 @@
       "status": "false_positive",
       "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
@@ -246,14 +246,14 @@
       "file": "optimize.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Orphaned file (319 LOC): zero importers, not an entry point",
+      "summary": "Orphaned file (337 LOC): zero importers, not an entry point",
       "detail": {
-        "loc": 319
+        "loc": 337
       },
       "status": "false_positive",
       "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
@@ -281,7 +281,7 @@
       "status": "false_positive",
       "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
@@ -309,7 +309,7 @@
       "status": "false_positive",
       "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
@@ -337,7 +337,7 @@
       "status": "false_positive",
       "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
@@ -365,7 +365,7 @@
       "status": "false_positive",
       "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
@@ -397,7 +397,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -422,7 +422,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -437,17 +437,17 @@
       "file": "optimize.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (319 LOC, 0 importers) \u2014 no test files found",
+      "summary": "Untested module (337 LOC, 0 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
-        "loc": 319,
+        "loc": 337,
         "importer_count": 0,
-        "loc_weight": 17.86057109949175
+        "loc_weight": 18.35755975068582
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -472,7 +472,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -497,7 +497,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -522,7 +522,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -547,7 +547,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -572,7 +572,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -597,7 +597,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -622,7 +622,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -647,7 +647,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -672,7 +672,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -687,17 +687,17 @@
       "file": "training_store.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (165 LOC, 4 importers) \u2014 no test files found",
+      "summary": "Untested module (184 LOC, 4 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
-        "loc": 165,
+        "loc": 184,
         "importer_count": 4,
-        "loc_weight": 12.84523257866513
+        "loc_weight": 13.564659966250536
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -722,7 +722,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -747,7 +747,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -772,7 +772,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -797,7 +797,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -822,7 +822,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -852,7 +852,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -880,7 +880,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -910,7 +910,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -939,7 +939,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -968,7 +968,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -997,7 +997,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1018,13 +1018,13 @@
         "severity": "high",
         "count": 1,
         "lines": [
-          35
+          37
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1052,7 +1052,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1084,7 +1084,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1114,7 +1114,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1207,7 +1207,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1234,7 +1234,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1261,7 +1261,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1288,7 +1288,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1315,7 +1315,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1372,17 +1372,23 @@
           202
         ]
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T22:46:12+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:54:08+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:54:08+00:00",
+        "scan_verified": true
+      }
     },
     "smells::training_store.py::unsafe_file_write": {
       "id": "smells::training_store.py::unsafe_file_write",
@@ -1399,17 +1405,23 @@
           123
         ]
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T22:46:12+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:54:08+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:54:08+00:00",
+        "scan_verified": true
+      }
     },
     "smells::aggregate_findings.py::deferred_import": {
       "id": "smells::aggregate_findings.py::deferred_import",
@@ -1429,7 +1441,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1456,7 +1468,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1483,7 +1495,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1510,7 +1522,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1537,7 +1549,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1564,7 +1576,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1591,7 +1603,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1618,7 +1630,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1645,7 +1657,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1672,7 +1684,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1699,7 +1711,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1726,7 +1738,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1752,7 +1764,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "zone": "production",
@@ -1778,7 +1790,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "zone": "production",
@@ -2075,7 +2087,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2100,7 +2112,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2125,7 +2137,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2150,7 +2162,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -3961,7 +3973,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:36:30+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -3983,7 +3995,7 @@
       "status": "false_positive",
       "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T22:27:35+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
@@ -4016,7 +4028,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:35+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4043,7 +4055,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:35+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4070,7 +4082,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:35+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4097,7 +4109,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:35+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4124,7 +4136,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:35+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4151,7 +4163,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:35+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4178,7 +4190,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:35+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4201,7 +4213,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:36+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4224,7 +4236,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:36+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4247,7 +4259,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:36+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4270,7 +4282,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:36+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4293,7 +4305,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:36+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4311,12 +4323,12 @@
       "summary": "File changed since last review \u2014 re-review recommended",
       "detail": {
         "reason": "changed",
-        "loc": 319
+        "loc": 337
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:36+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4339,7 +4351,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:36+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4362,7 +4374,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:27:36+00:00",
-      "last_seen": "2026-02-28T22:46:12+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4385,7 +4397,165 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T22:46:10+00:00",
-      "last_seen": "2026-02-28T22:46:10+00:00",
+      "last_seen": "2026-02-28T22:54:08+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::optimize.py::empty_except": {
+      "id": "smells::optimize.py::empty_except",
+      "detector": "smells",
+      "file": "optimize.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "1x Empty except block (except: pass)",
+      "detail": {
+        "smell_id": "empty_except",
+        "severity": "high",
+        "count": 1,
+        "lines": [
+          218
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:54:05+00:00",
+      "last_seen": "2026-02-28T22:54:05+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::training_store.py::empty_except": {
+      "id": "smells::training_store.py::empty_except",
+      "detector": "smells",
+      "file": "training_store.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "1x Empty except block (except: pass)",
+      "detail": {
+        "smell_id": "empty_except",
+        "severity": "high",
+        "count": 1,
+        "lines": [
+          140
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:54:05+00:00",
+      "last_seen": "2026-02-28T22:54:05+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::optimize.py::silent_except": {
+      "id": "smells::optimize.py::silent_except",
+      "detector": "smells",
+      "file": "optimize.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "1x Except handler silently suppresses error (pass/continue, no log)",
+      "detail": {
+        "smell_id": "silent_except",
+        "severity": "high",
+        "count": 1,
+        "lines": [
+          218
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:54:05+00:00",
+      "last_seen": "2026-02-28T22:54:05+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::training_store.py::silent_except": {
+      "id": "smells::training_store.py::silent_except",
+      "detector": "smells",
+      "file": "training_store.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "1x Except handler silently suppresses error (pass/continue, no log)",
+      "detail": {
+        "smell_id": "silent_except",
+        "severity": "high",
+        "count": 1,
+        "lines": [
+          140
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:54:05+00:00",
+      "last_seen": "2026-02-28T22:54:05+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::training_store.py::deferred_import": {
+      "id": "smells::training_store.py::deferred_import",
+      "detector": "smells",
+      "file": "training_store.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          131
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:54:05+00:00",
+      "last_seen": "2026-02-28T22:54:05+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::training_store.py::changed": {
+      "id": "subjective_review::training_store.py::changed",
+      "detector": "subjective_review",
+      "file": "training_store.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 184
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:54:06+00:00",
+      "last_seen": "2026-02-28T22:54:06+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -4423,7 +4593,7 @@
           "reason": "missing_dependency"
         }
       ],
-      "updated_at": "2026-02-28T22:46:12+00:00"
+      "updated_at": "2026-02-28T22:54:08+00:00"
     }
   },
   "score_confidence": {
@@ -5097,6 +5267,135 @@
           "strict": 49.2
         }
       }
+    },
+    {
+      "timestamp": "2026-02-28T22:54:08+00:00",
+      "lang": "python",
+      "strict_score": 47.0,
+      "verified_strict_score": 54.9,
+      "objective_score": 56.0,
+      "overall_score": 47.0,
+      "open": 106,
+      "diff_new": 6,
+      "diff_resolved": 2,
+      "ignored": 0,
+      "raw_findings": 89,
+      "suppressed_pct": 0.0,
+      "ignore_patterns": 0,
+      "subjective_integrity": {
+        "status": "pass",
+        "matched_count": 0,
+        "reset_count": 0,
+        "target_score": 95.0
+      },
+      "score_confidence": {
+        "status": "reduced",
+        "confidence": 0.6,
+        "detector_count": 1,
+        "dimension_count": 1
+      },
+      "dimension_scores": {
+        "File health": {
+          "score": 83.3,
+          "strict": 83.3
+        },
+        "Code quality": {
+          "score": 85.6,
+          "strict": 85.6
+        },
+        "Duplication": {
+          "score": 100.0,
+          "strict": 100.0
+        },
+        "Test health": {
+          "score": 4.6,
+          "strict": 4.6
+        },
+        "Security": {
+          "score": 97.6,
+          "strict": 97.6
+        },
+        "Naming quality": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Logic clarity": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Type safety": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Contracts": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Error consistency": {
+          "score": 64.0,
+          "strict": 64.0
+        },
+        "Abstraction fit": {
+          "score": 66.2,
+          "strict": 66.2
+        },
+        "AI generated debt": {
+          "score": 75.8,
+          "strict": 75.8
+        },
+        "High elegance": {
+          "score": 59.0,
+          "strict": 59.0
+        },
+        "Mid elegance": {
+          "score": 58.2,
+          "strict": 58.2
+        },
+        "Low elegance": {
+          "score": 59.9,
+          "strict": 59.9
+        },
+        "Cross-module arch": {
+          "score": 59.3,
+          "strict": 59.3
+        },
+        "Init coupling": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Convention drift": {
+          "score": 60.9,
+          "strict": 60.9
+        },
+        "Dep health": {
+          "score": 77.7,
+          "strict": 77.7
+        },
+        "Test strategy": {
+          "score": 48.6,
+          "strict": 48.6
+        },
+        "API coherence": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Auth consistency": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Stale migration": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Structure nav": {
+          "score": 41.2,
+          "strict": 41.2
+        },
+        "Design coherence": {
+          "score": 49.2,
+          "strict": 49.2
+        }
+      }
     }
   ],
   "tool_hash": "a7379f3d09b2",
@@ -5117,7 +5416,7 @@
       "facade": 21,
       "coupling": 0,
       "uncalled_functions": 7,
-      "test_coverage": 263,
+      "test_coverage": 264,
       "smells": 21,
       "global_mutable_config": 21,
       "security": 21,
@@ -5132,7 +5431,7 @@
   "codebase_metrics": {
     "python": {
       "total_files": 21,
-      "total_loc": 4519,
+      "total_loc": 4556,
       "total_directories": 1
     }
   },
@@ -5155,11 +5454,11 @@
       "strict": 83.3
     },
     "Code quality": {
-      "score": 86.5,
-      "strict_score": 86.5,
-      "verified_strict_score": 82.7,
+      "score": 85.6,
+      "strict_score": 85.6,
+      "verified_strict_score": 81.9,
       "checks": 150,
-      "issues": 42,
+      "issues": 45,
       "tier": 3,
       "detectors": {
         "unused": {
@@ -5170,9 +5469,9 @@
         },
         "smells": {
           "potential": 21,
-          "pass_rate": 0.17142857142857149,
-          "issues": 36,
-          "weighted_failures": 17.4
+          "pass_rate": 0.10952380952380955,
+          "issues": 39,
+          "weighted_failures": 18.7
         },
         "dict_keys": {
           "potential": 21,
@@ -5223,7 +5522,7 @@
           "weighted_failures": 0.0
         }
       },
-      "strict": 86.5
+      "strict": 85.6
     },
     "Duplication": {
       "score": 100.0,
@@ -5243,27 +5542,27 @@
       "strict": 100.0
     },
     "Test health": {
-      "score": 4.9,
-      "strict_score": 4.9,
-      "verified_strict_score": 4.9,
-      "checks": 283,
-      "issues": 27,
+      "score": 4.6,
+      "strict_score": 4.6,
+      "verified_strict_score": 4.6,
+      "checks": 284,
+      "issues": 28,
       "tier": 4,
       "detectors": {
         "test_coverage": {
-          "potential": 263,
-          "pass_rate": 0.0007463692092232513,
+          "potential": 264,
+          "pass_rate": 0.0,
           "issues": 18,
-          "weighted_failures": 262.8037048979743
+          "weighted_failures": 264.0201209367538
         },
         "subjective_review": {
           "potential": 20,
-          "pass_rate": 0.6849999999999999,
-          "issues": 9,
-          "weighted_failures": 6.3
+          "pass_rate": 0.65,
+          "issues": 10,
+          "weighted_failures": 7.0
         }
       },
-      "strict": 4.9
+      "strict": 4.6
     },
     "Security": {
       "score": 97.6,
@@ -5752,10 +6051,11 @@
     }
   },
   "reminder_history": {
-    "report_scores": 3,
-    "review_findings_pending": 2,
+    "report_scores": 5,
+    "review_findings_pending": 3,
     "stagnant_nudge": 4,
-    "feedback_nudge": 2
+    "feedback_nudge": 3,
+    "fp_calibration_orphaned_production": 2
   },
   "review_cache": {
     "files": {
