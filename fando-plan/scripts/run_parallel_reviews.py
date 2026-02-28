@@ -39,13 +39,9 @@ from constants import DEFAULT_CODEX_TIMEOUT, DEFAULT_SECURITY_LEVEL, SECURITY_LE
 
 # DSPy backend - optional
 try:
-    from dspy_reviewers import (
-        DSPY_AVAILABLE,
-        run_dspy_review,
-        prediction_to_review_output,
-        prediction_to_parse_result,
-        DSPyReviewError,
-    )
+    from review_signatures import DSPY_AVAILABLE
+    from review_runtime import run_dspy_review
+    from review_conversion import prediction_to_review_output, prediction_to_parse_result, DSPyReviewError
 except ImportError:
     DSPY_AVAILABLE = False
 

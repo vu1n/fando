@@ -1,30 +1,25 @@
 #!/usr/bin/env python3
 """
-dspy_reviewers.py - DSPy-based plan review system with per-domain Signatures
+dspy_reviewers.py - Minimal compatibility facade for DSPy review system
 
-This module provides a unified facade for the DSPy review system. The actual
-implementation is split into focused modules:
+This module provides backward compatibility imports. The actual implementation
+is split into focused modules:
+
+Core runtime modules (import these directly for new code):
+- review_runtime.py: run_dspy_review orchestration
+- review_conversion.py: prediction_to_review_output, prediction_to_parse_result
 - review_signatures.py: Domain-specific DSPy Signatures
 - review_module.py: DomainReviewModule class
-- review_runtime.py: run_dspy_review orchestration
-- review_conversion.py: Output conversion (prediction_to_review_output, prediction_to_parse_result)
-- training_metric.py: ReviewExample dataclass and review_metric
-- training_store.py: Data collection and persistence
 
-Usage:
-    from dspy_reviewers import run_dspy_review, prediction_to_review_output, DSPyReviewError
-    from parse_findings import parse_findings
+Training modules (import these directly for training/optimization):
+- training_metric.py: ReviewExample, review_metric
+- training_store.py: collect_training_example, save_training_example, load_training_examples
 
-    results = run_dspy_review(plan, profiles, security_level="public")
-    for profile, prediction in results.items():
-        if isinstance(prediction, Exception):
-            print(f"{profile} failed: {prediction}")
-            continue
-        try:
-            text = prediction_to_review_output(prediction)
-            parsed = parse_findings(text)
-        except DSPyReviewError as e:
-            print(f"{profile} error: {e}")
+Path configuration:
+- paths.py: get_optimized_dir, get_training_dir, get_plan_reviews_dir
+
+This facade is maintained for backward compatibility. New code should import
+from the specific modules listed above.
 """
 import logging
 
@@ -99,8 +94,9 @@ from paths import get_optimized_dir, get_training_dir
 # Re-export DSPY_AVAILABLE for convenience
 _DSPY_AVAILABLE = DSPY_AVAILABLE
 
-# Export __all__ for explicit imports
+# Export __all__ for explicit imports (minimal compatibility facade)
 __all__ = [
+    # Most commonly used convenience imports
     "DSPY_AVAILABLE",
     "DOMAIN_SIGNATURES",
     "run_dspy_review",
@@ -116,10 +112,6 @@ __all__ = [
     "load_optimized_module",
     "get_optimized_dir",
     "get_training_dir",
-    "SIGNIFICANT_WORD_MIN_LENGTH",
-    "FINDING_ADDRESS_THRESHOLD",
-    "DOMAIN_FOCUS_WEIGHT_IN_LANE",
-    "DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE",
 ]
 
 

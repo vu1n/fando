@@ -23,7 +23,7 @@ from pathlib import Path
 
 
 def main() -> None:
-    from dspy_reviewers import collect_training_example, save_training_example
+    from training_store import collect_training_example, save_training_example
 
     parser = argparse.ArgumentParser(
         description="Collect a training example from a plan review iteration"

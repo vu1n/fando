@@ -220,7 +220,8 @@ def parse_jj_workspace(path: Path, profiles: dict[str, dict]) -> list[ReviewExam
 
 def main():
     from detect_profiles import PROFILES
-    from dspy_reviewers import ReviewExample, save_training_example, load_training_examples
+    from training_metric import ReviewExample
+    from training_store import save_training_example, load_training_examples
 
     parser = argparse.ArgumentParser(
         description="Backfill training data from plan review logs"

@@ -34,14 +34,11 @@ except ImportError:
     print("DSPy is required: uv pip install dspy>=2.6.0", file=sys.stderr)
     sys.exit(1)
 
-from dspy_reviewers import (
-    DOMAIN_SIGNATURES,
-    DomainReviewModule,
-    ReviewExample,
-    load_training_examples,
-    review_metric,
-    save_optimized_module,
-)
+from review_signatures import DOMAIN_SIGNATURES
+from review_module import DomainReviewModule
+from training_metric import ReviewExample, review_metric
+from training_store import load_training_examples
+from review_runtime import save_optimized_module
 from paths import get_optimized_dir, get_export_dir, get_training_dir
 
 
