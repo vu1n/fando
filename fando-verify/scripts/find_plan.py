@@ -208,15 +208,15 @@ def main() -> None:
         else:
             if not plans:
                 print("No plans found.")
-                sys.exit(1)
-            print(f"Found {len(plans)} plan(s):\n")
-            for p in plans:
-                from datetime import datetime
-                mtime = datetime.fromtimestamp(p.modified).strftime('%Y-%m-%d %H:%M')
-                print(f"  {p.project}: {Path(p.path).name}")
-                print(f"    Path: {p.path}")
-                print(f"    Modified: {mtime}")
-                print()
+            else:
+                print(f"Found {len(plans)} plan(s):\n")
+                for p in plans:
+                    from datetime import datetime
+                    mtime = datetime.fromtimestamp(p.modified).strftime('%Y-%m-%d %H:%M')
+                    print(f"  {p.project}: {Path(p.path).name}")
+                    print(f"    Path: {p.path}")
+                    print(f"    Modified: {mtime}")
+                    print()
         sys.exit(0)
 
     content, source = find_plan(args.path, args.project)
