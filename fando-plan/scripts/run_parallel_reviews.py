@@ -40,6 +40,7 @@ try:
         run_dspy_review,
         prediction_to_review_output,
         prediction_to_parse_result,
+        DSPyReviewError,
     )
 except ImportError:
     DSPY_AVAILABLE = False

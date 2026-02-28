@@ -7,12 +7,19 @@ modular, structured, and optimizable with GEPA. Domain knowledge lives in Signat
 docstrings (source of truth), not in separate markdown files.
 
 Usage:
-    from dspy_reviewers import run_dspy_review, prediction_to_review_output
+    from dspy_reviewers import run_dspy_review, prediction_to_review_output, DSPyReviewError
+    from parse_findings import parse_findings
 
     results = run_dspy_review(plan, profiles, security_level="public")
     for profile, prediction in results.items():
-        text = prediction_to_review_output(prediction)
-        parsed = parse_findings(text)
+        if isinstance(prediction, Exception):
+            print(f"{profile} failed: {prediction}")
+            continue
+        try:
+            text = prediction_to_review_output(prediction)
+            parsed = parse_findings(text)
+        except DSPyReviewError as e:
+            print(f"{profile} error: {e}")
 """
 import json
 import logging
@@ -487,6 +494,14 @@ def run_dspy_review(
 # ===========================================================================
 
 
+class DSPyReviewError(Exception):
+    """Exception raised when DSPy review execution fails."""
+
+    def __init__(self, message: str, original_exception: Exception | None = None):
+        super().__init__(message)
+        self.original_exception = original_exception
+
+
 def prediction_to_review_output(prediction: Any) -> str:
     """Convert a DSPy Prediction into the text format parse_findings.py expects.
 
@@ -498,12 +513,14 @@ def prediction_to_review_output(prediction: Any) -> str:
         ## Summary
         X high, Y medium...
 
-    Note: If prediction is an Exception, returns error text that should be
-    detected as a failure by the caller.
+    Raises:
+        DSPyReviewError: If prediction is an Exception object
     """
     if isinstance(prediction, Exception):
-        # Return explicit error marker that can be detected
-        return f"## Findings\n\n## Summary\nError: DSPY_EXECUTION_FAILED: {prediction}"
+        raise DSPyReviewError(
+            f"DSPy review execution failed: {prediction}",
+            original_exception=prediction
+        )
 
     findings = getattr(prediction, "findings", "")
     summary = getattr(prediction, "summary", "")
