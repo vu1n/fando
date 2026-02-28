@@ -40,7 +40,8 @@ class Conflict:
 @dataclass
 class AggregatedResult:
     by_reviewer: dict[str, list[Finding]] = field(default_factory=dict)
-    all_findings: list[Finding] = field(default_factory=list)
+    all_findings: list[Finding] = field(default_factory=list)  # Raw findings before dedup
+    unique_findings: list[Finding] = field(default_factory=list)  # After dedup (canonical)
     conflicts: list[Conflict] = field(default_factory=list)
     duplicates_removed: int = 0
     total_high: int = 0
@@ -203,11 +204,12 @@ def aggregate_findings(results: dict) -> AggregatedResult:
         if not is_dupe:
             unique_findings.append(finding)
 
-    # Note: we keep all_findings as-is but track duplicates_removed count
+    # Store unique_findings as the canonical deduplicated list
+    aggregated.unique_findings = unique_findings
 
-    # Detect conflicts between findings from different reviewers
+    # Detect conflicts between findings from different reviewers (using unique findings)
     high_medium_findings = [
-        f for f in aggregated.all_findings
+        f for f in aggregated.unique_findings
         if f.level in ('HIGH', 'MEDIUM')
     ]
 
@@ -320,6 +322,11 @@ def main():
                 {'level': f.level, 'text': f.text, 'source': f.source}
                 for f in aggregated.all_findings
             ],
+            'unique_findings': [
+                {'level': f.level, 'text': f.text, 'source': f.source}
+                for f in aggregated.unique_findings
+            ],
+            'findings_count': len(aggregated.unique_findings),
             'conflicts': [
                 {
                     'finding_a': {

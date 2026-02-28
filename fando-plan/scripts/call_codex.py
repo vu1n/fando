@@ -66,6 +66,56 @@ def verify_codex_cli() -> CodexCliInfo:
     return result
 
 
+def build_codex_command(supports_skip_git: bool = True) -> list[str]:
+    """Build the codex exec command with optional flags.
+
+    Args:
+        supports_skip_git: Whether to include --skip-git-repo-check flag
+
+    Returns:
+        Command list suitable for subprocess.run()
+    """
+    cmd = ['codex', 'exec']
+    if supports_skip_git:
+        cmd.append('--skip-git-repo-check')
+    return cmd
+
+
+def run_codex_subprocess(
+    input_text: str,
+    timeout: int,
+    supports_skip_git: bool = True,
+) -> tuple[subprocess.CompletedProcess, None] | tuple[None, str]:
+    """
+    Run codex exec subprocess with unified error handling.
+
+    Args:
+        input_text: Text to pass to codex via stdin
+        timeout: Maximum seconds to wait
+        supports_skip_git: Whether to include --skip-git-repo-check flag
+
+    Returns:
+        Tuple of (subprocess.CompletedProcess, None) on success,
+        or (None, error_message) on failure.
+    """
+    cmd = build_codex_command(supports_skip_git)
+
+    try:
+        result = subprocess.run(
+            cmd,
+            input=input_text,
+            capture_output=True,
+            text=True,
+            timeout=timeout
+        )
+        return result, None
+
+    except subprocess.TimeoutExpired:
+        return None, f"ERROR: Codex timed out after {timeout}s"
+    except FileNotFoundError:
+        return None, "ERROR: 'codex' command not found. Is Codex CLI installed?"
+
+
 def call_codex(
     prompt: str,
     plan: str,
@@ -95,47 +145,32 @@ def call_codex(
             error=cli_info['error']
         )
 
-    # Build command with optional flags
-    cmd = ['codex', 'exec']
-    if cli_info['supports_skip_git']:
-        cmd.append('--skip-git-repo-check')
+    # Use shared subprocess execution
+    result, error = run_codex_subprocess(
+        full_prompt,
+        timeout,
+        cli_info['supports_skip_git']
+    )
 
-    try:
-        # Pass prompt content via stdin - Codex reads from stdin when no prompt arg given
-        result = subprocess.run(
-            cmd,
-            input=full_prompt,
-            capture_output=True,
-            text=True,
-            timeout=timeout
-        )
-
-        # Check for errors
-        error = None
-        if result.returncode != 0:
-            error = f"Codex exited with code {result.returncode}: {result.stderr}"
-
+    if error:
         return CodexResult(
-            stdout=result.stdout,
-            stderr=result.stderr,
-            exit_code=result.returncode,
+            stdout="",
+            stderr="",
+            exit_code=-1,
             error=error
         )
 
-    except subprocess.TimeoutExpired:
-        return CodexResult(
-            stdout="",
-            stderr="",
-            exit_code=-1,
-            error=f"ERROR: Codex timed out after {timeout}s"
-        )
-    except FileNotFoundError:
-        return CodexResult(
-            stdout="",
-            stderr="",
-            exit_code=-1,
-            error="ERROR: 'codex' command not found. Is Codex CLI installed?"
-        )
+    # Check for Codex execution errors
+    error = None
+    if result.returncode != 0:
+        error = f"Codex exited with code {result.returncode}: {result.stderr}"
+
+    return CodexResult(
+        stdout=result.stdout,
+        stderr=result.stderr,
+        exit_code=result.returncode,
+        error=error
+    )
 
 
 def main() -> None:

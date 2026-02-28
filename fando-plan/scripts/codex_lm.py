@@ -16,7 +16,7 @@ import subprocess
 import time
 from typing import Any
 
-from call_codex import verify_codex_cli
+from call_codex import build_codex_command, verify_codex_cli
 
 try:
     from dspy.clients.base_lm import BaseLM
@@ -75,10 +75,8 @@ class CodexLM(BaseLM):
         else:
             raise ValueError("Either prompt or messages must be provided")
 
-        # Build subprocess command
-        cmd = ["codex", "exec"]
-        if self.supports_skip_git:
-            cmd.append("--skip-git-repo-check")
+        # Build command using shared function
+        cmd = build_codex_command(self.supports_skip_git)
 
         # Call codex exec via subprocess
         start = time.time()
