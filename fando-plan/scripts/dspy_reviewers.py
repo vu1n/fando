@@ -794,7 +794,9 @@ def load_optimized_module(domain: str) -> Optional[Any]:
     """Load a GEPA-optimized module if it exists.
 
     Returns:
-        DomainReviewModule with optimized state, or None if not found
+        DomainReviewModule with optimized state, or None if not found or error.
+
+    Logs a warning if the file exists but fails to load (corruption/incompatibility).
     """
     if not DSPY_AVAILABLE:
         return None
@@ -807,7 +809,16 @@ def load_optimized_module(domain: str) -> Optional[Any]:
         mod = DomainReviewModule(domain=domain)
         mod.load(str(path))
         return mod
-    except Exception:
+    except FileNotFoundError:
+        # File was removed between exists() check and load() - treat as not found
+        return None
+    except (OSError, json.JSONDecodeError, ValueError, TypeError) as e:
+        # File exists but is corrupt or incompatible - log the error
+        logger.warning(f"Failed to load optimized module for domain '{domain}' from {path}: {e}")
+        return None
+    except Exception as e:
+        # Unexpected error - log with more details
+        logger.error(f"Unexpected error loading optimized module for domain '{domain}' from {path}: {type(e).__name__}: {e}")
         return None
 
 
