@@ -12,6 +12,16 @@ from dataclasses import dataclass
 from typing import TypedDict
 
 
+# Shared exception class for Codex invocation errors
+class CodexError(Exception):
+    """Base exception for Codex CLI execution failures."""
+
+    def __init__(self, message: str, exit_code: int | None = None, stderr: str = ""):
+        super().__init__(message)
+        self.exit_code = exit_code
+        self.stderr = stderr
+
+
 @dataclass
 class CodexResult:
     stdout: str
@@ -131,6 +141,9 @@ def call_codex(
 
     Returns:
         CodexResult with stdout, stderr, exit_code, and any error message.
+
+    Raises:
+        CodexError: If Codex CLI is unavailable or execution fails.
     """
     # Build the full prompt
     full_prompt = f"{prompt}\n\n## Plan to Review\n\n{plan}"
@@ -138,12 +151,7 @@ def call_codex(
     # Check CLI capabilities first
     cli_info = verify_codex_cli()
     if cli_info['error']:
-        return CodexResult(
-            stdout="",
-            stderr="",
-            exit_code=-1,
-            error=cli_info['error']
-        )
+        raise CodexError(cli_info['error'])
 
     # Use shared subprocess execution
     result, error = run_codex_subprocess(
@@ -153,23 +161,21 @@ def call_codex(
     )
 
     if error:
-        return CodexResult(
-            stdout="",
-            stderr="",
-            exit_code=-1,
-            error=error
-        )
+        raise CodexError(error)
 
     # Check for Codex execution errors
-    error = None
     if result.returncode != 0:
-        error = f"Codex exited with code {result.returncode}: {result.stderr}"
+        raise CodexError(
+            f"Codex exited with code {result.returncode}: {result.stderr}",
+            exit_code=result.returncode,
+            stderr=result.stderr
+        )
 
     return CodexResult(
         stdout=result.stdout,
         stderr=result.stderr,
         exit_code=result.returncode,
-        error=error
+        error=None
     )
 
 
@@ -218,10 +224,10 @@ def main() -> None:
         sys.exit(1)
 
     # Call Codex
-    result = call_codex(args.prompt, plan, timeout=args.timeout)
-
-    if result.error:
-        print(f"Error: {result.error}", file=sys.stderr)
+    try:
+        result = call_codex(args.prompt, plan, timeout=args.timeout)
+    except CodexError as e:
+        print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
 
     # Output the response

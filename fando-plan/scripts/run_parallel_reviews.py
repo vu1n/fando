@@ -29,7 +29,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 # Import sibling modules
-from call_codex import call_codex, verify_codex_cli
+from call_codex import call_codex, verify_codex_cli, CodexError
 from parse_findings import parse_findings, ParseResult
 from detect_profiles import PROFILES, get_profile_prompt_path
 
@@ -186,16 +186,15 @@ If no issues: "LGTM - no concerns in my domain"
         full_prompt = FOCUS_PREAMBLE + prompt
 
         # Call Codex with full plan
-        codex_result = call_codex(full_prompt, plan, timeout=timeout)
-
-        if codex_result.error:
-            result.error = codex_result.error
-        else:
+        try:
+            codex_result = call_codex(full_prompt, plan, timeout=timeout)
             result.output = codex_result.stdout
 
             # Parse findings from the response
             parsed = parse_findings(codex_result.stdout)
             result.findings = parsed
+        except CodexError as e:
+            result.error = str(e)
 
     except Exception as e:
         result.error = f"Exception during review: {str(e)}"

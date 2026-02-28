@@ -16,7 +16,7 @@ import subprocess
 import time
 from typing import Any
 
-from call_codex import build_codex_command, verify_codex_cli
+from call_codex import build_codex_command, verify_codex_cli, CodexError
 
 try:
     from dspy.clients.base_lm import BaseLM
@@ -89,15 +89,19 @@ class CodexLM(BaseLM):
                 timeout=self.timeout,
             )
         except subprocess.TimeoutExpired:
-            raise RuntimeError(f"Codex exec timed out after {self.timeout}s")
+            raise CodexError(f"Codex exec timed out after {self.timeout}s")
         except FileNotFoundError:
-            raise RuntimeError("codex command not found")
+            raise CodexError("codex command not found")
+        except (OSError, subprocess.SubprocessError) as e:
+            raise CodexError(f"Codex exec failed: {e}")
 
         duration = time.time() - start
 
         if result.returncode != 0:
-            raise RuntimeError(
-                f"Codex exec failed (code {result.returncode}): {result.stderr}"
+            raise CodexError(
+                f"Codex exec failed (code {result.returncode}): {result.stderr}",
+                exit_code=result.returncode,
+                stderr=result.stderr
             )
 
         output_text = result.stdout.strip()
@@ -142,14 +146,6 @@ class CodexLM(BaseLM):
 
         return [output_text]
 
-    async def aforward(
-        self,
-        prompt: str | None = None,
-        messages: list[dict[str, Any]] | None = None,
-        **kwargs,
-    ) -> list[dict[str, Any]]:
-        """Async variant - delegates to sync forward since codex exec is subprocess-based."""
-        return self.forward(prompt=prompt, messages=messages, **kwargs)
 
 
 if __name__ == "__main__":
