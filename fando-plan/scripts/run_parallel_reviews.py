@@ -360,10 +360,8 @@ def format_results_for_display(result: ParallelReviewResult) -> str:
     return '\n'.join(lines)
 
 
-def main():
-    """CLI entry point."""
-    import argparse
-
+def build_argument_parser() -> argparse.ArgumentParser:
+    """Build and configure the CLI argument parser."""
     parser = argparse.ArgumentParser(
         description='Run multiple reviewer profiles in parallel',
         epilog='Plan content is read from stdin'
@@ -381,8 +379,8 @@ def main():
     parser.add_argument(
         '--timeout',
         type=int,
-        default=600,
-        help='Timeout per reviewer in seconds (default: 600)'
+        default=DEFAULT_CODEX_TIMEOUT,
+        help=f'Timeout per reviewer in seconds (default: {DEFAULT_CODEX_TIMEOUT})'
     )
     parser.add_argument(
         '--max-workers',
@@ -402,9 +400,9 @@ def main():
     )
     parser.add_argument(
         '--security-level',
-        default='public',
-        choices=['personal', 'internal', 'public', 'enterprise'],
-        help='Security level for severity calibration (default: public)'
+        default=DEFAULT_SECURITY_LEVEL,
+        choices=list(SECURITY_LEVELS),
+        help=f'Security level for severity calibration (default: {DEFAULT_SECURITY_LEVEL})'
     )
     parser.add_argument(
         '--backend',
@@ -417,6 +415,14 @@ def main():
         action='store_true',
         help='Skip loading GEPA-optimized modules (DSPy backend only)'
     )
+    return parser
+
+
+def main() -> None:
+    """CLI entry point."""
+    import argparse
+
+    parser = build_argument_parser()
 
     args = parser.parse_args()
 
