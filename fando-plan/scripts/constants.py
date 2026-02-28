@@ -8,7 +8,6 @@ modules to improve maintainability and prevent inconsistencies.
 Usage:
     from constants import DEFAULT_CODEX_TIMEOUT, DEFAULT_SECURITY_LEVEL
 """
-from pathlib import Path
 
 
 # ===========================================================================
@@ -33,27 +32,6 @@ DEFAULT_SECURITY_LEVEL = "public"
 # Note: This is just the list of valid level names for argparse/detection
 # For full keyword-based detection metadata, see detect_security_level.py
 SECURITY_LEVEL_CHOICES = ("personal", "internal", "public", "enterprise")
-
-
-# ===========================================================================
-# Path Constants (deprecated - use paths.py instead)
-# ===========================================================================
-
-# Note: Path configuration has moved to paths.py for environment variable
-# support and repository-local fallback. Import from there instead:
-#   from paths import get_training_dir, get_optimized_dir, get_plan_reviews_dir
-#
-# These constants are kept for backward compatibility but should not be used
-# in new code.
-
-# Directory name for training data within the skill directory
-TRAINING_DIR_NAME = "training_data"
-
-# Directory name for optimized modules within the skill directory
-OPTIMIZED_DIR_NAME = "optimized"
-
-# Directory name for exported prompts within the skill directory
-EXPORT_DIR_NAME = "exported_prompts"
 
 
 # ===========================================================================

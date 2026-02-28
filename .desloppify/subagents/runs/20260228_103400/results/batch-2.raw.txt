@@ -1,0 +1,122 @@
+{
+  "batch": "Abstractions & Dependencies",
+  "batch_index": 2,
+  "assessments": {
+    "abstraction_fitness": 72.0,
+    "dependency_health": 78.0
+  },
+  "dimension_notes": {
+    "abstraction_fitness": {
+      "evidence": [
+        "DSPy results are converted from structured prediction -> markdown text in `prediction_to_review_output()` -> parsed back to structure with `parse_findings()` in `run_parallel_reviews_dspy()`, creating a fragile translation loop.",
+        "Two parallel-review paths (`run_parallel_reviews` and `run_parallel_reviews_dspy`) duplicate orchestration/aggregation behavior instead of sharing a single backend-independent flow.",
+        "`aggregate_findings.aggregate_findings()` accepts multiple ad-hoc input shapes (`results` wrapper or raw dict) and relies on nested `.get(...)` access, signaling weak inter-script interface contracts."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "sub_axes": {
+        "abstraction_leverage": 69.0,
+        "indirection_cost": 70.0,
+        "interface_honesty": 74.0
+      }
+    },
+    "dependency_health": {
+      "evidence": [
+        "`dspy_reviewers.py` hardcodes persistent state paths under `~/.claude/skills/fando-plan`, introducing an external environment dependency not declared/configured by CLI args or project config.",
+        "Review pipeline depends on text protocol coupling between modules (markdown format expectations) rather than stable typed objects, making module dependency edges brittle to formatting changes.",
+        "Optional DSPy dependency is guarded, but downstream behavior still tightly depends on specific persisted JSON module artifacts and path conventions."
+      ],
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "medium"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "structured_text_roundtrip_contract",
+      "summary": "DSPy output is serialized to markdown then reparsed, adding low-value indirection and contract fragility.",
+      "related_files": [
+        "fando-plan/scripts/dspy_reviewers.py",
+        "fando-plan/scripts/run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "`prediction_to_review_output()` builds `## Findings` markdown text from structured prediction fields.",
+        "`run_parallel_reviews_dspy()` immediately feeds that text into `parse_findings()` to recover structured counts/items."
+      ],
+      "suggestion": "Return a typed findings object directly from DSPy path (or a shared dataclass schema) and use text formatting only for terminal rendering.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "unstable_inter_module_contracts"
+    },
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "duplicated_parallel_orchestration",
+      "summary": "Codex and DSPy review runners duplicate result aggregation logic, increasing drift risk.",
+      "related_files": [
+        "fando-plan/scripts/run_parallel_reviews.py",
+        "fando-plan/scripts/dspy_reviewers.py"
+      ],
+      "evidence": [
+        "`run_parallel_reviews()` and `run_parallel_reviews_dspy()` both perform per-profile timing, error handling, count aggregation, and `ParallelReviewResult` mutation.",
+        "Backend-specific branches differ in subtle failure interpretation (exception object vs formatted error marker), making behavior consistency hard to maintain."
+      ],
+      "suggestion": "Extract a shared backend-agnostic aggregation pipeline with a single normalized backend result interface.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "duplicated_orchestration_paths"
+    },
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "dict_bag_interface_between_scripts",
+      "summary": "Inter-script contracts rely on loose nested dicts instead of explicit schemas.",
+      "related_files": [
+        "fando-plan/scripts/run_parallel_reviews.py",
+        "fando-plan/scripts/aggregate_findings.py"
+      ],
+      "evidence": [
+        "`aggregate_findings()` accepts either wrapped or raw input and reads nested keys via `.get`, defaulting missing severity to `UNKNOWN`.",
+        "Producer (`run_parallel_reviews.py`) emits a specific nested JSON structure, but consumer has no strict validation/versioning and silently tolerates shape drift."
+      ],
+      "suggestion": "Define a shared typed schema (dataclass/Pydantic-style validation) for review-result payloads and validate on load before aggregation.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "unstable_inter_module_contracts"
+    },
+    {
+      "dimension": "dependency_health",
+      "identifier": "hardcoded_home_path_dependency",
+      "summary": "Reviewer state storage is coupled to a hardcoded `~/.claude` path, reducing portability and reproducibility.",
+      "related_files": [
+        "fando-plan/scripts/dspy_reviewers.py",
+        "fando-plan/scripts/run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "`SKILL_DIR = Path(\"~/.claude/skills/fando-plan\").expanduser()` is fixed at import time.",
+        "Optimized/training state load-save behavior depends on that path and implicit file layout, but CLI in `run_parallel_reviews.py` does not expose configuration for this dependency."
+      ],
+      "suggestion": "Inject state directories via CLI/env/config with repository-local defaults, and centralize dependency path resolution in one configuration module.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "environment_coupling"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Inter-module communication favors ad-hoc text/dict payloads over stable typed contracts.",
+      "Backend-specific branches evolved in parallel without a unifying orchestration abstraction.",
+      "Runtime state dependencies are encoded as implicit environment conventions instead of explicit configuration."
+    ],
+    "likely_symptoms": [
+      "structured_text_roundtrip_contract",
+      "dict_bag_interface_between_scripts",
+      "duplicated_parallel_orchestration"
+    ],
+    "possible_false_positives": []
+  }
+}

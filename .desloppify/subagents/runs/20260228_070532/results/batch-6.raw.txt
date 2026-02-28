@@ -1,0 +1,115 @@
+{
+  "batch": "Design coherence — Mechanical Concern Signals",
+  "batch_index": 6,
+  "assessments": {
+    "design_coherence": 72.0
+  },
+  "dimension_notes": {
+    "design_coherence": {
+      "evidence": [
+        "Multiple scripts combine reusable domain logic and CLI side effects in the same file (e.g., run_parallel_reviews.py has orchestration plus argparse/printing/exit handling; dspy_reviewers.py has domain signatures, optimization/training persistence helpers, and CLI; aggregate_findings.py and parse_* scripts follow same pattern).",
+        "Parallel review orchestration exists in two separate flows with duplicated counting/result-shaping logic (run_parallel_reviews() and run_parallel_reviews_dspy() in run_parallel_reviews.py), increasing drift risk when adding fields or changing aggregation semantics.",
+        "Domain taxonomy and behavior are split across independently-maintained registries (detect_profiles.PROFILES vs dspy_reviewers.DOMAIN_SIGNATURES), while backfill_training.py classification relies on PROFILES; this creates structural coupling through duplicated constants rather than a single domain model."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "design_coherence",
+      "identifier": "script_layer_collapse",
+      "summary": "Core logic and CLI concerns are repeatedly collapsed into single modules.",
+      "related_files": [
+        "fando-plan/scripts/run_parallel_reviews.py",
+        "fando-plan/scripts/dspy_reviewers.py",
+        "fando-plan/scripts/aggregate_findings.py",
+        "fando-plan/scripts/parse_findings.py",
+        "fando-verify/scripts/parse_verification.py"
+      ],
+      "evidence": [
+        "run_parallel_reviews.py defines reusable orchestration functions and also owns CLI argument parsing, output formatting, and process exit policy.",
+        "dspy_reviewers.py combines domain Signature definitions, runtime orchestration, training-data serialization, optimization state load/save, and CLI status commands in one module.",
+        "parse_findings.py and parse_verification.py each mix parser logic with command-line IO/exit behavior, making parser reuse tightly coupled to shell workflow."
+      ],
+      "suggestion": "Split each script into `core` (pure functions/data models), `adapters` (Codex/DSPy/git/process integrations), and thin `cli` entrypoints. Keep CLI files limited to argparse + invoking core APIs so behavior can evolve without cross-cutting edits.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "script_as_everything_pattern"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "dual_review_pipeline_drift",
+      "summary": "Two parallel review pipelines duplicate orchestration and aggregation responsibilities.",
+      "related_files": [
+        "fando-plan/scripts/run_parallel_reviews.py",
+        "fando-plan/scripts/call_codex.py",
+        "fando-plan/scripts/codex_lm.py",
+        "fando-plan/scripts/parse_findings.py"
+      ],
+      "evidence": [
+        "run_parallel_reviews.py implements both `run_parallel_reviews` (Codex path) and `run_parallel_reviews_dspy` (DSPy path), and both perform near-identical loops for per-profile results, parse_findings calls, and counter aggregation.",
+        "Codex invocation logic is split between `call_codex.py` and `codex_lm.py`, each building subprocess calls and error handling semantics separately for different call sites."
+      ],
+      "suggestion": "Introduce a single backend-agnostic reviewer runner interface (e.g., `ReviewerBackend.run(profile, plan) -> ReviewResult`) and one shared aggregation routine. Have Codex and DSPy backends implement only execution details.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "script_as_everything_pattern"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "duplicated_domain_registry",
+      "summary": "Domain definitions are duplicated across modules instead of centralized.",
+      "related_files": [
+        "fando-plan/scripts/detect_profiles.py",
+        "fando-plan/scripts/dspy_reviewers.py",
+        "fando-plan/scripts/backfill_training.py",
+        "fando-plan/scripts/optimize.py"
+      ],
+      "evidence": [
+        "detect_profiles.py owns `PROFILES` (keywords, display names, prompt files) while dspy_reviewers.py separately owns `DOMAIN_SIGNATURES` and related domain behavior.",
+        "backfill_training.py classifies findings by importing `PROFILES`, but optimize.py and runtime reviewer behavior are driven by `DOMAIN_SIGNATURES`, creating multiple sources of truth for what a domain is."
+      ],
+      "suggestion": "Create one domain registry module (domain id, labels, keyword sets, prompt/signature bindings, optimization eligibility) and import it everywhere to remove taxonomy drift.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "domain_model_fragmentation"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "policy_embedded_in_parsers",
+      "summary": "Parsing modules embed workflow policy decisions that belong to orchestration.",
+      "related_files": [
+        "fando-plan/scripts/parse_findings.py",
+        "fando-plan/scripts/run_parallel_reviews.py",
+        "fando-plan/scripts/aggregate_findings.py",
+        "fando-verify/scripts/parse_verification.py"
+      ],
+      "evidence": [
+        "parse_findings.py computes control-policy flags (`should_stop`, `stop_reason`) in addition to parsing tokens, which mixes interpretation policy with syntactic extraction.",
+        "run_parallel_reviews.py and aggregate_findings.py also compute readiness/outstanding policy (`has_outstanding_issues`) independently, creating overlapping decision layers."
+      ],
+      "suggestion": "Restrict parsers to structural extraction only (items/counts/errors) and move stop/approval policy into a dedicated orchestration policy module shared by plan and verification flows.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "script_as_everything_pattern"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Script-first implementation style led to accumulating unrelated responsibilities in single files.",
+      "Backend evolution (legacy Codex path + DSPy path) happened via additive duplication instead of introducing a stable runner abstraction.",
+      "Domain metadata grew organically in multiple places without a canonical registry."
+    ],
+    "likely_symptoms": [
+      "dual_review_pipeline_drift",
+      "policy_embedded_in_parsers"
+    ],
+    "possible_false_positives": []
+  }
+}

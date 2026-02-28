@@ -1,0 +1,99 @@
+{
+  "batch": "AI Debt & Migrations",
+  "batch_index": 4,
+  "assessments": {
+    "ai_generated_debt": 78.0,
+    "low_level_elegance": 81.0
+  },
+  "dimension_notes": {
+    "ai_generated_debt": {
+      "evidence": [
+        "`constants.py` marks path constants as deprecated but still defines `TRAINING_DIR_NAME`, `OPTIMIZED_DIR_NAME`, and `EXPORT_DIR_NAME` with no sunset mechanism, which preserves dual-path migration state.",
+        "`collect_training.py` redefines security-level choices inline instead of reusing `SECURITY_LEVELS`/`DEFAULT_SECURITY_LEVEL`, creating copy-paste policy drift.",
+        "Deprecation commentary in `constants.py` is extensive but not coupled to runtime warnings/tests that prevent new use, which is a common migration-stall pattern."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "low_level_elegance": {
+      "evidence": [
+        "`dspy_reviewers.py` computes `doc_first_line = (sig_cls.__doc__ or \"\").strip().splitlines()[0]`; empty docstrings cause `IndexError` in `--list-domains` path.",
+        "`collect_training.py` has duplicated file-read try/except blocks with near-identical error/exit handling, increasing local boilerplate and divergence risk.",
+        "`collect_training.py` and `constants.py` carry overlapping literal configuration (`security-level` enum), reducing single-source clarity at call sites."
+      ],
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "low_level_elegance",
+      "identifier": "duplicated_security_level_contract",
+      "summary": "Security-level enum is duplicated instead of reused from shared constants",
+      "related_files": [
+        "collect_training.py",
+        "constants.py"
+      ],
+      "evidence": [
+        "`collect_training.py` hardcodes `choices=[\"personal\", \"internal\", \"public\", \"enterprise\"]` and default `\"public\"` in argparse.",
+        "`constants.py` already defines `SECURITY_LEVELS` and `DEFAULT_SECURITY_LEVEL` for the same policy surface."
+      ],
+      "suggestion": "Import and use `SECURITY_LEVELS` and `DEFAULT_SECURITY_LEVEL` in `collect_training.py` to make CLI validation and shared policy a single source of truth.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "migration_contract_duplication"
+    },
+    {
+      "dimension": "low_level_elegance",
+      "identifier": "unsafe_docstring_indexing_in_cli",
+      "summary": "--list-domains can crash on empty signature docstrings",
+      "related_files": [
+        "dspy_reviewers.py",
+        "review_signatures.py"
+      ],
+      "evidence": [
+        "`dspy_reviewers.py` uses `.splitlines()[0]` when printing signature docs.",
+        "If any signature class in `review_signatures.py` has an empty/whitespace docstring, `splitlines()` is empty and indexing raises `IndexError`."
+      ],
+      "suggestion": "Guard with a fallback, e.g. `lines = (...).splitlines(); doc_first_line = lines[0] if lines else \"(no description)\"`.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "defensive_cli_output_handling"
+    },
+    {
+      "dimension": "ai_generated_debt",
+      "identifier": "deprecated_constants_without_retirement_path",
+      "summary": "Deprecated constants are retained as a live API with no enforced migration boundary",
+      "related_files": [
+        "constants.py",
+        "dspy_reviewers.py",
+        "collect_training.py"
+      ],
+      "evidence": [
+        "`constants.py` labels path constants as deprecated and says to use `paths.py`, but still exports and normalizes them as regular constants.",
+        "`dspy_reviewers.py` already consumes `paths.get_optimized_dir/get_training_dir`, showing partial migration to new path API.",
+        "No warning, alias shim, or removal timeline exists to prevent continued reads from deprecated constants."
+      ],
+      "suggestion": "Introduce a migration boundary: replace deprecated constants with explicit compatibility aliases that emit deprecation warnings, then remove internal usage and schedule deletion in one release window.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "migration_contract_duplication"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Configuration contracts are duplicated across modules instead of imported from a single policy source.",
+      "Migration intent is documented but not enforced through code-level boundaries or deprecation mechanics."
+    ],
+    "likely_symptoms": [
+      "duplicated_security_level_contract",
+      "deprecated_constants_without_retirement_path"
+    ],
+    "possible_false_positives": []
+  }
+}

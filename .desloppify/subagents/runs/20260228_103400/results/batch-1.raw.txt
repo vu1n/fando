@@ -1,0 +1,113 @@
+{
+  "batch": "Conventions & Errors",
+  "batch_index": 1,
+  "assessments": {
+    "error_consistency": 72.0
+  },
+  "dimension_notes": {
+    "error_consistency": {
+      "evidence": [
+        "Codex execution failures are surfaced with incompatible contracts across sibling modules: `call_codex.call_codex()` returns `CodexResult.error`, while `codex_lm.CodexLM.forward()` raises `RuntimeError` for the same subprocess failure classes.",
+        "`dspy_reviewers.run_dspy_review()` captures all reviewer exceptions into result values, then `prediction_to_review_output()` converts exceptions into free-form text (`DSPY_EXECUTION_FAILED`) instead of a structured failure object, making downstream handling format-dependent.",
+        "`collect_training.py` and `backfill_training.py` perform direct `read_text()` I/O without CLI-level error translation, while `find_plan.py`/`parse_verification.py` explicitly convert failures into user-facing error payloads and exit codes."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "error_consistency",
+      "identifier": "codex_boundary_mixed_error_contracts",
+      "summary": "Codex subprocess failures use conflicting contracts across shared call paths.",
+      "related_files": [
+        "fando-plan/scripts/call_codex.py",
+        "fando-plan/scripts/codex_lm.py",
+        "fando-plan/scripts/dspy_reviewers.py"
+      ],
+      "evidence": [
+        "`call_codex.py` models failures as data (`CodexResult.error` and `(None, error)` tuple from `run_codex_subprocess`).",
+        "`codex_lm.py` wraps the same subprocess classes (`TimeoutExpired`, `FileNotFoundError`, non-zero return code) as raised `RuntimeError` exceptions.",
+        "`dspy_reviewers.run_dspy_review()` then catches broad exceptions and stores them as values, creating a third failure channel."
+      ],
+      "suggestion": "Define one shared error contract for Codex invocation (for example, a typed `CodexExecutionError` hierarchy or a single Result object), and update `call_codex`, `CodexLM`, and DSPy orchestration to propagate that contract unchanged.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "codex_error_contract_drift"
+    },
+    {
+      "dimension": "error_consistency",
+      "identifier": "exception_to_text_smuggling",
+      "summary": "Reviewer execution exceptions are smuggled into normal review text output.",
+      "related_files": [
+        "fando-plan/scripts/dspy_reviewers.py",
+        "fando-plan/scripts/collect_training.py",
+        "fando-plan/scripts/backfill_training.py"
+      ],
+      "evidence": [
+        "`run_dspy_review()` captures exceptions into `results[profile]` instead of failing fast or returning structured failure metadata.",
+        "`prediction_to_review_output()` converts exceptions into a synthetic markdown payload (`Error: DSPY_EXECUTION_FAILED: ...`) in the summary block, not a typed error object.",
+        "Training collection/backfill paths ingest review text as data, so this design can blend runtime failures with model content rather than enforcing an explicit failure boundary."
+      ],
+      "suggestion": "Return a structured per-profile status object (e.g., `{ok: bool, prediction, error_code, error_message}`) and make downstream collectors reject/branch on `ok == false` instead of parsing error text from markdown.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "codex_error_contract_drift"
+    },
+    {
+      "dimension": "error_consistency",
+      "identifier": "cli_io_error_handling_gap",
+      "summary": "CLI scripts inconsistently handle file I/O failures at boundaries.",
+      "related_files": [
+        "fando-plan/scripts/collect_training.py",
+        "fando-plan/scripts/backfill_training.py",
+        "fando-verify/scripts/find_plan.py"
+      ],
+      "evidence": [
+        "`collect_training.py` reads `plan_before`/`plan_after` with `read_text()` without handling `OSError`/decode failures, so failures escape as tracebacks.",
+        "`backfill_training.py` parser helpers (`parse_zellij_bridge`, `parse_jj_workspace`) call `read_text()` without localized error translation.",
+        "`find_plan.py` handles read failures explicitly and returns user-readable error messages, showing a different boundary policy for similar filesystem operations."
+      ],
+      "suggestion": "Add consistent boundary wrappers for file reads in the plan/training CLIs that catch `OSError` and decode errors, emit standardized error messages, and exit with predictable codes.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "boundary_io_policy_inconsistency"
+    },
+    {
+      "dimension": "error_consistency",
+      "identifier": "silent_fallback_masks_optimized_load_failures",
+      "summary": "Optimized-module load failures are downgraded to silent fallback behavior.",
+      "related_files": [
+        "fando-plan/scripts/dspy_reviewers.py",
+        "fando-plan/scripts/optimize.py"
+      ],
+      "evidence": [
+        "`load_optimized_module()` catches broad exceptions and returns `None`, including unexpected loader failures.",
+        "`run_dspy_review()` treats `None` as normal and silently continues with unoptimized modules when `use_optimized=True`.",
+        "This creates a hidden runtime mode switch (optimized -> baseline) without surfacing an actionable failure to callers."
+      ],
+      "suggestion": "Differentiate not-found vs load-failed outcomes (e.g., enum/status object), and propagate load-failed as a surfaced warning/error path so callers can choose fail-fast or explicit degraded-mode execution.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "codex_error_contract_drift"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "No shared cross-script failure contract for subprocess and I/O boundaries.",
+      "Markdown/text is used as an implicit transport for runtime failure state."
+    ],
+    "likely_symptoms": [
+      "codex_boundary_mixed_error_contracts",
+      "exception_to_text_smuggling",
+      "cli_io_error_handling_gap",
+      "silent_fallback_masks_optimized_load_failures"
+    ],
+    "possible_false_positives": []
+  }
+}

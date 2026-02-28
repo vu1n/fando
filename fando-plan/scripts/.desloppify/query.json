@@ -1,0 +1,462 @@
+{
+  "command": "issues",
+  "action": "list",
+  "count": 26,
+  "items": [
+    {
+      "id": "review::.::holistic::cross_module_architecture::split_path_contract_source::5426217e",
+      "summary": "Path schema is owned by both `constants.py` and `paths.py`, leaving a persistent dual-contract boundary.",
+      "dimension": "cross_module_architecture",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::design_coherence::duplicated_result_schema_contract::247cf526",
+      "summary": "Result-shape construction and interpretation are duplicated in multiple modules, creating fragile implicit contracts.",
+      "dimension": "design_coherence",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::design_coherence::import_time_annotation_crash::30b27da8",
+      "summary": "Runtime-evaluated annotations crash two CLI modules at import time",
+      "dimension": "design_coherence",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::design_coherence::systemic_orchestration_boundary_blur::eeb3b626",
+      "summary": "Review orchestration responsibilities are spread across transport, execution, formatting, and exit-policy layers without a clean boundary.",
+      "dimension": "design_coherence",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::error_consistency::backend_error_contract_drift::060bc9a8",
+      "summary": "Codex and DSPy paths encode failures with incompatible error contracts",
+      "dimension": "error_consistency",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::error_consistency::mixed_error_contracts_with_context_loss::e4adea13",
+      "summary": "Review pipeline mixes exception, sentinel, and string-error flows, dropping diagnostic context",
+      "dimension": "error_consistency",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::high_level_elegance::review_domain_ownership_split::0efc29fb",
+      "summary": "Reviewer-domain ownership is fragmented across separate top-level modules without a single authority.",
+      "dimension": "high_level_elegance",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::low_level_elegance::duplicated_security_level_contract::70aaf03d",
+      "summary": "Security-level enum is duplicated instead of reused from shared constants",
+      "dimension": "low_level_elegance",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::low_level_elegance::import_time_annotation_breakage::b57576cb",
+      "summary": "Forward-referenced annotations and missing symbols make `run_parallel_reviews.py` fail at import time.",
+      "dimension": "low_level_elegance",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::low_level_elegance::unsafe_docstring_indexing_in_cli::901c59d9",
+      "summary": "--list-domains can crash on empty signature docstrings",
+      "dimension": "low_level_elegance",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::mid_level_elegance::cli_flags_do_not_control_behavior::664a9ca0",
+      "summary": "Aggregation CLI exposes options that are currently no-ops.",
+      "dimension": "mid_level_elegance",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::mid_level_elegance::cwd_dependent_storage_seam::1a48337c",
+      "summary": "Path resolution relies on ambient cwd, creating non-explicit integration seams across consumers.",
+      "dimension": "mid_level_elegance",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::package_organization::flat_root_mixed_concerns::39b1baa3",
+      "summary": "Single-level 20-file root mixes runtime, parsing, security, and training concerns",
+      "dimension": "package_organization",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::package_organization::flat_root_mixed_domains::026d0466",
+      "summary": "Root directory is overloaded with mixed-domain modules, obscuring ownership boundaries.",
+      "dimension": "package_organization",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::package_organization::library_cli_cohabitation::0620eece",
+      "summary": "Core library modules embed CLI entrypoints, blurring file placement and reuse boundaries.",
+      "dimension": "package_organization",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::test_strategy::critical_paths_untested::2e3f6089",
+      "summary": "No test suite covers parsing, orchestration, or secret-detection critical paths",
+      "dimension": "test_strategy",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::test_strategy::missing_coverage_for_core_path_and_cli_contracts::de9a7101",
+      "summary": "Critical path and facade CLI behavior are untested despite high reuse and branching behavior.",
+      "dimension": "test_strategy",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::abstraction_fitness::dual_parsing_abstractions::b63cf460",
+      "summary": "Two independent finding-parsing abstractions duplicate rules and drift risk",
+      "dimension": "abstraction_fitness",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::ai_generated_debt::deprecated_constants_without_retirement_path::114bb779",
+      "summary": "Deprecated constants are retained as a live API with no enforced migration boundary",
+      "dimension": "ai_generated_debt",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::cross_module_architecture::cwd_driven_path_policy::780d8060",
+      "summary": "Global path resolution depends on caller working directory, creating implicit cross-module coupling.",
+      "dimension": "cross_module_architecture",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::dependency_health::private_parser_dependency::e02341af",
+      "summary": "Training storage depends on a private parsing helper, creating fragile module coupling.",
+      "dimension": "dependency_health",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::design_coherence::backfill_etl_pipeline_duplication::65fc35a1",
+      "summary": "Backfill parsing paths duplicate the same transformation pipeline instead of using reusable extraction/mapping stages.",
+      "dimension": "design_coherence",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::design_coherence::mixed_domain_and_presentation_logic::b0c21b72",
+      "summary": "Core analysis modules mix domain computation with user-facing rendering, reducing composability.",
+      "dimension": "design_coherence",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::high_level_elegance::adapter_and_bootstrap_conflation::4ca00420",
+      "summary": "`CodexLM` combines adapter behavior with bootstrap checks, reducing ownership clarity.",
+      "dimension": "high_level_elegance",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::high_level_elegance::orphan_tooling_at_core_layer::43ed37d8",
+      "summary": "Zero-fan-in tooling modules share the same architectural layer as core review runtime.",
+      "dimension": "high_level_elegance",
+      "investigated": false
+    },
+    {
+      "id": "review::.::holistic::mid_level_elegance::inconsistent_optional_dependency_boundary::9bb1cddb",
+      "summary": "Facade exposes mixed failure timing for missing DSPy, making boundary behavior unpredictable.",
+      "dimension": "mid_level_elegance",
+      "investigated": false
+    }
+  ],
+  "next_command": "desloppify issues show 1",
+  "narrative": {
+    "phase": "early_momentum",
+    "headline": "\u26a0 10 security findings \u2014 review before other cleanup. Score 56.8/100 with 107 findings open. Keep the momentum going. (26 review findings \u2014 run `desloppify issues`)",
+    "dimensions": {
+      "lowest_dimensions": [
+        {
+          "name": "Test health",
+          "strict": 6.7,
+          "issues": 18,
+          "impact": 0.0
+        },
+        {
+          "name": "Structure nav",
+          "strict": 41.2,
+          "issues": 3,
+          "impact": 0.0,
+          "subjective": true,
+          "impact_description": "re-review to improve"
+        },
+        {
+          "name": "Test strategy",
+          "strict": 48.6,
+          "issues": 2,
+          "impact": 0.0,
+          "subjective": true,
+          "impact_description": "re-review to improve"
+        }
+      ],
+      "biggest_gap_dimensions": [],
+      "stagnant_dimensions": [
+        {
+          "name": "File health",
+          "strict": 82.5,
+          "stuck_scans": 3
+        },
+        {
+          "name": "Code quality",
+          "strict": 83.5,
+          "stuck_scans": 3
+        },
+        {
+          "name": "Duplication",
+          "strict": 100.0,
+          "stuck_scans": 3
+        },
+        {
+          "name": "Security",
+          "strict": 91.5,
+          "stuck_scans": 3
+        }
+      ]
+    },
+    "actions": [
+      {
+        "type": "issue_queue",
+        "detector": "review",
+        "count": 26,
+        "description": "26 review findings need investigation \u2014 run `desloppify issues` to see the work queue",
+        "command": "desloppify issues",
+        "impact": 0.0,
+        "dimension": "Unknown",
+        "priority": 1,
+        "lane": "refactor_0"
+      },
+      {
+        "type": "reorganize",
+        "detector": "orphaned",
+        "count": 7,
+        "description": "7 orphaned findings \u2014 delete dead files or relocate with `desloppify move`",
+        "command": "desloppify show orphaned --status open",
+        "impact": 0.0,
+        "dimension": "Code quality",
+        "priority": 2,
+        "lane": "restructure"
+      },
+      {
+        "type": "reorganize",
+        "detector": "flat_dirs",
+        "count": 1,
+        "description": "1 flat_dirs findings \u2014 create subdirectories and use `desloppify move`",
+        "command": "desloppify show flat_dirs --status open",
+        "impact": 0.0,
+        "dimension": "Code quality",
+        "priority": 3,
+        "lane": "restructure"
+      },
+      {
+        "type": "refactor",
+        "detector": "structural",
+        "count": 5,
+        "description": "5 structural findings \u2014 decompose large files \u2014 extract logic into focused modules",
+        "command": "desloppify show structural --status open",
+        "impact": 0.0,
+        "dimension": "File health",
+        "priority": 4,
+        "lane": "refactor_1"
+      },
+      {
+        "type": "refactor",
+        "detector": "dict_keys",
+        "count": 9,
+        "description": "9 dict_keys findings \u2014 fix dict key mismatches \u2014 dead writes are likely dead code, schema drift suggests a typo or missed rename",
+        "command": "desloppify show dict_keys --status open",
+        "impact": 0.0,
+        "dimension": "Code quality",
+        "priority": 5,
+        "lane": "refactor_1"
+      },
+      {
+        "type": "refactor",
+        "detector": "test_coverage",
+        "count": 18,
+        "description": "18 test_coverage findings \u2014 add tests for untested production modules \u2014 prioritize by import count",
+        "command": "desloppify show test_coverage --status open",
+        "impact": 0.0,
+        "dimension": "Test health",
+        "priority": 6,
+        "lane": "test_coverage"
+      },
+      {
+        "type": "refactor",
+        "detector": "responsibility_cohesion",
+        "count": 1,
+        "description": "1 responsibility_cohesion findings \u2014 split modules with too many responsibilities \u2014 extract focused sub-modules",
+        "command": "desloppify show responsibility_cohesion --status open",
+        "impact": 0.0,
+        "dimension": "Code quality",
+        "priority": 7,
+        "lane": "refactor_1"
+      },
+      {
+        "type": "manual_fix",
+        "detector": "smells",
+        "count": 30,
+        "description": "30 smells findings \u2014 inspect with `desloppify next` and fix manually",
+        "command": "desloppify show smells --status open",
+        "impact": 0.0,
+        "dimension": "Code quality",
+        "priority": 8,
+        "lane": "refactor_1"
+      },
+      {
+        "type": "manual_fix",
+        "detector": "security",
+        "count": 10,
+        "description": "10 security findings \u2014 review and fix security findings \u2014 prioritize by severity",
+        "command": "desloppify show security --status open",
+        "impact": 0.0,
+        "dimension": "Security",
+        "priority": 9,
+        "lane": "refactor_1"
+      }
+    ],
+    "strategy": {
+      "fixer_leverage": {
+        "auto_fixable_count": 0,
+        "total_count": 159,
+        "coverage": 0.0,
+        "impact_ratio": 0.0,
+        "recommendation": "none"
+      },
+      "lanes": {
+        "restructure": {
+          "actions": [
+            2,
+            3
+          ],
+          "file_count": 8,
+          "total_impact": 0.0,
+          "automation": "manual",
+          "run_first": false
+        },
+        "refactor_0": {
+          "actions": [
+            1
+          ],
+          "file_count": 1,
+          "total_impact": 0.0,
+          "automation": "manual",
+          "run_first": false
+        },
+        "refactor_1": {
+          "actions": [
+            4,
+            5,
+            7,
+            8,
+            9
+          ],
+          "file_count": 16,
+          "total_impact": 0.0,
+          "automation": "manual",
+          "run_first": false
+        },
+        "test_coverage": {
+          "actions": [
+            6
+          ],
+          "file_count": 18,
+          "total_impact": 0.0,
+          "automation": "manual",
+          "run_first": false
+        }
+      },
+      "can_parallelize": true,
+      "hint": "4 independent workstreams, safe to parallelize. Rescan after each phase to verify. Review: 26 finding(s) \u2014 `desloppify issues`."
+    },
+    "tools": {
+      "fixers": [
+        {
+          "name": "dead-useeffect",
+          "detector": "smells",
+          "open_count": 30,
+          "command": "desloppify fix dead-useeffect --dry-run"
+        },
+        {
+          "name": "empty-if-chain",
+          "detector": "smells",
+          "open_count": 30,
+          "command": "desloppify fix empty-if-chain --dry-run"
+        }
+      ],
+      "move": {
+        "available": true,
+        "relevant": true,
+        "reason": "7 orphaned files + 1 flat directories",
+        "usage": "desloppify move <source> <dest> [--dry-run]"
+      },
+      "plan": {
+        "command": "desloppify plan",
+        "description": "Generate prioritized markdown cleanup plan"
+      },
+      "badge": {
+        "generated": true,
+        "in_readme": false,
+        "path": "scorecard.png",
+        "recommendation": "Add to README: <img src=\"scorecard.png\" width=\"100%\">"
+      }
+    },
+    "debt": {
+      "overall_gap": 0.0,
+      "wontfix_count": 0,
+      "worst_dimension": null,
+      "worst_gap": 0.0,
+      "trend": "stable"
+    },
+    "milestone": null,
+    "primary_action": {
+      "command": "desloppify issues",
+      "description": "26 review findings need investigation \u2014 run `desloppify issues` to see the work queue"
+    },
+    "why_now": "4 independent workstreams, safe to parallelize. Rescan after each phase to verify. Review: 26 finding(s) \u2014 `desloppify issues`.",
+    "verification_step": {
+      "command": "desloppify scan",
+      "reason": "revalidate after changes"
+    },
+    "risk_flags": [],
+    "strict_target": {
+      "target": 95.0,
+      "current": 56.8,
+      "gap": 38.2,
+      "state": "below",
+      "warning": null
+    },
+    "reminders": [
+      {
+        "type": "review_findings_pending",
+        "message": "26 review finding(s) need investigation. Run `desloppify issues` to see the work queue.",
+        "command": "desloppify issues",
+        "priority": 1,
+        "severity": "high"
+      }
+    ],
+    "reminder_history": {
+      "report_scores": 2,
+      "review_findings_pending": 2,
+      "stagnant_nudge": 4,
+      "feedback_nudge": 1
+    }
+  },
+  "config": {
+    "target_strict_score": 95,
+    "review_max_age_days": 30,
+    "review_batch_max_files": 80,
+    "holistic_max_age_days": 30,
+    "generate_scorecard": true,
+    "badge_path": "scorecard.png",
+    "exclude": [],
+    "ignore": [],
+    "ignore_metadata": {},
+    "zone_overrides": {},
+    "review_dimensions": [],
+    "large_files_threshold": 0,
+    "props_threshold": 0,
+    "finding_noise_budget": 10,
+    "finding_noise_global_budget": 0,
+    "languages": {}
+  }
+}

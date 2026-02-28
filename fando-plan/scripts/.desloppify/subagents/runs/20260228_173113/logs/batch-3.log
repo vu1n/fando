@@ -1,0 +1,509 @@
+ATTEMPT 1/2
+$ codex exec --ephemeral -C /Users/vuln/code/fando/fando-plan/scripts -s workspace-write -c approval_policy="never" -c model_reasoning_effort="low" -o /Users/vuln/code/fando/fando-plan/scripts/.desloppify/subagents/runs/20260228_173113/results/batch-3.raw.txt You are a focused subagent reviewer for a single holistic investigation batch.
+
+Repository root: /Users/vuln/code/fando/fando-plan/scripts
+Blind packet: /Users/vuln/code/fando/fando-plan/scripts/.desloppify/review_packet_blind.json
+Batch index: 3
+Batch name: Testing & API
+Batch dimensions: test_strategy, mid_level_elegance
+Batch rationale: critical untested paths, API inconsistency
+
+Files assigned:
+- paths.py
+- dspy_reviewers.py
+
+Task requirements:
+1. Read the blind packet and follow `system_prompt` constraints exactly.
+1a. If previously flagged issues are listed above, use them as context for your review.
+    Verify whether each still applies to the current code. Do not re-report fixed or
+    wontfix issues. Use them as starting points to look deeper — inspect adjacent code
+    and related modules for defects the prior review may have missed.
+1c. Think structurally: when you spot multiple individual issues that share a common
+    root cause (missing abstraction, duplicated pattern, inconsistent convention),
+    explain the deeper structural issue in the finding, not just the surface symptom.
+    If the pattern is significant enough, report the structural issue as its own finding
+    with appropriate fix_scope ('multi_file_refactor' or 'architectural_change') and
+    use `root_cause_cluster` to connect related symptom findings together.
+2. Evaluate ONLY listed files and ONLY listed dimensions for this batch.
+3. Return 0-10 high-quality findings for this batch (empty array allowed).
+3a. Do not suppress real defects to keep scores high; report every material issue you can support with evidence.
+3b. Do not default to 100. Reserve 100 for genuinely exemplary evidence in this batch.
+4. Score/finding consistency is required: broader or more severe findings MUST lower dimension scores.
+4a. Any dimension scored below 85.0 MUST include explicit feedback: add at least one finding with the same `dimension` and a non-empty actionable `suggestion`.
+5. Every finding must include `related_files` with at least 2 files when possible.
+6. Every finding must include `dimension`, `identifier`, `summary`, `evidence`, `suggestion`, and `confidence`.
+7. Every finding must include `impact_scope` and `fix_scope`.
+8. Every scored dimension MUST include dimension_notes with concrete evidence.
+9. If a dimension score is >85.0, include `issues_preventing_higher_score` in dimension_notes.
+10. Use exactly one decimal place for every assessment and abstraction sub-axis score.
+11. Ignore prior chat context and any target-threshold assumptions.
+12. Do not edit repository files.
+13. Return ONLY valid JSON, no markdown fences.
+
+Scope enums:
+- impact_scope: "local" | "module" | "subsystem" | "codebase"
+- fix_scope: "single_edit" | "multi_file_refactor" | "architectural_change"
+
+Output schema:
+{
+  "batch": "Testing & API",
+  "batch_index": 3,
+  "assessments": {"<dimension>": <0-100 with one decimal place>},
+  "dimension_notes": {
+    "<dimension>": {
+      "evidence": ["specific code observations"],
+      "impact_scope": "local|module|subsystem|codebase",
+      "fix_scope": "single_edit|multi_file_refactor|architectural_change",
+      "confidence": "high|medium|low",
+      "issues_preventing_higher_score": "required when score >85.0",
+      "sub_axes": {"abstraction_leverage": 0-100 with one decimal place, "indirection_cost": 0-100 with one decimal place, "interface_honesty": 0-100 with one decimal place}  // required for abstraction_fitness when evidence supports it
+    }
+  },
+  "findings": [{
+    "dimension": "<dimension>",
+    "identifier": "short_id",
+    "summary": "one-line defect summary",
+    "related_files": ["relative/path.py"],
+    "evidence": ["specific code observation"],
+    "suggestion": "concrete fix recommendation",
+    "confidence": "high|medium|low",
+    "impact_scope": "local|module|subsystem|codebase",
+    "fix_scope": "single_edit|multi_file_refactor|architectural_change",
+    "root_cause_cluster": "optional_cluster_name_when_supported_by_history"
+  }],
+  "retrospective": {
+    "root_causes": ["optional: concise root-cause hypotheses"],
+    "likely_symptoms": ["optional: identifiers that look symptom-level"],
+    "possible_false_positives": ["optional: prior concept keys likely mis-scoped"]
+  }
+}
+
+
+STDOUT:
+{
+  "batch": "Testing & API",
+  "batch_index": 3,
+  "assessments": {
+    "test_strategy": 62.0,
+    "mid_level_elegance": 74.0
+  },
+  "dimension_notes": {
+    "test_strategy": {
+      "evidence": [
+        "No test files were found in the repository for the assigned modules (`fd -HI \"test|tests|pytest\"` returned no matches).",
+        "`paths.py` is a high-fan-in module (5 importers in packet context) with behavior branches for env overrides and cwd/home fallback, but no verification of branch matrix.",
+        "`dspy_reviewers.py` exposes user-facing CLI paths (`--check`, `--list-domains`, `--stats`) and optional-dependency behavior without tests for no-DSPy, empty training set, or malformed training data cases."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "mid_level_elegance": {
+      "evidence": [
+        "`paths._get_base_claude_dir()` derives storage root from `Path.cwd()` (`paths.py:34-39`), so module behavior depends on process launch directory rather than explicit configuration.",
+        "`dspy_reviewers.main()` and transitive runtime/training calls consume path helpers implicitly (`dspy_reviewers.py:97,160-165`), coupling CLI/runtime seams to ambient cwd and making integration behavior non-obvious.",
+        "Optional DSPy handling uses mixed seam contracts: `dspy_reviewers.py` conditionally binds some symbols at import time (`lines 51-66`) while `run_dspy_review` fails later at call time in `review_runtime.py:112-113`."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "medium"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "test_strategy",
+      "identifier": "missing_coverage_for_core_path_and_cli_contracts",
+      "summary": "Critical path and facade CLI behavior are untested despite high reuse and branching behavior.",
+      "related_files": [
+        "paths.py",
+        "dspy_reviewers.py"
+      ],
+      "evidence": [
+        "`paths.py` contains multiple behavior branches (env overrides plus cwd/home fallback) with no tests validating precedence or portability outcomes.",
+        "`dspy_reviewers.py` contains CLI flows (`--check`, `--list-domains`, `--stats`) and optional dependency states, but no tests assert outputs or failure behavior.",
+        "Repository scan found no test files covering these modules."
+      ],
+      "suggestion": "Add a focused pytest suite: (1) parametrize `paths.py` over env/cwd/home combinations, (2) test `dspy_reviewers.main()` via argv monkeypatch and captured stdout for each flag, and (3) add one integration test that runs `--stats` with temporary training data directory wiring.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "implicit_runtime_context"
+    },
+    {
+      "dimension": "mid_level_elegance",
+      "identifier": "cwd_dependent_storage_seam",
+      "summary": "Path resolution relies on ambient cwd, creating non-explicit integration seams across consumers.",
+      "related_files": [
+        "paths.py",
+        "dspy_reviewers.py"
+      ],
+      "evidence": [
+        "`_get_base_claude_dir()` checks `Path.cwd() / '.claude'` first (`paths.py:34-36`) and otherwise falls back to home (`paths.py:39`).",
+        "Downstream entry points consume this implicitly through `get_training_dir()` and related helpers (`dspy_reviewers.py:97,160-165`), so identical commands can read/write different locations depending on launch directory."
+      ],
+      "suggestion": "Refactor path resolution to a single explicit root input (e.g., env var or injected base dir object) and have CLI/runtime pass that root explicitly; keep cwd fallback only as a thin compatibility path with a deprecation boundary.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "implicit_runtime_context"
+    },
+    {
+      "dimension": "mid_level_elegance",
+      "identifier": "inconsistent_optional_dependency_boundary",
+      "summary": "Facade exposes mixed failure timing for missing DSPy, making boundary behavior unpredictable.",
+      "related_files": [
+        "dspy_reviewers.py",
+        "review_runtime.py"
+      ],
+      "evidence": [
+        "`dspy_reviewers.py` conditionally imports/binds some DSPy symbols at import time (`lines 51-66`), but still re-exports runtime functions unconditionally (`line 69`).",
+        "`run_dspy_review()` raises ImportError at call time when DSPy is absent (`review_runtime.py:112-113`), creating a different failure mode than missing import-time symbols."
+      ],
+      "suggestion": "Define one explicit optional-dependency contract at the facade boundary: either always expose stubs that raise a consistent custom error on use, or gate all DSPy-dependent exports behind a single capability object/function so import-time and call-time behavior are uniform.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "implicit_runtime_context"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Heavy reliance on ambient process context (cwd, optional package presence) instead of explicit boundary contracts.",
+      "Facade/orchestration code evolved without matching test harnesses for branchy runtime states."
+    ],
+    "likely_symptoms": [
+      "missing_coverage_for_core_path_and_cli_contracts",
+      "cwd_dependent_storage_seam",
+      "inconsistent_optional_dependency_boundary"
+    ],
+    "possible_false_positives": []
+  }
+}
+
+
+STDERR:
+OpenAI Codex v0.106.0 (research preview)
+--------
+workdir: /Users/vuln/code/fando/fando-plan/scripts
+model: gpt-5.3-codex
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: low
+reasoning summaries: none
+session id: 019ca54d-ef29-7ff2-a454-a9601ac00233
+--------
+user
+You are a focused subagent reviewer for a single holistic investigation batch.
+
+Repository root: /Users/vuln/code/fando/fando-plan/scripts
+Blind packet: /Users/vuln/code/fando/fando-plan/scripts/.desloppify/review_packet_blind.json
+Batch index: 3
+Batch name: Testing & API
+Batch dimensions: test_strategy, mid_level_elegance
+Batch rationale: critical untested paths, API inconsistency
+
+Files assigned:
+- paths.py
+- dspy_reviewers.py
+
+Task requirements:
+1. Read the blind packet and follow `system_prompt` constraints exactly.
+1a. If previously flagged issues are listed above, use them as context for your review.
+    Verify whether each still applies to the current code. Do not re-report fixed or
+    wontfix issues. Use them as starting points to look deeper — inspect adjacent code
+    and related modules for defects the prior review may have missed.
+1c. Think structurally: when you spot multiple individual issues that share a common
+    root cause (missing abstraction, duplicated pattern, inconsistent convention),
+    explain the deeper structural issue in the finding, not just the surface symptom.
+    If the pattern is significant enough, report the structural issue as its own finding
+    with appropriate fix_scope ('multi_file_refactor' or 'architectural_change') and
+    use `root_cause_cluster` to connect related symptom findings together.
+2. Evaluate ONLY listed files and ONLY listed dimensions for this batch.
+3. Return 0-10 high-quality findings for this batch (empty array allowed).
+3a. Do not suppress real defects to keep scores high; report every material issue you can support with evidence.
+3b. Do not default to 100. Reserve 100 for genuinely exemplary evidence in this batch.
+4. Score/finding consistency is required: broader or more severe findings MUST lower dimension scores.
+4a. Any dimension scored below 85.0 MUST include explicit feedback: add at least one finding with the same `dimension` and a non-empty actionable `suggestion`.
+5. Every finding must include `related_files` with at least 2 files when possible.
+6. Every finding must include `dimension`, `identifier`, `summary`, `evidence`, `suggestion`, and `confidence`.
+7. Every finding must include `impact_scope` and `fix_scope`.
+8. Every scored dimension MUST include dimension_notes with concrete evidence.
+9. If a dimension score is >85.0, include `issues_preventing_higher_score` in dimension_notes.
+10. Use exactly one decimal place for every assessment and abstraction sub-axis score.
+11. Ignore prior chat context and any target-threshold assumptions.
+12. Do not edit repository files.
+13. Return ONLY valid JSON, no markdown fences.
+
+Scope enums:
+- impact_scope: "local" | "module" | "subsystem" | "codebase"
+- fix_scope: "single_edit" | "multi_file_refactor" | "architectural_change"
+
+Output schema:
+{
+  "batch": "Testing & API",
+  "batch_index": 3,
+  "assessments": {"<dimension>": <0-100 with one decimal place>},
+  "dimension_notes": {
+    "<dimension>": {
+      "evidence": ["specific code observations"],
+      "impact_scope": "local|module|subsystem|codebase",
+      "fix_scope": "single_edit|multi_file_refactor|architectural_change",
+      "confidence": "high|medium|low",
+      "issues_preventing_higher_score": "required when score >85.0",
+      "sub_axes": {"abstraction_leverage": 0-100 with one decimal place, "indirection_cost": 0-100 with one decimal place, "interface_honesty": 0-100 with one decimal place}  // required for abstraction_fitness when evidence supports it
+    }
+  },
+  "findings": [{
+    "dimension": "<dimension>",
+    "identifier": "short_id",
+    "summary": "one-line defect summary",
+    "related_files": ["relative/path.py"],
+    "evidence": ["specific code observation"],
+    "suggestion": "concrete fix recommendation",
+    "confidence": "high|medium|low",
+    "impact_scope": "local|module|subsystem|codebase",
+    "fix_scope": "single_edit|multi_file_refactor|architectural_change",
+    "root_cause_cluster": "optional_cluster_name_when_supported_by_history"
+  }],
+  "retrospective": {
+    "root_causes": ["optional: concise root-cause hypotheses"],
+    "likely_symptoms": ["optional: identifiers that look symptom-level"],
+    "possible_false_positives": ["optional: prior concept keys likely mis-scoped"]
+  }
+}
+
+mcp: morph-mcp starting
+mcp: exa starting
+mcp: playwright starting
+mcp: context7 starting
+mcp: context7 ready
+mcp: exa ready
+mcp: morph-mcp ready
+mcp: playwright ready
+mcp startup: ready: context7, exa, morph-mcp, playwright
+
+thinking
+**Starting search with warpgrep**
+codex
+Reviewing the blind packet plus `paths.py` and `dspy_reviewers.py` for only `test_strategy` and `mid_level_elegance`. I’ll first load the packet constraints and inspect the two files, then produce JSON-only findings with score consistency.
+tool morph-mcp.warpgrep_codebase_search({"repo_path":"/Users/vuln/code/fando/fando-plan/scripts","search_string":"Locate and summarize the structure and key functions in paths.py and dspy_reviewers.py, including any tests, API boundaries, and patterns affecting test strategy or mid-level elegance."})
+morph-mcp.warpgrep_codebase_search({"repo_path":"/Users/vuln/code/fando/fando-plan/scripts","search_string":"Locate and summarize the structure and key functions in paths.py and dspy_reviewers.py, including any tests, API boundaries, and patterns affecting test strategy or mid-level elegance."}) success in 3.42s:
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Morph Fast Context subagent performed search on repository:\n\nRelevant context found:\n- paths.py:*\n- dspy_reviewers.py:*\n- review_signatures.py:*\n- review_module.py:*\n- review_runtime.py:*\n- review_conversion.py:*\n- training_metric.py:*\n- training_store.py:*\n\nHere is the content of files:\n\n<file path=\"paths.py\">\n1| #!/usr/bin/env python3\n2| \"\"\"\n3| paths.py - Centralized path configuration for fando-plan\n4| \n5| Provides configurable paths with environment variable overrides and\n6| repository-local defaults for better portability and reproducibility.\n7| \n8| Usage:\n9|     from paths import get_skill_dir, get_training_dir, get_plan_reviews_dir\n10| \n11|     skill_dir = get_skill_dir()\n12|     training_dir = get_training_dir()\n13| \n14| Environment Variables:\n15|     FANDO_SKILL_DIR: Override path for skill/optimized/training data\n16|     FANDO_PLAN_REVIEWS_DIR: Override path for plan review storage\n17| \n18| Repository-Local Default:\n19|     If .claude directory exists in current repository, uses that instead\n20|     of ~/.claude, allowing repository-local state during development.\n21| \"\"\"\n22| import os\n23| from pathlib import Path\n24| \n25| \n26| def _get_base_claude_dir() -> Path:\n27|     \"\"\"\n28|     Get the base Claude directory with repository-local fallback.\n29| \n30|     Returns:\n31|         Path to Claude directory (either repository-local .claude or ~/.claude)\n32|     \"\"\"\n33|     # Check for repository-local .claude directory\n34|     repo_claude = Path.cwd() / \".claude\"\n35|     if repo_claude.exists() and repo_claude.is_dir():\n36|         return repo_claude\n37| \n38|     # Fallback to user home\n39|     return Path.home() / \".claude\"\n40| \n41| \n42| def get_skill_dir() -> Path:\n43|     \"\"\"\n44|     Get the skill directory for DSPy reviewer state.\n45| \n46|     Returns:\n47|         Path to skill directory containing optimized modules and training data\n48| \n49|     Environment Override:\n50|         FANDO_SKILL_DIR - Custom path for skill directory\n51|     \"\"\"\n52|     env_override = os.environ.get(\"FANDO_SKILL_DIR\")\n53|     if env_override:\n54|         return Path(env_override)\n55| \n56|     base = _get_base_claude_dir()\n57|     return base / \"skills\" / \"fando-plan\"\n58| \n59| \n60| def get_optimized_dir() -> Path:\n61|     \"\"\"\n62|     Get the directory for GEPA-optimized DSPy modules.\n63| \n64|     Returns:\n65|         Path to optimized modules directory\n66|     \"\"\"\n67|     return get_skill_dir() / \"optimized\"\n68| \n69| \n70| def get_training_dir() -> Path:\n71|     \"\"\"\n72|     Get the directory for training data examples.\n73| \n74|     Returns:\n75|         Path to training data directory\n76|     \"\"\"\n77|     return get_skill_dir() / \"training_data\"\n78| \n79| \n80| def get_plan_reviews_dir() -> Path:\n81|     \"\"\"\n82|     Get the directory for plan review storage.\n83| \n84|     Returns:\n85|         Path to plan-reviews directory\n86| \n87|     Environment Override:\n88|         FANDO_PLAN_REVIEWS_DIR - Custom path for plan reviews\n89|     \"\"\"\n90|     env_override = os.environ.get(\"FANDO_PLAN_REVIEWS_DIR\")\n91|     if env_override:\n92|         return Path(env_override)\n93| \n94|     return _get_base_claude_dir() / \"plan-reviews\"\n95| \n96| \n97| def get_export_dir() -> Path:\n98|     \"\"\"\n99|     Get the directory for exported prompt templates.\n100| \n101|     Returns:\n102|         Path to exported prompts directory\n103|     \"\"\"\n104|     return get_skill_dir() / \"exported_prompts\"\n105| \n</file>\n\n<file path=\"dspy_reviewers.py\">\n1| #!/usr/bin/env python3\n2| \"\"\"\n3| dspy_reviewers.py - DSPy-based plan review system with per-domain Signatures\n4| \n5| This module provides a unified facade for the DSPy review system. The actual\n6| implementation is split into focused modules:\n7| - review_signatures.py: Domain-specific DSPy Signatures\n8| - review_module.py: DomainReviewModule class\n9| - review_runtime.py: run_dspy_review orchestration\n10| - review_conversion.py: Output conversion (prediction_to_review_output, prediction_to_parse_result)\n11| - training_metric.py: ReviewExample dataclass and review_metric\n12| - training_store.py: Data collection and persistence\n13| \n14| Usage:\n15|     from dspy_reviewers import run_dspy_review, prediction_to_review_output, DSPyReviewError\n16|     from parse_findings import parse_findings\n17| \n18|     results = run_dspy_review(plan, profiles, security_level=\"public\")\n19|     for profile, prediction in results.items():\n20|         if isinstance(prediction, Exception):\n21|             print(f\"{profile} failed: {prediction}\")\n22|             continue\n23|         try:\n24|             text = prediction_to_review_output(prediction)\n25|             parsed = parse_findings(text)\n26|         except DSPyReviewError as e:\n27|             print(f\"{profile} error: {e}\")\n28| \"\"\"\n29| import logging\n30| \n31| logger = logging.getLogger(__name__)\n32| \n33| # DSPy import - optional dependency\n34| try:\n35|     import dspy\n36| \n37|     DSPY_AVAILABLE = True\n38| except ImportError:\n39|     DSPY_AVAILABLE = False\n40|     dspy = None\n41| \n42| \n43| # ===========================================================================\n44| # Re-exports from split modules\n45| # ===========================================================================\n46| \n47| # Signatures and registry\n48| from review_signatures import DOMAIN_SIGNATURES\n49| \n50| # Individual Signature classes for direct access (only when DSPy is available)\n51| if DSPY_AVAILABLE:\n52|     from review_signatures import (\n53|         SecurityReviewSignature,\n54|         FrontendReviewSignature,\n55|         APIReviewSignature,\n56|         DataReviewSignature,\n57|         DevOpsReviewSignature,\n58|         PerformanceReviewSignature,\n59|         ArchitectReviewSignature,\n60|     )\n61| \n62| # DSPy Module\n63| if DSPY_AVAILABLE:\n64|     from review_module import DomainReviewModule\n65| else:\n66|     DomainReviewModule = None  # type: ignore\n67| \n68| # Runtime orchestration\n69| from review_runtime import run_dspy_review, save_optimized_module, load_optimized_module\n70| \n71| # Output conversion\n72| from review_conversion import (\n73|     DSPyReviewError,\n74|     prediction_to_review_output,\n75|     prediction_to_parse_result,\n76| )\n77| \n78| # Training and evaluation\n79| from training_metric import (\n80|     ReviewExample,\n81|     review_metric,\n82|     # Constants\n83|     SIGNIFICANT_WORD_MIN_LENGTH,\n84|     FINDING_ADDRESS_THRESHOLD,\n85|     DOMAIN_FOCUS_WEIGHT_IN_LANE,\n86|     DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE,\n87| )\n88| \n89| # Data collection and persistence\n90| from training_store import (\n91|     collect_training_example,\n92|     save_training_example,\n93|     load_training_examples,\n94| )\n95| \n96| # Path configuration\n97| from paths import get_optimized_dir, get_training_dir\n98| \n99| # Re-export DSPY_AVAILABLE for convenience\n100| _DSPY_AVAILABLE = DSPY_AVAILABLE\n101| \n102| # Export __all__ for explicit imports\n103| __all__ = [\n104|     \"DSPY_AVAILABLE\",\n105|     \"DOMAIN_SIGNATURES\",\n106|     \"run_dspy_review\",\n107|     \"prediction_to_review_output\",\n108|     \"prediction_to_parse_result\",\n109|     \"DSPyReviewError\",\n110|     \"ReviewExample\",\n111|     \"review_metric\",\n112|     \"collect_training_example\",\n113|     \"save_training_example\",\n114|     \"load_training_examples\",\n115|     \"save_optimized_module\",\n116|     \"load_optimized_module\",\n117|     \"get_optimized_dir\",\n118|     \"get_training_dir\",\n119|     \"SIGNIFICANT_WORD_MIN_LENGTH\",\n120|     \"FINDING_ADDRESS_THRESHOLD\",\n121|     \"DOMAIN_FOCUS_WEIGHT_IN_LANE\",\n122|     \"DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE\",\n123| ]\n124| \n125| \n126| # ===========================================================================\n127| # CLI\n128| # ===========================================================================\n129| \n130| def main():\n131|     \"\"\"CLI for testing DSPy reviewer integration.\"\"\"\n132|     import argparse\n133| \n134|     parser = argparse.ArgumentParser(\n135|         description=\"DSPy-based plan review system\"\n136|     )\n137|     parser.add_argument(\"--check\", action=\"store_true\", help=\"Check DSPy availability\")\n138|     parser.add_argument(\n139|         \"--list-domains\", action=\"store_true\", help=\"List available domain signatures\"\n140|     )\n141|     parser.add_argument(\"--stats\", action=\"store_true\", help=\"Training data statistics\")\n142| \n143|     args = parser.parse_args()\n144| \n145|     if args.check:\n146|         if DSPY_AVAILABLE:\n147|             version = getattr(dspy, \"__version__\", \"unknown\")\n148|             print(f\"DSPy available: {version}\")\n149|             print(f\"Domains: {', '.join(DOMAIN_SIGNATURES)}\")\n150|         else:\n151|             print(\"DSPy not installed. Run: uv pip install dspy>=2.6.0\")\n152|         return\n153| \n154|     if args.list_domains:\n155|         for name, sig_cls in DOMAIN_SIGNATURES.items():\n156|             doc_first_line = (sig_cls.__doc__ or \"\").strip().splitlines()[0]\n157|             print(f\"  {name}: {doc_first_line}\")\n158|         return\n159| \n160|     if args.stats:\n161|         examples = load_training_examples()\n162|         if not examples:\n163|             print(\"No training data found.\")\n164|             print(f\"  Expected location: {get_training_dir()}\")\n165|             return\n166| \n167|         domains: dict[str, int] = {}\n168|         for ex in examples:\n169|             domains[ex.domain] = domains.get(ex.domain, 0) + 1\n170| \n171|         print(f\"Training data: {len(examples)} examples\")\n172|         for domain, count in sorted(domains.items()):\n173|             print(f\"  {domain}: {count}\")\n174|         return\n175| \n176|     print(\"DSPy reviewer system ready.\" if DSPY_AVAILABLE else \"DSPy not installed.\")\n177|     print(\"Use --check, --list-domains, or --stats for info.\")\n178| \n179| \n180| if __name__ == \"__main__\":\n181|     main()\n182| \n</file>\n\n<file path=\"review_signatures.py\">\n1| #!/usr/bin/env python3\n2| \"\"\"\n3| review_signatures.py - DSPy Signatures for domain-specific plan review\n4| \n5| Provides per-domain Signature classes with domain knowledge encoded in\n6| docstrings. These are the source of truth for what each domain cares about.\n7| \n8| Usage:\n9|     from review_signatures import DOMAIN_SIGNATURES\n10| \n11|     sig_class = DOMAIN_SIGNATURES[\"security\"]\n12|     print(sig_class.__doc__)  # Domain knowledge lives here\n13| \"\"\"\n14| from typing import Any\n15| \n16| # DSPy import - optional dependency\n17| try:\n18|     import dspy\n19| \n20|     DSPY_AVAILABLE = True\n21| except ImportError:\n22|     DSPY_AVAILABLE = False\n23|     dspy = None\n24| \n25| \n26| if DSPY_AVAILABLE:\n27| \n28|     # --- Security -----------------------------------------------------------\n29| \n30|     class SecurityReviewSignature(dspy.Signature):\n31|         \"\"\"Review an implementation plan for security vulnerabilities.\n32| \n33|         You are a senior security engineer. Focus on authentication (AuthN),\n34|         authorization (AuthZ), input validation, secrets management, data\n35|         protection, and the OWASP Top 10.\n36| \n37|         Adjust severity based on security_level:\n38|         - personal: only flag critical issues (secrets, obvious vulns). Skip rate\n39|           limiting, audit logs, compliance.\n40|         - internal: flag auth issues, basic input validation. Skip compliance,\n41|           advanced threat modeling.\n42|         - public: full security review. Rate limiting, CSRF, input validation all\n43|           important.\n44|         - enterprise: maximum rigor. Audit logs, encryption, compliance docs all\n45|           HIGH priority.\n46| \n47|         Severity matrix examples:\n48|         | Finding              | personal | internal | public | enterprise |\n49|         |----------------------|----------|----------|--------|------------|\n50|         | Hardcoded secrets    | HIGH     | HIGH     | HIGH   | HIGH       |\n51|         | No rate limiting     | -        | LOW      | MEDIUM | HIGH       |\n52|         | No CSRF protection   | -        | LOW      | HIGH   | HIGH       |\n53|         | No input validation  | LOW      | MEDIUM   | HIGH   | HIGH       |\n54|         | No audit logging     | -        | -        | LOW    | HIGH       |\n55| \n56|         Risk levels:\n57|         - HIGH: vulnerability leading to data breach, unauthorized access, or compromise\n58|         - MEDIUM: best practice not followed; potential weakness\n59|         - LOW: defense-in-depth suggestion\n60|         - NITPICK: stylistic security preference\n61| \n62|         Be specific about vulnerability and attack vector. Provide actionable\n63|         remediation. Don't flag theoretical issues outside the plan's context.\n64|         \"\"\"\n65| \n66|         plan: str = dspy.InputField(desc=\"The full implementation plan to review\")\n67|         other_reviewers: str = dspy.InputField(\n68|             desc=\"Other domains being reviewed — don't duplicate their findings\"\n69|         )\n70|         security_level: str = dspy.InputField(\n71|             desc=\"Security context: personal, internal, public, or enterprise\"\n72|         )\n73| \n74|         findings: str = dspy.OutputField(\n75|             desc=\"Bullet list: '- [HIGH/MEDIUM/LOW/NITPICK] description' for security issues only\"\n76|         )\n77|         summary: str = dspy.OutputField(\n78|             desc=\"'X high, Y medium, Z low, W nitpick' or 'LGTM - no security issues identified'\"\n79|         )\n80| \n81|     # --- Frontend -----------------------------------------------------------\n82| \n83|     class FrontendReviewSignature(dspy.Signature):\n84|         \"\"\"Review an implementation plan for frontend architecture concerns.\n85| \n86|         You are a senior frontend architect. Focus on component architecture\n87|         (hierarchy, composition, reusability), state management (local vs global,\n88|         server sync, cache invalidation), UX patterns (loading/error/empty states,\n89|         form validation, navigation), accessibility (semantic HTML, ARIA, keyboard\n90|         nav, focus management, contrast), performance (code splitting, memoization,\n91|         bundle size), and responsive design (mobile-first, breakpoints, touch).\n92| \n93|         Risk levels:\n94|         - HIGH: architectural flaw causing significant rework or poor UX\n95|         - MEDIUM: missing UX consideration or component design issue\n96|         - LOW: minor improvement to structure or polish\n97|         - NITPICK: stylistic preference or optional enhancement\n98| \n99|         Focus on patterns over syntax. Consider the full user journey including\n100|         edge cases (slow network, errors, empty data). Prioritize accessibility.\n101|         \"\"\"\n102| \n103|         plan: str = dspy.InputField(desc=\"The full implementation plan to review\")\n104|         other_reviewers: str = dspy.InputField(\n105|             desc=\"Other domains being reviewed — don't duplicate their findings\"\n106|         )\n107|         security_level: str = dspy.InputField(\n108|             desc=\"Security context: personal, internal, public, or enterprise\"\n109|         )\n110| \n111|         findings: str = dspy.OutputField(\n112|             desc=\"Bullet list: '- [HIGH/MEDIUM/LOW/NITPICK] description' for frontend issues only\"\n113|         )\n114|         summary: str = dspy.OutputField(\n115|             desc=\"'X high, Y medium, Z low, W nitpick' or 'LGTM - frontend architecture looks solid'\"\n116|         )\n117| \n118|     # --- API ----------------------------------------------------------------\n119| \n120|     class APIReviewSignature(dspy.Signature):\n121|         \"\"\"Review an implementation plan for API design concerns.\n122| \n123|         You are a senior API architect. Focus on contract design (RESTful naming,\n124|         HTTP method semantics, payload structure, GraphQL schema), versioning\n125|         (backwards compat, deprecation), error handling (consistent format, status\n126|         codes, validation errors), pagination and filtering (cursor vs offset,\n127|         metadata, large result sets), rate limiting (strategy, headers, retry-after),\n128|         and developer experience (OpenAPI spec, examples, docs).\n129| \n130|         Risk levels:\n131|         - HIGH: design flaw causing breaking changes or poor client experience\n132|         - MEDIUM: missing error handling, pagination, or versioning consideration\n133|         - LOW: minor polish or best practice suggestion\n134|         - NITPICK: naming convention or documentation preference\n135| \n136|         Think about API consumers. Ensure consistent patterns across endpoints.\n137|         Consider both success and error paths. Plan for API evolution.\n138|         \"\"\"\n139| \n140|         plan: str = dspy.InputField(desc=\"The full implementation plan to review\")\n141|         other_reviewers: str = dspy.InputField(\n142|             desc=\"Other domains being reviewed — don't duplicate their findings\"\n143|         )\n144|         security_level: str = dspy.InputField(\n145|             desc=\"Security context: personal, internal, public, or enterprise\"\n146|         )\n147| \n148|         findings: str = dspy.OutputField(\n149|             desc=\"Bullet list: '- [HIGH/MEDIUM/LOW/NITPICK] description' for API issues only\"\n150|         )\n151|         summary: str = dspy.OutputField(\n152|             desc=\"'X high, Y medium, Z low, W nitpick' or 'LGTM - API design looks solid'\"\n153|         )\n154| \n155|     # --- Data ---------------------------------------------------------------\n156| \n157|     class DataReviewSignature(dspy.Signature):\n158|         \"\"\"Review an implementation plan for data architecture concerns.\n159| \n160|         You are a senior data architect. Focus on schema design (normalization,\n161|         keys, constraints, indexes, data types), query performance (N+1 problems,\n162|         missing indexes, join complexity, pagination), data integrity (referential\n163|         integrity, cascades, validation, uniqueness), transactions and consistency\n164|         (ACID, boundaries, locking, eventual consistency), migration strategy\n165|         (backwards compat, zero-downtime, rollback, backfill), and scalability\n166|         (sharding, read replicas, connection pooling, large tables).\n167| \n168|         Risk levels:\n169|         - HIGH: schema flaw requiring significant migration or causing data integrity issues\n170|         - MEDIUM: missing index, suboptimal design, or query performance issue\n171|         - LOW: minor optimization or best practice suggestion\n172|         - NITPICK: naming convention or stylistic preference\n173| \n174|         Think about data at scale. Consider read vs write patterns. Ensure\n175|         migration paths exist. Flag potential N+1 scenarios.\n176|         \"\"\"\n177| \n178|         plan: str = dspy.InputField(desc=\"The full implementation plan to review\")\n179|         other_reviewers: str = dspy.InputField(\n180|             desc=\"Other domains being reviewed — don't duplicate their findings\"\n181|         )\n182|         security_level: str = dspy.InputField(\n183|             desc=\"Security context: personal, internal, public, or enterprise\"\n184|         )\n185| \n186|         findings: str = dspy.OutputField(\n187|             desc=\"Bullet list: '- [HIGH/MEDIUM/LOW/NITPICK] description' for data issues only\"\n188|         )\n189|         summary: str = dspy.OutputField(\n190|             desc=\"'X high, Y medium, Z low, W nitpick' or 'LGTM - data architecture looks solid'\"\n191|         )\n192| \n193|     # --- DevOps -------------------------------------------------------------\n194| \n195|     class DevOpsReviewSignature(dspy.Signature):\n196|         \"\"\"Review an implementation plan for operational readiness.\n197| \n198|         You are a senior DevOps engineer. Focus on deployment strategy (blue-green,\n199|         canary, rolling, rollback, feature flags, zero-downtime), CI/CD (build, test,\n200|         lint, security scanning, artifacts, automation), infrastructure (env parity,\n201|         IaC, containers, service discovery, load balancing), observability (logging,\n202|         metrics, tracing, alerting, health checks), scaling and reliability (auto-scale,\n203|         circuit breakers, graceful degradation, disaster recovery), and secrets/config\n204|         (management, env-specific config, rotation).\n205| \n206|         Risk levels:\n207|         - HIGH: deployment risk that could cause outage or data loss\n208|         - MEDIUM: missing observability, scaling, or operational concern\n209|         - LOW: minor operational improvement or automation opportunity\n210|         - NITPICK: tooling preference or documentation suggestion\n211| \n212|         Think about day-2 operations. Consider failure modes and recovery. Ensure\n213|         observability is built in. Plan for growth and unexpected load.\n214|         \"\"\"\n215| \n216|         plan: str = dspy.InputField(desc=\"The full implementation plan to review\")\n217|         other_reviewers: str = dspy.InputField(\n218|             desc=\"Other domains being reviewed — don't duplicate their findings\"\n219|         )\n220|         security_level: str = dspy.InputField(\n221|             desc=\"Security context: personal, internal, public, or enterprise\"\n222|         )\n223| \n224|         findings: str = dspy.OutputField(\n225|             desc=\"Bullet list: '- [HIGH/MEDIUM/LOW/NITPICK] description' for devops issues only\"\n226|         )\n227|         summary: str = dspy.OutputField(\n228|             desc=\"'X high, Y medium, Z low, W nitpick' or 'LGTM - operational readiness looks good'\"\n229|         )\n230| \n231|     # --- Performance --------------------------------------------------------\n232| \n233|     class PerformanceReviewSignature(dspy.Signature):\n234|         \"\"\"Review an implementation plan for performance concerns.\n235| \n236|         You are a senior performance engineer. Focus on caching (what to cache,\n237|         invalidation, levels, TTL, warming), database performance (query optimization,\n238|         connection pooling, read replicas, indexes, batch ops), API performance\n239|         (response time, payload size, compression, HTTP/2-3, connection reuse),\n240|         frontend performance (bundle size, code splitting, lazy loading, images,\n241|         Core Web Vitals), concurrency (async processing, queues, parallel ops,\n242|         resource contention), and scalability (horizontal readiness, stateless\n243|         design, bottleneck identification, load testing, capacity planning).\n244| \n245|         Risk levels:\n246|         - HIGH: issue causing poor UX or system instability at scale\n247|         - MEDIUM: missing optimization for production readiness\n248|         - LOW: minor performance improvement opportunity\n249|         - NITPICK: micro-optimization or edge case\n250| \n251|         Focus on measurable impact. Consider worst-case scenarios. Don't\n252|         prematurely optimize — focus on likely bottlenecks. Suggest profiling.\n253|         \"\"\"\n254| \n255|         plan: str = dspy.InputField(desc=\"The full implementation plan to review\")\n256|         other_reviewers: str = dspy.InputField(\n257|             desc=\"Other domains being reviewed — don't duplicate their findings\"\n258|         )\n259|         security_level: str = dspy.InputField(\n260|             desc=\"Security context: personal, internal, public, or enterprise\"\n261|         )\n262| \n263|         findings: str = dspy.OutputField(\n264|             desc=\"Bullet list: '- [HIGH/MEDIUM/LOW/NITPICK] description' for performance issues only\"\n265|         )\n266|         summary: str = dspy.OutputField(\n267|             desc=\"'X high, Y medium, Z low, W nitpick' or 'LGTM - performance approach looks solid'\"\n268|         )\n269| \n270|     # --- Architect (final pass) ---------------------------------------------\n271| \n272|     class ArchitectReviewSignature(dspy.Signature):\n273|         \"\"\"Perform the final systems-architect review of an implementation plan.\n274| \n275|         You are a senior systems architect. This plan has already been reviewed by\n276|         domain specialists. Your job is to:\n277|         1. Resolve conflicts between specialist recommendations\n278|         2. Check cross-cutting concerns (error handling, logging, config, testing, docs)\n279|         3. Ensure overall coherence (boundaries, dependencies, interfaces, complexity)\n280|         4. Final sanity check for implementation readiness\n281| \n282|         Conflict resolution examples:\n283|         - Security wants strict rate limits, Performance wants throughput → context-dependent\n284|         - Frontend wants client-side validation, Security wants server-side → both\n285|         - DevOps wants simple deploy, Data wants complex migration → phased approach\n286| \n287|         Risk levels:\n288|         - HIGH: architectural flaw, unresolved conflict, or blocker\n289|         - MEDIUM: cross-cutting concern or coherence issue\n290|         - LOW: minor improvement or future consideration\n291|         - NITPICK: stylistic preference or optional enhancement\n292| \n293|         You have the final say on trade-offs. Be decisive. Consider the full system.\n294|         If the plan is solid, say so and approve it.\n295|         \"\"\"\n296| \n297|         plan: str = dspy.InputField(desc=\"The full implementation plan to review\")\n298|         other_reviewers: str = dspy.InputField(\n299|             desc=\"Specialist domains that already reviewed this plan\"\n300|         )\n301|         security_level: str = dspy.InputField(\n302|             desc=\"Security context: personal, internal, public, or enterprise\"\n303|         )\n304| \n305|         findings: str = dspy.OutputField(\n306|             desc=\"Bullet list: '- [HIGH/MEDIUM/LOW/NITPICK] description' for cross-cutting issues\"\n307|         )\n308|         summary: str = dspy.OutputField(\n309|             desc=\"'X high, Y medium, Z low, W nitpick' or 'LGTM - plan approved for implementation'\"\n310|         )\n311| \n312| \n313| # ===========================================================================\n314| # Domain Signature Registry\n315| # ===========================================================================\n316| \n317| DOMAIN_SIGNATURES: dict[str, Any] = {}\n318| \n319| if DSPY_AVAILABLE:\n320|     DOMAIN_SIGNATURES = {\n321|         \"security\": SecurityReviewSignature,\n322|         \"frontend\": FrontendReviewSignature,\n323|         \"api\": APIReviewSignature,\n324|         \"data\": DataReviewSignature,\n325|         \"devops\": DevOpsReviewSignature,\n326|         \"performance\": PerformanceReviewSignature,\n327|         \"architect\": ArchitectReviewSignature,\n328|     }\n329| \n</file>\n\n<file path=\"review_module.py\">\n1| #!/usr/bin/env python3\n2| \"\"\"\n3| review_module.py - DSPy Module wrapper for domain-specific plan review\n4| \n5| Provides DomainReviewModule which wraps ChainOfThought around a domain's\n6| Signature, enabling independent GEPA optimization per domain.\n7| \n8| Usage:\n9|     from review_module import DomainReviewModule\n10| \n11|     module = DomainReviewModule(domain=\"security\")\n12|     prediction = module.forward(\n13|         plan=\"Implement user auth...\",\n14|         other_reviewers=\"none\",\n15|         security_level=\"public\"\n16|     )\n17| \"\"\"\n18| # DSPy import - optional dependency\n19| try:\n20|     import dspy\n21| \n22|     DSPY_AVAILABLE = True\n23| except ImportError:\n24|     DSPY_AVAILABLE = False\n25| \n26|     # Create a dummy dspy module for type checking when DSPy is not available\n27|     class DummyModule:\n28|         pass\n29| \n30|     class DummyDSPy:\n31|         Module = DummyModule\n32| \n33|     dspy = DummyDSPy()  # type: ignore\n34| \n35| if DSPY_AVAILABLE:\n36|     from review_signatures import DOMAIN_SIGNATURES\n37| else:\n38|     # Empty registry when DSPy is not available\n39|     DOMAIN_SIGNATURES = {}\n40| \n41| \n42| if DSPY_AVAILABLE:\n43| \n44|     class DomainReviewModule(dspy.Module):\n45|         \"\"\"DSPy module that performs a plan review for a specific domain.\n46| \n47|         Wraps ChainOfThought around the domain's Signature. Can be optimized\n48|         independently via GEPA.\n49|         \"\"\"\n50| \n51|         def __init__(self, domain: str):\n52|             super().__init__()\n53|             if domain not in DOMAIN_SIGNATURES:\n54|                 raise ValueError(\n55|                     f\"Unknown domain: {domain}. Available: {list(DOMAIN_SIGNATURES)}\"\n56|                 )\n57|             self.domain = domain\n58|             self.reviewer = dspy.ChainOfThought(DOMAIN_SIGNATURES[domain])\n59| \n60|         def forward(\n61|             self,\n62|             plan: str,\n63|             other_reviewers: str,\n64|             security_level: str = \"public\",\n65|         ) -> dspy.Prediction:\n66|             return self.reviewer(\n67|                 plan=plan,\n68|                 other_reviewers=other_reviewers,\n69|                 security_level=security_level,\n70|             )\n71| else:\n72|     # Stub class when DSPy is not installed\n73|     class DomainReviewModule:  # type: ignore\n74|         \"\"\"Stub class when DSPy is not installed.\"\"\"\n75| \n76|         def __init__(self, domain: str):\n77|             raise ImportError(\"DSPy is required: uv pip install dspy>=2.6.0\")\n78| \n</file>\n\n<file path=\"review_runtime.py\">\n1| #!/usr/bin/env python3\n2| \"\"\"\n3| review_runtime.py - DSPy review orchestration and optimized module management\n4| \n5| Provides run_dspy_review for parallel execution of domain-specific reviews,\n6| and load/save helpers for GEPA-optimized modules.\n7| \n8| Usage:\n9|     from review_runtime import run_dspy_review, save_optimized_module, load_optimized_module\n10| \n11|     results = run_dspy_review(plan, [\"security\", \"api\"], security_level=\"public\")\n12| \n13|     # After GEPA optimization\n14|     save_optimized_module(\"security\", optimized_module)\n15| \"\"\"\n16| import json\n17| import logging\n18| from concurrent.futures import ThreadPoolExecutor, as_completed\n19| from pathlib import Path\n20| from typing import Any, Optional\n21| \n22| # DSPy import - optional dependency\n23| try:\n24|     import dspy\n25| \n26|     DSPY_AVAILABLE = True\n27| except ImportError:\n28|     DSPY_AVAILABLE = False\n29|     dspy = None\n30| \n31| from paths import get_optimized_dir\n32| from review_module import DomainReviewModule\n33| \n34| logger = logging.getLogger(__name__)\n35| \n36| \n37| # ===========================================================================\n38| # Optimized Module Persistence\n39| # ===========================================================================\n40| \n41| def save_optimized_module(domain: str, module: Any) -> Path:\n42|     \"\"\"Save an optimized DSPy module's state to disk.\n43| \n44|     Args:\n45|         domain: Domain name (e.g. \"security\")\n46|         module: Optimized DomainReviewModule\n47| \n48|     Returns:\n49|         Path to the saved file\n50|     \"\"\"\n51|     get_optimized_dir().mkdir(parents=True, exist_ok=True)\n52|     path = get_optimized_dir() / f\"{domain}.json\"\n53|     module.save(str(path))\n54|     return path\n55| \n56| \n57| def load_optimized_module(domain: str) -> Optional[Any]:\n58|     \"\"\"Load a GEPA-optimized module if it exists.\n59| \n60|     Returns:\n61|         DomainReviewModule with optimized state, or None if not found or error.\n62| \n63|     Logs a warning if the file exists but fails to load (corruption/incompatibility).\n64|     \"\"\"\n65|     if not DSPY_AVAILABLE:\n66|         return None\n67| \n68|     path = get_optimized_dir() / f\"{domain}.json\"\n69|     if not path.exists():\n70|         return None\n71| \n72|     try:\n73|         mod = DomainReviewModule(domain=domain)\n74|         mod.load(str(path))\n75|         return mod\n76|     except FileNotFoundError:\n77|         # File was removed between exists() check and load() - treat as not found\n78|         return None\n79|     except (OSError, json.JSONDecodeError, ValueError, TypeError) as e:\n80|         # File exists but is corrupt or incompatible - log the error\n81|         logger.warning(f\"Failed to load optimized module for domain '{domain}' from {path}: {e}\")\n82|         return None\n83|     except Exception as e:\n84|         # Unexpected error - log with more details\n85|         logger.error(f\"Unexpected error loading optimized module for domain '{domain}' from {path}: {type(e).__name__}: {e}\")\n86|         return None\n87| \n88| \n89| # ===========================================================================\n90| # Orchestration — run_dspy_review\n91| # ===========================================================================\n92| \n93| def run_dspy_review(\n94|     plan: str,\n95|     profiles: list[str],\n96|     security_level: str = \"public\",\n97|     use_optimized: bool = True,\n98|     max_workers: int | None = None,\n99| ) -> dict[str, Any]:\n100|     \"\"\"Run DSPy-based reviews in parallel for the given profiles.\n101| \n102|     Args:\n103|         plan: Full plan text\n104|         profiles: Domain names to review (e.g. [\"security\", \"api\"])\n105|         security_level: personal / internal / public / enterprise\n106|         use_optimized: Load GEPA-optimized module state if available\n107|         max_workers: Thread pool size (default: len(profiles))\n108| \n109|     Returns:\n110|         Dict mapping profile name → dspy.Prediction (empty dict if no profiles)\n111|     \"\"\"\n112|     if not DSPY_AVAILABLE:\n113|         raise ImportError(\"DSPy is required: uv pip install -e '.[dspy]'\")\n114| \n115|     # Early return for empty profiles matches run_parallel_reviews() behavior\n116|     if not profiles:\n117|         return {}\n118| \n119|     # Configure CodexLM as the DSPy LM (if not already configured)\n120|     if dspy.settings.lm is None:\n121|         from codex_lm import CodexLM\n122| \n123|         dspy.configure(lm=CodexLM())\n124| \n125|     if max_workers is None:\n126|         max_workers = len(profiles)\n127| \n128|     # Build modules, loading optimized state where available\n129|     modules: dict[str, DomainReviewModule] = {}\n130|     for profile in profiles:\n131|         mod = DomainReviewModule(domain=profile)\n132|         if use_optimized:\n133|             loaded = load_optimized_module(profile)\n134|             if loaded is not None:\n135|                 mod = loaded\n136|         modules[profile] = mod\n137| \n138|     # Build the \"other reviewers\" context string for focus\n139|     other_map: dict[str, str] = {}\n140|     for profile in profiles:\n141|         others = [p for p in profiles if p != profile]\n142|         other_map[profile] = \", \".join(others) if others else \"none\"\n143| \n144|     # Run reviews in parallel\n145|     results: dict[str, Any] = {}\n146| \n147|     def _run_one(profile: str) -> tuple[str, Any]:\n148|         mod = modules[profile]\n149|         prediction = mod.forward(\n150|             plan=plan,\n151|             other_reviewers=other_map[profile],\n152|             security_level=security_level,\n153|         )\n154|         return profile, prediction\n155| \n156|     with ThreadPoolExecutor(max_workers=max_workers) as executor:\n157|         futures = {\n158|             executor.submit(_run_one, profile): profile for profile in profiles\n159|         }\n160|         for future in as_completed(futures):\n161|             profile = futures[future]\n162|             try:\n163|                 _, prediction = future.result()\n164|                 results[profile] = prediction\n165|             except Exception as exc:\n166|                 results[profile] = exc\n167| \n168|     return results\n169| \n</file>\n\n<file path=\"review_conversion.py\">\n1| #!/usr/bin/env python3\n2| \"\"\"\n3| review_conversion.py - Convert DSPy Predictions to expected output formats\n4| \n5| Provides conversion functions from DSPy Prediction objects to both markdown\n6| format (for parse_findings.py) and structured ParseResult format.\n7| \n8| Usage:\n9|     from review_conversion import prediction_to_review_output, prediction_to_parse_result\n10| \n11|     # Convert to markdown (for parse_findings.py compatibility)\n12|     text = prediction_to_review_output(prediction)\n13| \n14|     # Convert directly to ParseResult (bypasses markdown roundtrip)\n15|     result = prediction_to_parse_result(prediction)\n16| \"\"\"\n17| import re\n18| from typing import Any\n19| \n20| \n21| class DSPyReviewError(Exception):\n22|     \"\"\"Exception raised when DSPy review execution fails.\"\"\"\n23| \n24|     def __init__(self, message: str, original_exception: Exception | None = None):\n25|         super().__init__(message)\n26|         self.original_exception = original_exception\n27| \n28| \n29| def prediction_to_review_output(prediction: Any) -> str:\n30|     \"\"\"Convert a DSPy Prediction into the text format parse_findings.py expects.\n31| \n32|     Expected output:\n33|         ## Findings\n34|         - [HIGH] description...\n35|         - [MEDIUM] description...\n36| \n37|         ## Summary\n38|         X high, Y medium...\n39| \n40|     Raises:\n41|         DSPyReviewError: If prediction is an Exception object\n42|     \"\"\"\n43|     if isinstance(prediction, Exception):\n44|         raise DSPyReviewError(\n45|             f\"DSPy review execution failed: {prediction}\",\n46|             original_exception=prediction\n47|         )\n48| \n49|     findings = getattr(prediction, \"findings\", \"\")\n50|     summary = getattr(prediction, \"summary\", \"\")\n51| \n52|     # Normalize findings: ensure each line starts with \"- [\"\n53|     normalized_lines = []\n54|     for line in findings.strip().splitlines():\n55|         line = line.strip()\n56|         if not line:\n57|             continue\n58|         # Ensure bullet prefix\n59|         if re.match(r\"\\[(?:HIGH|MEDIUM|LOW|NITPICK)\\]\", line):\n60|             line = f\"- {line}\"\n61|         normalized_lines.append(line)\n62| \n63|     findings_text = \"\\n\".join(normalized_lines) if normalized_lines else \"No issues found.\"\n64| \n65|     return f\"## Findings\\n{findings_text}\\n\\n## Summary\\n{summary}\"\n66| \n67| \n68| def prediction_to_parse_result(prediction: Any) -> \"ParseResult\":\n69|     \"\"\"Convert a DSPy Prediction directly to ParseResult (structured format).\n70| \n71|     This bypasses the markdown roundtrip, improving efficiency and contract clarity.\n72| \n73|     Args:\n74|         prediction: DSPy Prediction object or Exception\n75| \n76|     Returns:\n77|         ParseResult with structured findings data\n78| \n79|     Note: Import ParseResult lazily to avoid circular dependency.\n80|     \"\"\"\n81|     # Lazy import to avoid circular dependency\n82|     from parse_findings import ParseResult, Finding\n83| \n84|     result = ParseResult()\n85| \n86|     if isinstance(prediction, Exception):\n87|         result.error = f\"DSPY_EXECUTION_FAILED: {prediction}\"\n88|         result.should_stop = True\n89|         result.stop_reason = \"DSPy execution failed\"\n90|         result.raw = str(prediction)\n91|         return result\n92| \n93|     # Extract findings from prediction\n94|     findings_text = getattr(prediction, \"findings\", \"\")\n95|     summary = getattr(prediction, \"summary\", \"\")\n96| \n97|     # Parse findings text to extract levels and items\n98|     findings_list = []\n99|     for line in findings_text.strip().splitlines():\n100|         line = line.strip()\n101|         if not line:\n102|             continue\n103| \n104|         # Match patterns like \"[HIGH]\", \"[MEDIUM]\", etc.\n105|         level_match = re.search(r'\\[(HIGH|MEDIUM|LOW|NITPICK)\\]', line.upper())\n106|         if level_match:\n107|             level = level_match.group(1)\n108|             # Remove the level prefix to get the description\n109|             desc = re.sub(r'\\[(HIGH|MEDIUM|LOW|NITPICK)\\]\\s*', '', line, flags=re.IGNORECASE).strip()\n110| \n111|             findings_list.append(Finding(level=level, text=desc))\n112| \n113|             # Increment counts\n114|             if level == \"HIGH\":\n115|                 result.high += 1\n116|             elif level == \"MEDIUM\":\n117|                 result.medium += 1\n118|             elif level == \"LOW\":\n119|                 result.low += 1\n120|             elif level == \"NITPICK\":\n121|                 result.nitpick += 1\n122| \n123|     result.findings = findings_list\n124| \n125|     # Check for LGTM in summary\n126|     result.lgtm = bool(re.search(\n127|         r'LGTM.*(?:ready to implement|no further changes)',\n128|         summary,\n129|         re.IGNORECASE\n130|     ))\n131| \n132|     # Set should_stop if no high/medium findings\n133|     result.should_stop = (result.high == 0 and result.medium == 0)\n134|     if result.should_stop and not result.lgtm:\n135|         result.stop_reason = \"No outstanding issues\"\n136|     elif result.lgtm:\n137|         result.stop_reason = \"LGTM - ready to implement\"\n138| \n139|     result.raw = summary  # Store summary in raw field for reference\n140| \n141|     return result\n142| \n</file>\n\n<file path=\"training_metric.py\">\n1| #!/usr/bin/env python3\n2| \"\"\"\n3| training_metric.py - Training constants and evaluation metrics for GEPA\n4| \n5| Provides constants for labeling training data and the review_metric function\n6| used by GEPA to optimize DSPy reviewers.\n7| \n8| Usage:\n9|     from training_metric import ReviewExample, review_metric\n10| \n11|     score_info = review_metric(gold_example, prediction)\n12|     print(f\"Score: {score_info['score']:.2%}\")\n13| \"\"\"\n14| import re\n15| from dataclasses import dataclass, field\n16| from typing import Any\n17| \n18| # Import training-related constants from centralized constants module\n19| from constants import (\n20|     SIGNIFICANT_WORD_MIN_LENGTH,\n21|     FINDING_ADDRESS_THRESHOLD,\n22|     DOMAIN_FOCUS_WEIGHT_IN_LANE,\n23|     DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE,\n24| )\n25| \n26| \n27| # Re-export for backward compatibility\n28| __all__ = [\n29|     \"ReviewExample\",\n30|     \"review_metric\",\n31|     \"SIGNIFICANT_WORD_MIN_LENGTH\",\n32|     \"FINDING_ADDRESS_THRESHOLD\",\n33|     \"DOMAIN_FOCUS_WEIGHT_IN_LANE\",\n34|     \"DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE\",\n35| ]\n36| \n37| \n38| # ===========================================================================\n39| # Training Data Structures\n40| # ===========================================================================\n41| \n42| @dataclass\n43| class ReviewExample:\n44|     \"\"\"A labeled review example for training/evaluation.\"\"\"\n45| \n46|     plan: str\n47|     domain: str\n48|     other_domains: list[str]\n49|     security_level: str\n50|     review_output: str\n51| \n52|     # Evaluation labels (filled after reviewing outcomes)\n53|     findings_acted_on: list[str] = field(default_factory=list)\n54|     findings_ignored: list[str] = field(default_factory=list)\n55|     missed_issues: list[str] = field(default_factory=list)\n56|     stayed_in_lane: bool = True\n57|     severity_gold: dict[str, int] = field(default_factory=dict)  # {\"HIGH\": 2, \"MEDIUM\": 1, ...}\n58| \n59|     # Metadata\n60|     plan_id: str | None = None\n61|     iteration: int | None = None\n62| \n63| \n64| # ===========================================================================\n65| # GEPA Metric\n66| # ===========================================================================\n67| \n68| def review_metric(\n69|     gold: ReviewExample,\n70|     pred: Any,\n71|     trace: Any = None,\n72|     **kwargs,\n73| ) -> dict[str, Any]:\n74|     \"\"\"Evaluate review quality for GEPA optimization.\n75| \n76|     Scoring (0-1):\n77|       - Precision  (25%): predicted findings ∩ findings_acted_on / total predicted\n78|       - Recall     (25%): missed_issues caught in predicted / total missed\n79|       - Domain focus (20%): stayed in lane\n80|       - Actionability (15%): findings contain remediation language\n81|       - Severity calibration (15%): HIGH/MEDIUM distribution matches gold\n82| \n83|     Returns dict with 'score' (float 0-1) and 'feedback' (str for GEPA reflection).\n84|     \"\"\"\n85|     findings_text = getattr(pred, \"findings\", \"\")\n86|     pred_findings = _extract_finding_texts(findings_text)\n87|     pred_levels = _extract_finding_levels(findings_text)\n88| \n89|     feedback_parts = []\n90| \n91|     # --- Precision (25%) ---\n92|     if pred_findings and gold.findings_acted_on:\n93|         acted_set = {f.lower()[:80] for f in gold.findings_acted_on}\n94|         matched = sum(\n95|             1\n96|             for f in pred_findings\n97|             if any(_text_overlap(f.lower()[:80], a) > 0.5 for a in acted_set)\n98|         )\n99|         precision = matched / len(pred_findings) if pred_findings else 0.0\n100|     elif not pred_findings and not gold.findings_acted_on:\n101|         precision = 1.0  # Both empty = correct\n102|     elif not pred_findings:\n103|         precision = 0.0 if gold.findings_acted_on else 1.0\n104|     else:\n105|         # Predictions exist but no gold labels — assume moderate\n106|         precision = 0.5\n107|     feedback_parts.append(f\"Precision: {precision:.0%} of findings were acted upon\")\n108| \n109|     # --- Recall (25%) ---\n110|     if gold.missed_issues:\n111|         caught = sum(\n112|             1\n113|             for m in gold.missed_issues\n114|             if any(\n115|                 _text_overlap(m.lower()[:80], f.lower()[:80]) > 0.5\n116|                 for f in pred_findings\n117|             )\n118|         )\n119|         recall = caught / len(gold.missed_issues)\n120|     elif not gold.missed_issues:\n121|         recall = 1.0  # Nothing was missed\n122|     else:\n123|         recall = 0.5\n124|     feedback_parts.append(f\"Recall: {recall:.0%} of important issues caught\")\n125| \n126|     # --- Domain Focus (20%) ---\n127|     domain_focus = DOMAIN_FOCUS_WEIGHT_IN_LANE if gold.stayed_in_lane else DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE\n128|     if not gold.stayed_in_lane:\n129|         feedback_parts.append(\"Domain focus: reviewer flagged issues outside their domain\")\n130|     else:\n131|         feedback_parts.append(\"Domain focus: reviewer stayed in their lane\")\n132| \n133|     # --- Actionability (15%) ---\n134|     action_keywords = [\n135|         \"should\", \"consider\", \"add\", \"implement\", \"use\", \"change\",\n136|         \"replace\", \"remove\", \"ensure\", \"validate\", \"protect\", \"require\",\n137|     ]\n138|     if pred_findings:\n139|         actionable_count = sum(\n140|             1\n141|             for f in pred_findings\n142|             if any(kw in f.lower() for kw in action_keywords)\n143|         )\n144|         actionability = actionable_count / len(pred_findings)\n145|     else:\n146|         actionability = 1.0  # No findings = nothing needs to be actionable\n147|     feedback_parts.append(f\"Actionability: {actionability:.0%} of findings have remediation language\")\n148| \n149|     # --- Severity Calibration (15%) ---\n150|     if gold.severity_gold and pred_levels:\n151|         total_diff = 0\n152|         total_expected = 0\n153|         for level in (\"HIGH\", \"MEDIUM\", \"LOW\", \"NITPICK\"):\n154|             expected = gold.severity_gold.get(level, 0)\n155|             actual = pred_levels.get(level, 0)\n156|             total_diff += abs(expected - actual)\n157|             total_expected += expected\n158|         if total_expected > 0:\n159|             severity_cal = max(0.0, 1.0 - total_diff / (total_expected + 1))\n160|         else:\n161|             severity_cal = 1.0 if sum(pred_levels.values()) == 0 else 0.5\n162|     else:\n163|         severity_cal = 0.5  # No gold labels\n164|     feedback_parts.append(f\"Severity calibration: {severity_cal:.0%}\")\n165| \n166|     # --- Weighted combination ---\n167|     weights = {\n168|         \"precision\": 0.25,\n169|         \"recall\": 0.25,\n170|         \"domain_focus\": 0.20,\n171|         \"actionability\": 0.15,\n172|         \"severity_cal\": 0.15,\n173|     }\n174|     scores = {\n175|         \"precision\": precision,\n176|         \"recall\": recall,\n177|         \"domain_focus\": domain_focus,\n178|         \"actionability\": actionability,\n179|         \"severity_cal\": severity_cal,\n180|     }\n181|     final_score = sum(scores[k] * weights[k] for k in weights)\n182| \n183|     return {\n184|         \"score\": final_score,\n185|         \"feedback\": \"\\n\".join(feedback_parts),\n186|         **scores,\n187|     }\n188| \n189| \n190| # ===========================================================================\n191| # Helper Functions\n192| # ===========================================================================\n193| \n194| def _extract_finding_texts(findings_str: str) -> list[str]:\n195|     \"\"\"Extract finding description texts from formatted findings string.\"\"\"\n196|     results = []\n197|     for line in findings_str.strip().splitlines():\n198|         m = re.match(r\"^-?\\s*\\[(HIGH|MEDIUM|LOW|NITPICK)\\]\\s*(.+)\", line.strip(), re.IGNORECASE)\n199|         if m:\n200|             results.append(m.group(2).strip())\n201|     return results\n202| \n203| \n204| def _extract_finding_levels(findings_str: str) -> dict[str, int]:\n205|     \"\"\"Count findings by severity level.\"\"\"\n206|     counts: dict[str, int] = {}\n207|     for line in findings_str.strip().splitlines():\n208|         m = re.match(r\"^-?\\s*\\[(HIGH|MEDIUM|LOW|NITPICK)\\]\", line.strip(), re.IGNORECASE)\n209|         if m:\n210|             level = m.group(1).upper()\n211|             counts[level] = counts.get(level, 0) + 1\n212|     return counts\n213| \n214| \n215| def _text_overlap(a: str, b: str) -> float:\n216|     \"\"\"Simple word-overlap similarity between two strings.\"\"\"\n217|     words_a = set(a.split())\n218|     words_b = set(b.split())\n219|     if not words_a or not words_b:\n220|         return 0.0\n221|     intersection = words_a & words_b\n222|     return len(intersection) / max(len(words_a), len(words_b))\n223| \n</file>\n\n<file path=\"training_store.py\">\n1| #!/usr/bin/env python3\n2| \"\"\"\n3| training_store.py - Training data collection and persistence\n4| \n5| Provides functions for collecting training examples from plan diff analysis,\n6| and for saving/loading training examples from disk.\n7| \n8| Usage:\n9|     from training_store import collect_training_example, save_training_example, load_training_examples\n10| \n11|     # Create training example from plan diff\n12|     example = collect_training_example(plan_before, plan_after, \"security\", review_output, [])\n13|     save_training_example(example)\n14| \n15|     # Load examples for a domain\n16|     examples = load_training_examples(domain=\"security\")\n17| \"\"\"\n18| import json\n19| import logging\n20| from pathlib import Path\n21| \n22| from constants import SIGNIFICANT_WORD_MIN_LENGTH, FINDING_ADDRESS_THRESHOLD\n23| from paths import get_training_dir\n24| from training_metric import (\n25|     ReviewExample,\n26|     _extract_finding_texts,\n27| )\n28| \n29| logger = logging.getLogger(__name__)\n30| \n31| \n32| # ===========================================================================\n33| # Training Data Collection\n34| # ===========================================================================\n35| \n36| def collect_training_example(\n37|     plan_before: str,\n38|     plan_after: str,\n39|     domain: str,\n40|     review_output: str,\n41|     other_domains: list[str],\n42|     security_level: str = \"public\",\n43|     plan_id: str | None = None,\n44|     iteration: int | None = None,\n45| ) -> ReviewExample:\n46|     \"\"\"Create a training example by comparing plan versions.\n47| \n48|     Determines which findings were acted on by diffing plan_before vs plan_after.\n49|     Findings whose described concern appears addressed in plan_after are marked\n50|     as 'findings_acted_on'; the rest are 'findings_ignored'.\n51|     \"\"\"\n52|     pred_findings = _extract_finding_texts(review_output)\n53| \n54|     findings_acted_on = []\n55|     findings_ignored = []\n56| \n57|     # Simple heuristic: if key terms from a finding appear in the diff\n58|     # (plan_after minus plan_before), the finding was likely addressed\n59|     added_text = _get_added_text(plan_before, plan_after).lower()\n60| \n61|     for finding in pred_findings:\n62|         # Extract significant words from the finding\n63|         sig_words = [w for w in finding.lower().split() if len(w) > SIGNIFICANT_WORD_MIN_LENGTH]\n64|         if sig_words:\n65|             matches = sum(1 for w in sig_words if w in added_text)\n66|             if matches / len(sig_words) > FINDING_ADDRESS_THRESHOLD:\n67|                 findings_acted_on.append(finding)\n68|             else:\n69|                 findings_ignored.append(finding)\n70|         else:\n71|             findings_ignored.append(finding)\n72| \n73|     return ReviewExample(\n74|         plan=plan_before,\n75|         domain=domain,\n76|         other_domains=other_domains,\n77|         security_level=security_level,\n78|         review_output=review_output,\n79|         findings_acted_on=findings_acted_on,\n80|         findings_ignored=findings_ignored,\n81|         missed_issues=[],  # Can only be filled by later analysis\n82|         stayed_in_lane=True,  # Default; can be relabeled\n83|         plan_id=plan_id,\n84|         iteration=iteration,\n85|     )\n86| \n87| \n88| def _get_added_text(before: str, after: str) -> str:\n89|     \"\"\"Return text present in after but not in before (line-level diff).\"\"\"\n90|     before_lines = set(before.splitlines())\n91|     after_lines = after.splitlines()\n92|     added = [line for line in after_lines if line not in before_lines]\n93|     return \"\\n\".join(added)\n94| \n95| \n96| # ===========================================================================\n97| # Persistence\n98| # ===========================================================================\n99| \n100| def save_training_example(example: ReviewExample) -> Path:\n101|     \"\"\"Persist a training example to the training data directory.\"\"\"\n102|     get_training_dir().mkdir(parents=True, exist_ok=True)\n103| \n104|     # Filename: {domain}_{plan_id or timestamp}.json\n105|     name_part = example.plan_id or str(int(__import__(\"time\").time()))\n106|     iter_part = f\"_iter{example.iteration}\" if example.iteration is not None else \"\"\n107|     path = get_training_dir() / f\"{example.domain}_{name_part}{iter_part}.json\"\n108| \n109|     data = {\n110|         \"plan\": example.plan,\n111|         \"domain\": example.domain,\n112|         \"other_domains\": example.other_domains,\n113|         \"security_level\": example.security_level,\n114|         \"review_output\": example.review_output,\n115|         \"findings_acted_on\": example.findings_acted_on,\n116|         \"findings_ignored\": example.findings_ignored,\n117|         \"missed_issues\": example.missed_issues,\n118|         \"stayed_in_lane\": example.stayed_in_lane,\n119|         \"severity_gold\": example.severity_gold,\n120|         \"plan_id\": example.plan_id,\n121|         \"iteration\": example.iteration,\n122|     }\n123|     path.write_text(json.dumps(data, indent=2))\n124|     return path\n125| \n126| \n127| def load_training_examples(domain: str | None = None) -> list[ReviewExample]:\n128|     \"\"\"Load training examples from disk.\n129| \n130|     Args:\n131|         domain: Filter to a specific domain, or None for all.\n132| \n133|     Returns:\n134|         List of ReviewExample\n135|     \"\"\"\n136|     examples = []\n137|     if not get_training_dir().exists():\n138|         return examples\n139| \n140|     for f in sorted(get_training_dir().glob(\"*.json\")):\n141|         try:\n142|             data = json.loads(f.read_text())\n143|             if domain and data.get(\"domain\") != domain:\n144|                 continue\n145|             examples.append(\n146|                 ReviewExample(\n147|                     plan=data[\"plan\"],\n148|                     domain=data[\"domain\"],\n149|                     other_domains=data.get(\"other_domains\", []),\n150|                     security_level=data.get(\"security_level\", \"public\"),\n151|                     review_output=data.get(\"review_output\", \"\"),\n152|                     findings_acted_on=data.get(\"findings_acted_on\", []),\n153|                     findings_ignored=data.get(\"findings_ignored\", []),\n154|                     missed_issues=data.get(\"missed_issues\", []),\n155|                     stayed_in_lane=data.get(\"stayed_in_lane\", True),\n156|                     severity_gold=data.get(\"severity_gold\", {}),\n157|                     plan_id=data.get(\"plan_id\"),\n158|                     iteration=data.get(\"iteration\"),\n159|                 )\n160|             )\n161|         except (json.JSONDecodeError, KeyError) as e:\n162|             logger.warning(f\"Skipping malformed training file {f.name}: {e}\")\n163|             continue\n164| \n165|     return examples\n166| \n</file>"
+    }
+  ]
+}
+
+thinking
+**Planning blind packet reading**
+codex
+I’ve mapped the two target files and adjacent modules for evidence. Next I’m reading the blind packet to apply its scoring and reporting constraints exactly before drafting findings.
+exec
+/bin/zsh -lc 'cat /Users/vuln/code/fando/fando-plan/scripts/.desloppify/review_packet_blind.json' in /Users/vuln/code/fando/fando-plan/scriptsexec
+/bin/zsh -lc 'nl -ba /Users/vuln/code/fando/fando-plan/scripts/paths.py' in /Users/vuln/code/fando/fando-plan/scriptsexec
+/bin/zsh -lc 'nl -ba /Users/vuln/code/fando/fando-plan/scripts/dspy_reviewers.py' in /Users/vuln/code/fando/fando-plan/scripts succeeded in 51ms:
+Total output lines: 971
+
+{
+  "command": "review",
+  "mode": "holistic",
+  "language": "python",
+  "dimensions": [
+    "cross_module_architecture",
+    "convention_outlier",
+    "error_consistency",
+    "abstraction_fitness",
+    "dependency_health",
+    "test_strategy",
+    "ai_generated_debt",
+    "package_organization",
+    "high_level_elegance",
+    "mid_level_elegance",
+    "low_level_elegance",
+    "design_coherence"
+  ],
+ succeeded in 51ms:
+     1	#!/usr/bin/env python3
+     2	"""
+     3	paths.py - Centralized path configuration for fando-plan
+     4	
+     5	Provides configurable paths with environment variable overrides and
+     6	repository-local defaults for better portability and reproducibility.
+     7	
+     8	Usage:
+     9	    from paths import get_skill_dir, get_training_dir, get_plan_reviews_dir
+    10	
+    11	    skill_dir = get_skill_dir()
+    12	    training_dir = get_training_dir()
+    13	
+    14	Environment Variables:
+    15	    FANDO_SKILL_DIR: Override path for skill/optimized/training data
+    16	    FANDO_PLAN_REVIEWS_DIR: Override path for plan review storage
+    17	
+    18	Repository-Local Default:
+    19	    If .claude directory exists in current repository, uses that instead
+    20	    of ~/.claude, allowing repository-local state during development.
+ succeeded in 51ms:
+     1	#!/usr/bin/env python3
+     2	"""
+     3	dspy_reviewers.py - DSPy-based plan review system with per-domain Signatures
+     4	
+     5	This module provides a unified facade for the DSPy review system. The actual
+     6	implementation is split into focused modules:
+     7	- review_signatures.py: Domain-specific DSPy Signatures
+     8	- review_module.py: DomainReviewModule class
+     9	- review_runtime.py: run_dspy_review orchestration
+    10	- review_conversion.py: Output conversion (prediction_to_review_output, prediction_to_parse_result)
+    11	- training_metric.py: ReviewExample dataclass and review_metric
+    12	- training_store.py: Data collection and persistence
+    13	
+    14	Usage:
+    15	    from dspy_reviewers import run_dspy_review, prediction_to_review_output, DSPyReviewError
+    16	    from parse_findings import parse_findings
+    17	
+    18	    results = run_dspy_review(plan, profiles, security_level="public")
+    19	    for profile, prediction in results.items():
+    20	        if isinstance(prediction, Exception):
+
+thinking
+**Checking for existing tests**
+codex
+I’m now checking for any test coverage targeting these two modules and validating seam/API concerns against adjacent runtime modules so findings are evidence-backed.
+exec
+/bin/zsh -lc "nl -ba /Users/vuln/code/fando/fando-plan/scripts/review_runtime.py | sed -n '1,240p'" in /Users/vuln/code/fando/fando-plan/scriptsexec
+/bin/zsh -lc 'rg -n "paths|dspy_reviewers|get_skill_dir|get_training_dir|run_dspy_review|--list-domains|--stats" /Users/vuln/code/fando/fando-plan/scripts -g "*test*" -g "tests/**"' in /Users/vuln/code/fando/fando-plan/scriptsexec
+/bin/zsh -lc 'fd -HI "test|tests|pytest" /Users/vuln/code/fando/fando-plan/scripts' in /Users/vuln/code/fando/fando-plan/scripts exited 1 in 50ms:
+
+ succeeded in 51ms:
+     1	#!/usr/bin/env python3
+     2	"""
+     3	review_runtime.py - DSPy review orchestration and optimized module management
+     4	
+     5	Provides run_dspy_review for parallel execution of domain-specific reviews,
+     6	and load/save helpers for GEPA-optimized modules.
+     7	
+     8	Usage:
+     9	    from review_runtime import run_dspy_review, save_optimized_module, load_optimized_module
+    10	
+    11	    results = run_dspy_review(plan, ["security", "api"], security_level="public")
+    12	
+    13	    # After GEPA optimization
+    14	    save_optimized_module("security", optimized_module)
+    15	"""
+    16	import json
+    17	import logging
+    18	from concurrent.futures import ThreadPoolExecutor, as_completed
+    19	from pathlib import Path
+    20	from typing import Any, Optional
+ succeeded in 50ms:
+
+
+thinking
+**Formulating detailed findings and assessments**
+codex
+{
+  "batch": "Testing & API",
+  "batch_index": 3,
+  "assessments": {
+    "test_strategy": 62.0,
+    "mid_level_elegance": 74.0
+  },
+  "dimension_notes": {
+    "test_strategy": {
+      "evidence": [
+        "No test files were found in the repository for the assigned modules (`fd -HI \"test|tests|pytest\"` returned no matches).",
+        "`paths.py` is a high-fan-in module (5 importers in packet context) with behavior branches for env overrides and cwd/home fallback, but no verification of branch matrix.",
+        "`dspy_reviewers.py` exposes user-facing CLI paths (`--check`, `--list-domains`, `--stats`) and optional-dependency behavior without tests for no-DSPy, empty training set, or malformed training data cases."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "mid_level_elegance": {
+      "evidence": [
+        "`paths._get_base_claude_dir()` derives storage root from `Path.cwd()` (`paths.py:34-39`), so module behavior depends on process launch directory rather than explicit configuration.",
+        "`dspy_reviewers.main()` and transitive runtime/training calls consume path helpers implicitly (`dspy_reviewers.py:97,160-165`), coupling CLI/runtime seams to ambient cwd and making integration behavior non-obvious.",
+        "Optional DSPy handling uses mixed seam contracts: `dspy_reviewers.py` conditionally binds some symbols at import time (`lines 51-66`) while `run_dspy_review` fails later at call time in `review_runtime.py:112-113`."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "medium"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "test_strategy",
+      "identifier": "missing_coverage_for_core_path_and_cli_contracts",
+      "summary": "Critical path and facade CLI behavior are untested despite high reuse and branching behavior.",
+      "related_files": [
+        "paths.py",
+        "dspy_reviewers.py"
+      ],
+      "evidence": [
+        "`paths.py` contains multiple behavior branches (env overrides plus cwd/home fallback) with no tests validating precedence or portability outcomes.",
+        "`dspy_reviewers.py` contains CLI flows (`--check`, `--list-domains`, `--stats`) and optional dependency states, but no tests assert outputs or failure behavior.",
+        "Repository scan found no test files covering these modules."
+      ],
+      "suggestion": "Add a focused pytest suite: (1) parametrize `paths.py` over env/cwd/home combinations, (2) test `dspy_reviewers.main()` via argv monkeypatch and captured stdout for each flag, and (3) add one integration test that runs `--stats` with temporary training data directory wiring.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "implicit_runtime_context"
+    },
+    {
+      "dimension": "mid_level_elegance",
+      "identifier": "cwd_dependent_storage_seam",
+      "summary": "Path resolution relies on ambient cwd, creating non-explicit integration seams across consumers.",
+      "related_files": [
+        "paths.py",
+        "dspy_reviewers.py"
+      ],
+      "evidence": [
+        "`_get_base_claude_dir()` checks `Path.cwd() / '.claude'` first (`paths.py:34-36`) and otherwise falls back to home (`paths.py:39`).",
+        "Downstream entry points consume this implicitly through `get_training_dir()` and related helpers (`dspy_reviewers.py:97,160-165`), so identical commands can read/write different locations depending on launch directory."
+      ],
+      "suggestion": "Refactor path resolution to a single explicit root input (e.g., env var or injected base dir object) and have CLI/runtime pass that root explicitly; keep cwd fallback only as a thin compatibility path with a deprecation boundary.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "implicit_runtime_context"
+    },
+    {
+      "dimension": "mid_level_elegance",
+      "identifier": "inconsistent_optional_dependency_boundary",
+      "summary": "Facade exposes mixed failure timing for missing DSPy, making boundary behavior unpredictable.",
+      "related_files": [
+        "dspy_reviewers.py",
+        "review_runtime.py"
+      ],
+      "evidence": [
+        "`dspy_reviewers.py` conditionally imports/binds some DSPy symbols at import time (`lines 51-66`), but still re-exports runtime functions unconditionally (`line 69`).",
+        "`run_dspy_review()` raises ImportError at call time when DSPy is absent (`review_runtime.py:112-113`), creating a different failure mode than missing import-time symbols."
+      ],
+      "suggestion": "Define one explicit optional-dependency contract at the facade boundary: either always expose stubs that raise a consistent custom error on use, or gate all DSPy-dependent exports behind a single capability object/function so import-time and call-time behavior are uniform.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "implicit_runtime_context"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Heavy reliance on ambient process context (cwd, optional package presence) instead of explicit boundary contracts.",
+      "Facade/orchestration code evolved without matching test harnesses for branchy runtime states."
+    ],
+    "likely_symptoms": [
+      "missing_coverage_for_core_path_and_cli_contracts",
+      "cwd_dependent_storage_seam",
+      "inconsistent_optional_dependency_boundary"
+    ],
+    "possible_false_positives": []
+  }
+}
+tokens used
+38,094
+

@@ -1,0 +1,48 @@
+2026-02-28T17:31:13+00:00 run-start runner=codex parallel=True max_parallel=3 timeout=1200s heartbeat=15.0s stall_warning=0s stall_kill=120s retries=1 retry_backoff=2.0s upper_bound=60m selected=[1, 2, 3, 4, 5, 6, 7, 8]
+2026-02-28T17:31:13+00:00 run-path /Users/vuln/code/fando/fando-plan/scripts/.desloppify/subagents/runs/20260228_173113
+2026-02-28T17:31:13+00:00 packet /Users/vuln/code/fando/fando-plan/scripts/.desloppify/review_packets/holistic_packet_20260228_173113.json
+2026-02-28T17:31:13+00:00 blind-packet /Users/vuln/code/fando/fando-plan/scripts/.desloppify/review_packet_blind.json
+2026-02-28T17:31:13+00:00 batch-queued batch=1 position=1/8
+2026-02-28T17:31:13+00:00 batch-start batch=1 position=1/8
+2026-02-28T17:31:13+00:00 batch-queued batch=2 position=2/8
+2026-02-28T17:31:13+00:00 batch-start batch=2 position=2/8
+2026-02-28T17:31:13+00:00 batch-queued batch=3 position=3/8
+2026-02-28T17:31:13+00:00 batch-start batch=3 position=3/8
+2026-02-28T17:31:13+00:00 batch-queued batch=4 position=4/8
+2026-02-28T17:31:13+00:00 batch-queued batch=5 position=5/8
+2026-02-28T17:31:13+00:00 batch-queued batch=6 position=6/8
+2026-02-28T17:31:13+00:00 batch-queued batch=7 position=7/8
+2026-02-28T17:31:13+00:00 batch-queued batch=8 position=8/8
+2026-02-28T17:31:28+00:00 heartbeat active=[1, 2, 3] queued=[4, 5, 6, 7, 8] elapsed={1:15, 2:15, 3:15}
+2026-02-28T17:31:43+00:00 heartbeat active=[1, 2, 3] queued=[4, 5, 6, 7, 8] elapsed={1:30, 2:30, 3:30}
+2026-02-28T17:31:58+00:00 heartbeat active=[1, 2, 3] queued=[4, 5, 6, 7, 8] elapsed={1:45, 2:45, 3:45}
+2026-02-28T17:32:08+00:00 batch-start batch=4 position=4/8
+2026-02-28T17:32:08+00:00 batch-done batch=3 position=3/8 code=0 elapsed=55
+2026-02-28T17:32:09+00:00 batch-start batch=5 position=5/8
+2026-02-28T17:32:09+00:00 batch-done batch=1 position=1/8 code=0 elapsed=56
+2026-02-28T17:32:24+00:00 heartbeat active=[2, 4, 5] queued=[6, 7, 8] elapsed={2:71, 4:15, 5:15}
+2026-02-28T17:32:39+00:00 heartbeat active=[2, 4, 5] queued=[6, 7, 8] elapsed={2:86, 4:31, 5:30}
+2026-02-28T17:32:54+00:00 heartbeat active=[2, 4, 5] queued=[6, 7, 8] elapsed={2:101, 4:46, 5:45}
+2026-02-28T17:33:01+00:00 batch-done batch=2 position=2/8 code=0 elapsed=107
+2026-02-28T17:33:01+00:00 batch-start batch=6 position=6/8
+2026-02-28T17:33:11+00:00 batch-start batch=7 position=7/8
+2026-02-28T17:33:11+00:00 batch-done batch=4 position=4/8 code=0 elapsed=62
+2026-02-28T17:33:26+00:00 heartbeat active=[5, 6, 7] queued=[8] elapsed={5:76, 6:25, 7:15}
+2026-02-28T17:33:41+00:00 heartbeat active=[5, 6, 7] queued=[8] elapsed={5:91, 6:40, 7:30}
+2026-02-28T17:33:56+00:00 heartbeat active=[5, 6, 7] queued=[8] elapsed={5:106, 6:55, 7:45}
+2026-02-28T17:34:02+00:00 batch-start batch=8 position=8/8
+2026-02-28T17:34:02+00:00 batch-done batch=5 position=5/8 code=0 elapsed=112
+2026-02-28T17:34:07+00:00 batch-done batch=6 position=6/8 code=0 elapsed=66
+2026-02-28T17:34:22+00:00 heartbeat active=[7, 8] queued=[] elapsed={7:71, 8:20}
+2026-02-28T17:34:37+00:00 heartbeat active=[7, 8] queued=[] elapsed={7:86, 8:35}
+2026-02-28T17:34:52+00:00 heartbeat active=[7, 8] queued=[] elapsed={7:101, 8:50}
+2026-02-28T17:34:55+00:00 batch-done batch=7 position=7/8 code=0 elapsed=104
+2026-02-28T17:35:10+00:00 heartbeat active=[8] queued=[] elapsed={8:68}
+2026-02-28T17:35:25+00:00 heartbeat active=[8] queued=[] elapsed={8:83}
+2026-02-28T17:35:40+00:00 heartbeat active=[8] queued=[] elapsed={8:98}
+2026-02-28T17:35:55+00:00 heartbeat active=[8] queued=[] elapsed={8:113}
+2026-02-28T17:36:10+00:00 heartbeat active=[8] queued=[] elapsed={8:128}
+2026-02-28T17:36:25+00:00 heartbeat active=[8] queued=[] elapsed={8:143}
+2026-02-28T17:36:29+00:00 batch-done batch=8 position=8/8 code=0 elapsed=147
+2026-02-28T17:36:29+00:00 run-summary /Users/vuln/code/fando/fando-plan/scripts/.desloppify/subagents/runs/20260228_173113/run_summary.json
+2026-02-28T17:36:30+00:00 run-finished successful=[1, 2, 3, 4, 5, 6, 7, 8] failed=[] imported=/Users/vuln/code/fando/fando-plan/scripts/.desloppify/subagents/runs/20260228_173113/holistic_findings_merged.json

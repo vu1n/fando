@@ -1,0 +1,114 @@
+{
+  "batch": "Design coherence — Mechanical Concern Signals",
+  "batch_index": 6,
+  "assessments": {
+    "design_coherence": 73.0
+  },
+  "dimension_notes": {
+    "design_coherence": {
+      "evidence": [
+        "run_parallel_reviews.py combines prompt construction, backend dispatch, concurrency orchestration, output formatting, and process-exit policy in one module (e.g., run_single_review, run_parallel_reviews, run_parallel_reviews_dspy, format_results_for_display, and main).",
+        "aggregate_findings.py and run_parallel_reviews.py each define their own JSON transport/aggregation shapes inline rather than a shared review-result contract, creating duplicated schema logic across modules.",
+        "backfill_training.py contains source-specific parsers (parse_zellij_bridge, parse_jj_workspace) that duplicate a common extract->classify->assemble ReviewExample pipeline while main() also handles persistence/stats, blending ETL and CLI concerns.",
+        "call_codex.py re-checks CLI capabilities on every call (call_codex -> verify_codex_cli), while run_parallel_reviews.py also has separate CLI readiness logic, indicating orchestration concern leakage across boundaries."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "design_coherence",
+      "identifier": "systemic_orchestration_boundary_blur",
+      "summary": "Review orchestration responsibilities are spread across transport, execution, formatting, and exit-policy layers without a clean boundary.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "call_codex.py",
+        "aggregate_findings.py"
+      ],
+      "evidence": [
+        "run_parallel_reviews.py includes both backend-specific execution (run_parallel_reviews/run_parallel_reviews_dspy) and CLI surface behavior (argument parsing, formatting, exit decisions).",
+        "call_codex.py performs CLI capability probing and process execution concerns that are partially duplicated by readiness checks in run_parallel_reviews.py.",
+        "aggregate_findings.py re-implements downstream interpretation of the same review-result shape rather than consuming a shared domain object."
+      ],
+      "suggestion": "Introduce a shared review service layer with a typed `ReviewBundle` contract (execution-only), move CLI parsing/output/exit handling into thin adapters, and have `aggregate_findings.py` consume that contract rather than ad-hoc dictionaries.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "orchestration_boundary_blur"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "duplicated_result_schema_contract",
+      "summary": "Result-shape construction and interpretation are duplicated in multiple modules, creating fragile implicit contracts.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "aggregate_findings.py"
+      ],
+      "evidence": [
+        "run_parallel_reviews.py manually builds nested `output['results'][profile]` and findings item dicts in main().",
+        "aggregate_findings.py expects specific nested keys (`findings.items`, `level`, `text`) and counts severities by re-parsing those dicts.",
+        "No shared dataclass/serializer defines this transport schema, so both modules must stay manually synchronized."
+      ],
+      "suggestion": "Define a shared serializer/deserializer for review results (e.g., dataclass + `to_dict`/`from_dict`) and centralize severity counting there so both producer and consumer use one canonical schema.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "implicit_data_contracts"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "backfill_etl_pipeline_duplication",
+      "summary": "Backfill parsing paths duplicate the same transformation pipeline instead of using reusable extraction/mapping stages.",
+      "related_files": [
+        "backfill_training.py",
+        "collect_training.py",
+        "optimize.py"
+      ],
+      "evidence": [
+        "backfill_training.py has two parser functions that both parse source text, build severity maps, classify domain, and assemble `ReviewExample` objects with mostly parallel logic.",
+        "collect_training.py constructs and persists `ReviewExample` data via a separate one-off path with its own argument parsing and file-read behavior.",
+        "optimize.py consumes the same training data domain model, but ingestion/normalization responsibilities remain scattered across scripts."
+      ],
+      "suggestion": "Extract a shared training-example builder pipeline (parse source -> normalize findings -> classify domain -> build ReviewExample) and let each CLI provide only source adapters and I/O.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "training_pipeline_fragmentation"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "mixed_domain_and_presentation_logic",
+      "summary": "Core analysis modules mix domain computation with user-facing rendering, reducing composability.",
+      "related_files": [
+        "aggregate_findings.py",
+        "detect_security_level.py",
+        "secrets.py"
+      ],
+      "evidence": [
+        "aggregate_findings.py houses pure aggregation logic and terminal-oriented rendering (`format_for_display`) in the same module.",
+        "detect_security_level.py and secrets.py both implement reusable analysis functions plus CLI-format-specific rendering/exit semantics in the same files.",
+        "This pattern repeats across scripts, making programmatic reuse rely on importing CLI-heavy modules."
+      ],
+      "suggestion": "Split each script into `core` (analysis/state transitions) and `cli` (argparse, formatting, exit codes) modules; keep core free of output-format concerns.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "presentation_domain_mixing"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Script-first growth without a shared application service layer",
+      "Implicit dictionary contracts between modules instead of typed shared models",
+      "Repeated CLI+core colocation pattern across utilities"
+    ],
+    "likely_symptoms": [
+      "duplicated_result_schema_contract",
+      "backfill_etl_pipeline_duplication",
+      "mixed_domain_and_presentation_logic"
+    ],
+    "possible_false_positives": []
+  }
+}

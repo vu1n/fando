@@ -1,0 +1,90 @@
+{
+  "batch": "Abstractions & Dependencies",
+  "batch_index": 2,
+  "assessments": {
+    "abstraction_fitness": 82.0
+  },
+  "dimension_notes": {
+    "abstraction_fitness": {
+      "evidence": [
+        "Multiple functions (`is_git_repo`, `get_current_ref`, `get_merge_base`, `get_diff_stats`, `gather_diff`, `gather_working_tree_diff`) each build near-identical `subprocess.run([...], capture_output=True, text=True, timeout=30)` calls inline instead of using a shared git-command boundary.",
+        "`gather_diff` and `gather_working_tree_diff` duplicate orchestration steps (discover changed files, run diff, compute stats, shape `ImplementationDiff`) with only small policy differences, indicating low abstraction leverage and repeated choreography.",
+        "The module combines reusable diff-gathering logic and CLI rendering/argument parsing in one script-level surface (`main` plus data collection functions), creating a blurred boundary between domain API and entrypoint behavior."
+      ],
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "sub_axes": {
+        "abstraction_leverage": 78.0,
+        "indirection_cost": 86.0,
+        "interface_honesty": 84.0
+      }
+    }
+  },
+  "findings": [
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "duplicated_git_command_boundary",
+      "summary": "Git subprocess invocation policy is duplicated across helpers instead of centralized.",
+      "related_files": [
+        "fando-verify/scripts/gather_implementation.py"
+      ],
+      "evidence": [
+        "At least six helpers independently encode the same subprocess execution policy (`capture_output=True`, `text=True`, `timeout=30`) while varying only argv.",
+        "Return-shaping logic is repeated at each call site (returncode checks, stdout stripping, fallback defaults), making behavior changes require many edits."
+      ],
+      "suggestion": "Extract a private helper (for example `_run_git(args: list[str]) -> subprocess.CompletedProcess[str]`) that owns timeout/output policy and shared failure translation, then have all git queries call through it.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "missing_command_adapter_abstraction"
+    },
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "parallel_diff_flows_not_unified",
+      "summary": "Two diff collection flows duplicate orchestration with small policy deltas.",
+      "related_files": [
+        "fando-verify/scripts/gather_implementation.py"
+      ],
+      "evidence": [
+        "`gather_diff` and `gather_working_tree_diff` both collect file lists, run git diff, gather stats, and build `ImplementationDiff` objects.",
+        "Only base-ref selection and untracked-file handling differ, but the shared sequence is copied rather than represented as one core abstraction plus strategy/policy inputs."
+      ],
+      "suggestion": "Create a single internal diff-collection pipeline (e.g., `_collect_diff(base_ref, include_untracked=False)`) and keep mode-specific decisions in thin wrappers to reduce duplicated choreography and drift risk.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "missing_command_adapter_abstraction"
+    },
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "entrypoint_and_library_logic_cohabiting",
+      "summary": "CLI parsing/output and reusable diff logic are coupled in one module boundary.",
+      "related_files": [
+        "fando-verify/scripts/gather_implementation.py",
+        ".desloppify/review_packet_blind.json"
+      ],
+      "evidence": [
+        "The same file exports core behavior (`gather_diff`, `gather_working_tree_diff`, `ImplementationDiff`) and also owns argument parsing/print formatting in `main`.",
+        "Blind packet context flags script-layer boundary ambiguity as a recurring structural pattern; this module exhibits that pattern directly."
+      ],
+      "suggestion": "Split into a reusable library module (diff collection + data model) and a thin CLI entrypoint module (argparse and output formatting) so abstractions align with ownership boundaries.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "missing_command_adapter_abstraction"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "No explicit git-command adapter layer, so command execution policy is repeated at call sites.",
+      "Script-first structure blends entrypoint concerns with reusable logic, weakening abstraction boundaries."
+    ],
+    "likely_symptoms": [
+      "duplicated_git_command_boundary",
+      "parallel_diff_flows_not_unified",
+      "entrypoint_and_library_logic_cohabiting"
+    ],
+    "possible_false_positives": []
+  }
+}

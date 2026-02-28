@@ -1,0 +1,85 @@
+{
+  "batch": "Architecture & Coupling",
+  "batch_index": 1,
+  "assessments": {
+    "cross_module_architecture": 78.0,
+    "high_level_elegance": 80.0
+  },
+  "dimension_notes": {
+    "cross_module_architecture": {
+      "evidence": [
+        "`fando-plan/scripts/codex_lm.py` imports `verify_codex_cli` from `fando-plan/scripts/call_codex.py`, but still performs its own separate `codex exec` subprocess orchestration and error contract.",
+        "`fando-plan/scripts/call_codex.py`, `fando-plan/scripts/codex_lm.py`, `fando-verify/scripts/find_plan.py`, and `fando-verify/scripts/gather_implementation.py` each own direct subprocess integration logic (command construction, timeout behavior, stderr handling) without a shared boundary module.",
+        "External-tool coupling policy is fragmented: git probing and codex probing are implemented in per-script helpers with different failure contracts (return-value errors vs raised runtime errors vs process exits), increasing change ripple when CLI behavior changes."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "high_level_elegance": {
+      "evidence": [
+        "`fando-plan/scripts/call_codex.py` serves both as reusable library (`verify_codex_cli`, `call_codex`) and executable CLI (`main`), and `codex_lm.py` depends on it as a module; this blends entrypoint and reusable-layer responsibilities.",
+        "`fando-verify/scripts/find_plan.py` and `fando-verify/scripts/gather_implementation.py` follow the same mixed pattern (domain logic + presentation/CLI printing + process exit behavior in one file), so ownership boundaries are not consistently separated by role.",
+        "The same architectural pattern repeats across both `fando-plan` and `fando-verify` script sets, indicating a systemic decomposition choice rather than an isolated file issue."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "cross_module_architecture",
+      "identifier": "missing_shared_cli_adapter_boundary",
+      "summary": "CLI integration is duplicated across modules instead of centralized behind one adapter boundary.",
+      "related_files": [
+        "fando-plan/scripts/call_codex.py",
+        "fando-plan/scripts/codex_lm.py",
+        "fando-verify/scripts/find_plan.py",
+        "fando-verify/scripts/gather_implementation.py"
+      ],
+      "evidence": [
+        "`call_codex.py` and `codex_lm.py` both orchestrate `codex exec` subprocess calls with separate command assembly and error mapping.",
+        "`find_plan.py` and `gather_implementation.py` each implement their own subprocess invocation patterns for git with local timeout/error semantics.",
+        "No shared execution/policy layer exists for subprocess-backed tooling, so behavior diverges by script and creates broad ripple when external CLI contracts change."
+      ],
+      "suggestion": "Extract a shared infrastructure module (for example, `scripts/lib/cli_exec.py`) that standardizes subprocess execution, timeout defaults, and structured error mapping, then have all four scripts consume that boundary rather than owning ad-hoc subprocess policy.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "missing_infrastructure_boundary"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "entrypoint_and_library_role_blending",
+      "summary": "Script files mix reusable domain logic with CLI entrypoint behavior, blurring ownership boundaries.",
+      "related_files": [
+        "fando-plan/scripts/call_codex.py",
+        "fando-plan/scripts/codex_lm.py",
+        "fando-verify/scripts/find_plan.py",
+        "fando-verify/scripts/gather_implementation.py"
+      ],
+      "evidence": [
+        "`codex_lm.py` imports `verify_codex_cli` from `call_codex.py`, which is primarily a CLI script with `main()` and process-exit concerns.",
+        "`find_plan.py` and `gather_implementation.py` embed reusable discovery/diff logic and CLI formatting/exit handling in the same modules.",
+        "This repeated pattern across both subsystems makes top-level roles less explicit (entrypoint vs service logic), increasing coupling and reducing decomposition clarity."
+      ],
+      "suggestion": "Split each script into role-specific modules: keep thin CLI entrypoints (`main` + argparse + output) and move reusable logic into import-safe service modules (e.g., `plan_locator.py`, `git_diff_service.py`, `codex_service.py`) with consistent non-exiting return/exception contracts.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "mixed_role_modules"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Infrastructure interactions (subprocess-driven git/codex calls) are treated as per-script implementation details instead of shared architecture.",
+      "Project favors executable-script convenience over explicit layering, producing recurring entrypoint/library role mixing."
+    ],
+    "likely_symptoms": [
+      "missing_shared_cli_adapter_boundary",
+      "entrypoint_and_library_role_blending"
+    ],
+    "possible_false_positives": []
+  }
+}

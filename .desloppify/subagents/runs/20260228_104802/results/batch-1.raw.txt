@@ -1,0 +1,90 @@
+{
+  "batch": "Conventions & Errors",
+  "batch_index": 1,
+  "assessments": {
+    "error_consistency": 73.0
+  },
+  "dimension_notes": {
+    "error_consistency": {
+      "evidence": [
+        "`fando-verify/scripts/find_plan.py` uses multiple incompatible error channels: `find_plan()` returns `(None, \"error string\")` on failures (lines 147, 152, 160, 163), `get_project_name()` swallows subprocess failures and silently falls back (lines 46-51), and `main()` sometimes prints stderr + exits (lines 224-229).",
+        "`fando-verify/scripts/find_plan.py` has format-dependent failure semantics for empty results: text mode exits non-zero for `--list` with no plans (lines 209-211), while JSON mode emits `[]` and exits 0 (lines 201-208, 220).",
+        "`fando-verify/scripts/find_plan.py` does not guard `base_dir.iterdir()` when the plan root is missing (line 113), so one code path raises an uncaught exception while adjacent paths return controlled errors.",
+        "`fando-verify/scripts/parse_verification.py` mixes parse errors and domain verdicts into the same process-exit channel: parse failure exits 1 (lines 184-189), and valid parse with regressions/missing also exits 1 (lines 215-217), while JSON responses may include `warning` on successful parse (lines 206-208)."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "error_consistency",
+      "identifier": "inconsistent_error_contract_across_scripts",
+      "summary": "Related scripts encode failures with different contracts, making callers branch on ad-hoc behavior.",
+      "related_files": [
+        "fando-verify/scripts/find_plan.py",
+        "fando-verify/scripts/parse_verification.py"
+      ],
+      "evidence": [
+        "`find_plan()` signals failures as `(None, error_string)` (find_plan.py lines 147, 152, 160, 163).",
+        "`parse_verification()` uses `VerificationResult.error` plus partial-success states, and `main()` conditionally maps those to stderr/json/exit code (parse_verification.py lines 184-189, 206-208, 215-217).",
+        "This creates two incompatible error interfaces for neighboring CLI utilities that are both consumed as automation helpers."
+      ],
+      "suggestion": "Define one shared script error contract (for example: `{ok, error_code, message, data}` in JSON plus aligned exit-code policy) and apply it in both scripts. Refactor `find_plan.py` to return structured results instead of `(None, str)` and align `parse_verification.py` warnings/errors to the same schema.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "missing_shared_cli_error_model"
+    },
+    {
+      "dimension": "error_consistency",
+      "identifier": "format_flag_changes_failure_semantics",
+      "summary": "In `find_plan.py`, identical no-data conditions fail in text mode but succeed in JSON mode.",
+      "related_files": [
+        "fando-verify/scripts/find_plan.py",
+        "fando-verify/scripts/parse_verification.py"
+      ],
+      "evidence": [
+        "For `--list` with no plans, text mode prints \"No plans found.\" and exits 1 (find_plan.py lines 209-211).",
+        "The same condition in JSON mode emits an empty list and exits 0 (find_plan.py lines 201-208, 220).",
+        "Sibling script `parse_verification.py` does not vary error exit semantics by output format for empty stdin (parse_verification.py lines 178-180), showing internal inconsistency in CLI error policy."
+      ],
+      "suggestion": "Make exit behavior independent of presentation format: either treat empty list as success in both modes, or treat it as error in both. Document the rule and enforce it consistently across both scripts.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "missing_shared_cli_error_model"
+    },
+    {
+      "dimension": "error_consistency",
+      "identifier": "uncaught_io_boundary_in_listing_path",
+      "summary": "Plan listing has an unhandled filesystem boundary that bypasses scripted error handling.",
+      "related_files": [
+        "fando-verify/scripts/find_plan.py",
+        "fando-verify/scripts/parse_verification.py"
+      ],
+      "evidence": [
+        "`list_plans()` calls `base_dir.iterdir()` without existence/IO guards (find_plan.py line 113), which can raise when `~/.claude/plan-reviews` is absent or inaccessible.",
+        "Other paths in the same script return controlled errors instead of throwing (find_plan.py lines 72-73, 147, 152, 160, 163), so this path is a behavioral outlier.",
+        "`parse_verification.py` consistently converts boundary failures (empty stdin / parse failure) to explicit messages and exit codes (lines 178-180, 184-189), highlighting mismatch."
+      ],
+      "suggestion": "Add explicit handling for missing/unreadable review directories in `list_plans()` and map to the same structured failure channel used elsewhere (and in `parse_verification.py`).",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "missing_shared_cli_error_model"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "No shared error-envelope abstraction for CLI scripts; each module evolved its own failure signaling strategy.",
+      "Error policy is encoded at call sites and output branches (`--format`) instead of centralized in a reusable helper."
+    ],
+    "likely_symptoms": [
+      "format_flag_changes_failure_semantics",
+      "uncaught_io_boundary_in_listing_path"
+    ],
+    "possible_false_positives": []
+  }
+}

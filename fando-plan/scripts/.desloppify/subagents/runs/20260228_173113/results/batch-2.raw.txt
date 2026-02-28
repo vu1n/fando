@@ -1,0 +1,149 @@
+{
+  "batch": "Abstractions & Dependencies",
+  "batch_index": 2,
+  "assessments": {
+    "abstraction_fitness": 74.0,
+    "dependency_health": 78.0,
+    "mid_level_elegance": 71.0,
+    "low_level_elegance": 64.0
+  },
+  "dimension_notes": {
+    "abstraction_fitness": {
+      "evidence": [
+        "`run_parallel_reviews.py` hand-serializes review results into nested dicts in `main()` while `aggregate_findings.py` re-parses the same shape with hardcoded keys (`results` -> `findings` -> `items`).",
+        "`training_store.py` separately defines another persistence shape for review/training artifacts, creating multiple ad-hoc data contracts for adjacent workflows.",
+        "No shared typed transport model exists for review output, so changes in one serializer require manual synchronized edits in other modules."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "sub_axes": {
+        "abstraction_leverage": 69.0,
+        "indirection_cost": 77.0,
+        "interface_honesty": 76.0
+      }
+    },
+    "dependency_health": {
+      "evidence": [
+        "`training_store.py` imports and depends on a private helper naming pattern (`_extract_finding_texts`), coupling this module to an internal parsing detail instead of a stable public API boundary.",
+        "The review pipeline currently depends on implicit JSON key conventions across `run_parallel_reviews.py`, `aggregate_findings.py`, and `training_store.py` rather than a shared schema object.",
+        "This increases change fragility: small parser/schema edits can silently break downstream consumers."
+      ],
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "medium"
+    },
+    "mid_level_elegance": {
+      "evidence": [
+        "`aggregate_findings.py` exposes `--detect-conflicts` and `--show-duplicates` CLI flags, but neither flag influences execution/output path; aggregation behavior is effectively fixed.",
+        "The CLI seam advertises toggles that do not map to behavior, so caller intent is not transmitted across module boundaries.",
+        "This creates a misleading orchestration contract in a script intended to compose with `run_parallel_reviews.py` output."
+      ],
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "confidence": "high"
+    },
+    "low_level_elegance": {
+      "evidence": [
+        "`run_parallel_reviews.py` uses runtime-evaluated type annotations that reference names before definition/import (`ParallelReviewResult`, `ReviewResult`, and `argparse.ArgumentParser`), causing import-time failure.",
+        "Local validation shows module import fails with `NameError` before CLI execution.",
+        "`run_parallel_reviews.py` also references `SECURITY_LEVELS` in argument choices without a visible import/definition in the file, introducing another runtime break once parser construction is reached."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "single_edit",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "low_level_elegance",
+      "identifier": "import_time_annotation_breakage",
+      "summary": "Forward-referenced annotations and missing symbols make `run_parallel_reviews.py` fail at import time.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "aggregate_findings.py"
+      ],
+      "evidence": [
+        "`aggregate_review_result` annotates `ParallelReviewResult` and `ReviewResult` before those classes are defined.",
+        "`build_argument_parser` annotates return type as `argparse.ArgumentParser` even though `argparse` is only imported inside `main()`.",
+        "Direct import of `run_parallel_reviews` raises `NameError`, preventing downstream workflow use."
+      ],
+      "suggestion": "Add `from __future__ import annotations` (or quote forward refs), import `argparse` at module scope, and define/import `SECURITY_LEVELS` explicitly before parser construction.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "runtime_contracts_not_executed_in_ci"
+    },
+    {
+      "dimension": "mid_level_elegance",
+      "identifier": "cli_flags_do_not_control_behavior",
+      "summary": "Aggregation CLI exposes options that are currently no-ops.",
+      "related_files": [
+        "aggregate_findings.py",
+        "run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "`--detect-conflicts` is parsed but `aggregate_findings(results)` is always called with conflict detection active.",
+        "`--show-duplicates` is parsed but no conditional branch emits duplicate detail based on the flag.",
+        "The CLI seam suggests configurable behavior while execution remains fixed."
+      ],
+      "suggestion": "Thread parsed flags into aggregation/output logic (e.g., `detect_conflicts` parameter and duplicate reporting branch), or remove unsupported flags from the interface.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "runtime_contracts_not_executed_in_ci"
+    },
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "missing_shared_review_schema",
+      "summary": "Review data crosses modules via duplicated ad-hoc dict schemas instead of a shared model.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "aggregate_findings.py",
+        "training_store.py"
+      ],
+      "evidence": [
+        "`run_parallel_reviews.py` manually builds nested JSON (`results`/`findings`/`items`) in `main()`.",
+        "`aggregate_findings.py` manually navigates and reconstructs objects from that same shape.",
+        "`training_store.py` performs separate manual dict serialization for training examples, continuing schema-by-convention patterns."
+      ],
+      "suggestion": "Introduce a shared typed schema/dataclass layer for review payloads and centralize serialize/deserialize helpers used by all three modules.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "schema_by_convention"
+    },
+    {
+      "dimension": "dependency_health",
+      "identifier": "private_parser_dependency",
+      "summary": "Training storage depends on a private parsing helper, creating fragile module coupling.",
+      "related_files": [
+        "training_store.py",
+        "run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "`training_store.py` imports `_extract_finding_texts` directly, relying on a private/internal symbol contract.",
+        "The broader review pipeline already has parsing boundaries in other modules, but this module bypasses them and binds to internals."
+      ],
+      "suggestion": "Replace private-helper imports with a public parser API and make all modules consume the same stable parsing entry point.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "schema_by_convention"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Schema-by-convention across scripts instead of shared typed contracts.",
+      "CLI/runtime paths are insufficiently exercised end-to-end, allowing interface drift and import-time breaks."
+    ],
+    "likely_symptoms": [
+      "import_time_annotation_breakage",
+      "cli_flags_do_not_control_behavior",
+      "private_parser_dependency"
+    ],
+    "possible_false_positives": [
+      "Prior packet warning about `sys.exit()` outside CLI entry points appears mis-scoped for these files; exits are in CLI paths."
+    ]
+  }
+}

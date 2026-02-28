@@ -1,0 +1,85 @@
+{
+  "batch": "Package Organization",
+  "batch_index": 4,
+  "assessments": {
+    "package_organization": 72.0,
+    "high_level_elegance": 78.0
+  },
+  "dimension_notes": {
+    "package_organization": {
+      "evidence": [
+        "holistic_context.structure.directory_profiles shows `fando-plan/scripts/` has 12 files (threshold >10) with mixed responsibilities in one flat folder: aggregation (`aggregate_findings.py`), model-calling (`call_codex.py`), and training backfill (`backfill_training.py`).",
+        "`fando-plan/scripts/` and `fando-verify/scripts/` both report avg_fan_in=0.0 and avg_fan_out=0.0 in the packet structure profile, indicating script-only placement instead of explicit importable package boundaries.",
+        "Assigned files combine reusable functions and CLI entrypoints in the same modules (`main()` plus library-like helpers such as `aggregate_findings`, `parse_zellij_bridge`, `gather_diff`, `parse_verification`), which blurs placement by ownership."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "high_level_elegance": {
+      "evidence": [
+        "Top-level decomposition is phase-oriented (`fando-plan` vs `fando-verify`) rather than capability-oriented; related workflow capabilities (plan discovery, execution, diff collection, parsing) are split across sibling script trees.",
+        "Multiple files repeat orchestration structure (dataclass result object + subprocess/git call wrapper + argparse CLI) instead of a cohesive shared workflow core (`call_codex.py`, `find_plan.py`, `gather_implementation.py`, `parse_verification.py`).",
+        "The runtime contract is spread across standalone scripts without a single obvious domain entry surface, making ownership and change boundaries harder to explain for end-to-end review/verify flow."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "confidence": "medium"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "package_organization",
+      "identifier": "flat_scripts_mixes_domains",
+      "summary": "A single flat scripts folder mixes distinct domains and obscures ownership boundaries.",
+      "related_files": [
+        "fando-plan/scripts/aggregate_findings.py",
+        "fando-plan/scripts/backfill_training.py",
+        "fando-plan/scripts/call_codex.py",
+        "fando-verify/scripts/gather_implementation.py"
+      ],
+      "evidence": [
+        "`fando-plan/scripts/` contains 12 files with heterogeneous concerns (aggregation, training backfill, CLI execution, profile detection), exceeding the mixed-concern flat-folder threshold.",
+        "Each file contains both reusable logic and executable CLI entrypoint, so folder placement reflects execution mode (`scripts`) rather than domain ownership.",
+        "Parallel verification scripts in `fando-verify/scripts/` repeat the same placement pattern instead of sharing a domain package."
+      ],
+      "suggestion": "Staged reorg plan: 1) create `fando_plan/review_core/` and move reusable logic from `aggregate_findings.py` and `call_codex.py`; create `fando_plan/training/` for `backfill_training.py` parsing/classification helpers. 2) create `fando_verify/core/` for diff/plan/parse helpers now in `find_plan.py`, `gather_implementation.py`, and `parse_verification.py`; keep thin CLIs under `fando-plan/scripts/` and `fando-verify/scripts/` that only parse args and call core APIs. 3) move files in order: pure helpers first, then wrapper CLIs; update imports with `rg \"from .*scripts|import .*scripts\" fando-plan fando-verify` and fix references. 4) validate with `python -m fando_plan.scripts.call_codex --check-only`, `python -m fando_verify.scripts.find_plan --list`, and `python -m compileall fando-plan fando-verify`.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "script_sprawl_no_shared_core"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "phase_split_over_capability_split",
+      "summary": "Architecture is split by workflow phase instead of stable capabilities, increasing cross-phase drift.",
+      "related_files": [
+        "fando-plan/scripts/call_codex.py",
+        "fando-verify/scripts/find_plan.py",
+        "fando-verify/scripts/gather_implementation.py",
+        "fando-verify/scripts/parse_verification.py"
+      ],
+      "evidence": [
+        "Workflow-critical capabilities are distributed by phase-specific directories (`plan` vs `verify`) even though they compose one review pipeline.",
+        "`call_codex.py` and verify scripts each define their own process/result contracts (separate dataclasses and independent error/CLI patterns), creating multiple top-level conventions for one domain.",
+        "No single package-level API defines the end-to-end review/verification lifecycle; composition is implicit across standalone scripts."
+      ],
+      "suggestion": "Staged reorg plan: 1) introduce a shared capability package `fando_review/workflow/` with modules `plan_source.py`, `implementation_diff.py`, `codex_client.py`, `verification_parse.py`. 2) move logic from `find_plan.py` and `gather_implementation.py` first, then `call_codex.py` and `parse_verification.py`; retain existing script filenames as compatibility shims calling new APIs. 3) update imports and script entrypoints using `rg \"from (fando-plan|fando-verify)\\.scripts|import (find_plan|gather_implementation|call_codex|parse_verification)\" -n`. 4) run validation commands: `python fando-plan/scripts/call_codex.py --check-only`, `python fando-verify/scripts/find_plan.py --format=json`, `python fando-verify/scripts/gather_implementation.py --stat --format=json`, and `python fando-verify/scripts/parse_verification.py --summary-only < /tmp/sample_response.txt`.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "script_sprawl_no_shared_core"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Script-first growth without a dedicated shared library package for review/verification capabilities.",
+      "Top-level boundaries chosen by execution phase rather than durable domain ownership."
+    ],
+    "likely_symptoms": [
+      "flat_scripts_mixes_domains",
+      "phase_split_over_capability_split"
+    ],
+    "possible_false_positives": []
+  }
+}

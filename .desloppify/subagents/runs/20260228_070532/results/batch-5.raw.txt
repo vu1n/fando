@@ -1,0 +1,149 @@
+{
+  "batch": "Governance & Contracts",
+  "batch_index": 5,
+  "assessments": {
+    "cross_module_architecture": 81.0,
+    "high_level_elegance": 82.0,
+    "test_strategy": 76.0,
+    "package_organization": 79.0
+  },
+  "dimension_notes": {
+    "cross_module_architecture": {
+      "evidence": [
+        "`fando-plan/scripts/call_codex.py` and `fando-plan/scripts/codex_lm.py` both own Codex CLI contract details (`codex exec`, `--skip-git-repo-check`, timeout/error mapping), creating duplicated boundary logic.",
+        "`fando-plan/scripts/codex_lm.py` imports `call_codex` as a sibling script module (`from call_codex import verify_codex_cli`), coupling behavior to script-layout/import-path assumptions instead of a stable shared package boundary.",
+        "`fando-verify/scripts/find_plan.py` and `fando-verify/scripts/gather_implementation.py` directly bind workflow policy to local shell/git and fixed storage conventions, with no shared contract layer for environment portability."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "high_level_elegance": {
+      "evidence": [
+        "README presents clear product contracts (autonomous planning loop, verification workflow), but runtime governance constraints (compatibility/version policy and execution preconditions) are fragmented across scripts instead of one explicit policy surface.",
+        "README directory map is no longer an honest top-level decomposition map for current runtime components (for example `codex_lm.py` is operationally important but absent from listed script inventory).",
+        "Responsibility split is feature-oriented in docs but utility/policy logic is scattered across entrypoint scripts, reducing predictability of where to change behavior."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "confidence": "medium"
+    },
+    "test_strategy": {
+      "evidence": [
+        "Assigned scripts are heavily subprocess/git/filesystem dependent (`subprocess.run` in all four Python files) but expose no built-in seam for deterministic contract testing.",
+        "No test harness or quality-gate references are present in README for validating compatibility policy (for example Codex CLI version/support matrix) or plan/diff detection behavior.",
+        "`find_plan.py` and `gather_implementation.py` implement branch/path/error fallback logic that is risk-prone, but there is no evidence in reviewed scope of integration tests covering repo states (no remote, detached HEAD, missing base branch, empty diff)."
+      ],
+      "impact_scope": "codebase",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "package_organization": {
+      "evidence": [
+        "From `holistic_context.structure`, `fando-plan/scripts/` has 12 files with `avg_fan_in: 0.0` and `avg_fan_out: 0.0`, indicating a flat script bucket rather than cohesive package boundaries.",
+        "`fando-verify/scripts/` similarly clusters executable scripts while containing reusable logic (plan discovery/diff gathering), which increases placement ambiguity.",
+        "README’s published directory structure omits active script modules and therefore does not provide a reliable navigational contract between package shape and responsibilities."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "cross_module_architecture",
+      "identifier": "duplicated_codex_boundary_contract",
+      "summary": "Codex CLI boundary policy is duplicated across modules, causing contract drift risk.",
+      "related_files": [
+        "fando-plan/scripts/call_codex.py",
+        "fando-plan/scripts/codex_lm.py",
+        "README.md"
+      ],
+      "evidence": [
+        "`call_codex.py` owns capability probing and command construction (`verify_codex_cli`, `cmd=['codex','exec']`, optional `--skip-git-repo-check`).",
+        "`codex_lm.py` independently rebuilds execution/error contract (`cmd=['codex','exec']`, timeout, returncode handling), reusing only part of policy from `call_codex.py`.",
+        "README describes a stable Codex reviewer role, but the runtime boundary is split across ad-hoc implementations, making compatibility behavior inconsistent over time."
+      ],
+      "suggestion": "Extract a single `codex_runtime` module (for example `fando_core/codex_runtime.py`) that centralizes version/capability checks, command assembly, and error normalization; make both `call_codex.py` and `codex_lm.py` thin adapters over that API.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "script_boundary_coupling"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "governance_contract_not_single_sourced",
+      "summary": "Compatibility and governance policy are documented but not enforced from one authoritative runtime contract.",
+      "related_files": [
+        "README.md",
+        "fando-plan/scripts/call_codex.py",
+        "fando-plan/scripts/codex_lm.py"
+      ],
+      "evidence": [
+        "README defines user-facing trust contract for Codex-backed workflows, but runtime scripts only check presence/flags and do not expose one shared compatibility gate.",
+        "`call_codex.py` does capability probing but no strict semantic version policy; `codex_lm.py` relies on same CLI but applies its own failure semantics.",
+        "Top-level decomposition in README is feature-centric while enforcement points are scattered in script internals, increasing ownership ambiguity for policy changes."
+      ],
+      "suggestion": "Define a single governance contract object (minimum supported CLI version, required capabilities, failure policy) and load it in both plan/verify flows; document this same contract in README so docs and runtime stay in lockstep.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "contract_drift"
+    },
+    {
+      "dimension": "test_strategy",
+      "identifier": "missing_quality_gates_for_external_process_contracts",
+      "summary": "Critical subprocess/git contract paths lack explicit verification strategy.",
+      "related_files": [
+        "README.md",
+        "fando-plan/scripts/call_codex.py",
+        "fando-verify/scripts/find_plan.py",
+        "fando-verify/scripts/gather_implementation.py"
+      ],
+      "evidence": [
+        "Core behavior depends on shelling out to `codex` and `git`, with multiple fallback branches and error paths.",
+        "No reviewed artifact describes or embeds contract tests for these branches (for example timeout behavior, missing binary, missing base branch, malformed remote URL).",
+        "Given these scripts are execution gateways, regressions in command parsing/fallback logic would directly impact plan/verify reliability."
+      ],
+      "suggestion": "Add staged quality gates: (1) unit tests with `subprocess.run` mocking for each failure mode, (2) fixture-based integration tests for git repo states, (3) CI command sequence such as `uv run pytest tests/fando_plan tests/fando_verify -q` plus a smoke test invoking each CLI in `--format=json` mode.",
+      "confidence": "high",
+      "impact_scope": "codebase",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "contract_drift"
+    },
+    {
+      "dimension": "package_organization",
+      "identifier": "flat_script_layout_hides_shared_runtime_domains",
+      "summary": "Flat `scripts/` layout mixes entrypoints and reusable runtime logic, obscuring ownership boundaries.",
+      "related_files": [
+        "README.md",
+        "fando-plan/scripts/call_codex.py",
+        "fando-plan/scripts/codex_lm.py",
+        "fando-verify/scripts/find_plan.py",
+        "fando-verify/scripts/gather_implementation.py"
+      ],
+      "evidence": [
+        "Structure signals show `fando-plan/scripts/` as a 12-file flat directory with script-only zoning, despite containing logic that is reused across modules.",
+        "`codex_lm.py` imports from another script file (`call_codex.py`), indicating runtime library behavior is living in entrypoint space.",
+        "README structure listing is incomplete versus active files, reducing navigational trust and reinforcing mismatch between physical layout and conceptual domains."
+      ],
+      "suggestion": "Staged reorg plan: Step 1 create `fando-plan/src/fando_plan/runtime/` and `fando-verify/src/fando_verify/runtime/`; Step 2 move reusable logic (`verify_codex_cli`, git/plan discovery helpers) into runtime modules and keep `scripts/` as thin CLIs; Step 3 update imports to package-qualified paths; Step 4 validate with `uv run python -m fando_plan.scripts.call_codex --check-only`, `uv run python -m fando_verify.scripts.find_plan --list --format=json`, and `uv run pytest -q`.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "script_boundary_coupling"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Runtime contracts are implemented in script entrypoints instead of centralized policy modules.",
+      "Documentation and package layout have drifted from actual execution boundaries."
+    ],
+    "likely_symptoms": [
+      "duplicated_codex_boundary_contract",
+      "governance_contract_not_single_sourced",
+      "flat_script_layout_hides_shared_runtime_domains"
+    ],
+    "possible_false_positives": []
+  }
+}

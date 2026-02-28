@@ -1,0 +1,103 @@
+{
+  "batch": "Cross-cutting Sweep",
+  "batch_index": 7,
+  "assessments": {
+    "convention_outlier": 68.0,
+    "error_consistency": 74.0
+  },
+  "dimension_notes": {
+    "convention_outlier": {
+      "evidence": [
+        "run_parallel_reviews.py defines aggregate_review_result() before ParallelReviewResult and annotates parameter as ParallelReviewResult (line 73), which raises NameError at import time when running the script.",
+        "backfill_training.py uses ReviewExample in return annotations (lines 51, 133) before importing ReviewExample (import occurs inside main at line 221), creating deferred annotation failures when annotations are evaluated.",
+        "Security-level constants are split with conflicting conventions: constants.py defines SECURITY_LEVELS as a tuple of names (line 33), detect_security_level.py defines SECURITY_LEVELS as a dict of metadata (line 31), and run_parallel_reviews.py references SECURITY_LEVELS in argparse choices (line 404) without importing it."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "error_consistency": {
+      "evidence": [
+        "call_codex.py raises structured CodexError carrying exit_code/stderr (lines 21-24, 170-174), but run_parallel_reviews.py immediately degrades it to plain strings via str(e) (lines 198-199, 259), losing machine-usable error context.",
+        "review_runtime.py returns Exception instances as normal data in results (line 166), while parse_findings.py returns ParseResult.error sentinels (lines 61, 85) and aggregate_findings.py uses process exits for input errors (lines 301-306), producing mixed failure contracts across one review pipeline.",
+        "run_parallel_reviews.py uses broad catch-all handlers (lines 201-202, 256-261, 320-322), which normalizes operational failures and programming defects into generic string errors, making failures less predictable to callers."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "convention_outlier",
+      "identifier": "forward_ref_annotation_breakage",
+      "summary": "Inconsistent forward-reference typing style causes import-time and deferred NameError failures",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "backfill_training.py"
+      ],
+      "evidence": [
+        "run_parallel_reviews.py:73 annotates aggregate_review_result(result: ParallelReviewResult, ...) before ParallelReviewResult is declared (declaration starts line 113), and script startup fails with NameError.",
+        "backfill_training.py:51 and 133 annotate returns as list[ReviewExample], but ReviewExample is imported only inside main() at line 221; evaluating annotations later raises NameError."
+      ],
+      "suggestion": "Standardize annotation convention across scripts: either add `from __future__ import annotations` everywhere or quote forward refs (`\"ParallelReviewResult\"`, `\"ReviewExample\"`) and keep type declarations before first use.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "typing_convention_drift"
+    },
+    {
+      "dimension": "convention_outlier",
+      "identifier": "security_level_constant_drift",
+      "summary": "Security-level configuration is duplicated with conflicting conventions, leading to broken references",
+      "related_files": [
+        "constants.py",
+        "detect_security_level.py",
+        "run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "constants.py:33 defines SECURITY_LEVELS as a tuple of literal level names.",
+        "detect_security_level.py:31 reuses SECURITY_LEVELS name for a dict containing keyword metadata.",
+        "run_parallel_reviews.py:404 uses `choices=list(SECURITY_LEVELS)` but only imports DEFAULT_SECURITY_LEVEL from constants (line 35), so the symbol is unresolved in that module."
+      ],
+      "suggestion": "Create a single canonical security-level source (e.g., `security_levels.py`) and import it everywhere; use distinct names for enum-like values vs metadata (`SECURITY_LEVEL_NAMES` vs `SECURITY_LEVEL_CONFIG`) to prevent symbol collisions.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "shared_config_drift"
+    },
+    {
+      "dimension": "error_consistency",
+      "identifier": "mixed_error_contracts_with_context_loss",
+      "summary": "Review pipeline mixes exception, sentinel, and string-error flows, dropping diagnostic context",
+      "related_files": [
+        "call_codex.py",
+        "run_parallel_reviews.py",
+        "review_runtime.py",
+        "parse_findings.py"
+      ],
+      "evidence": [
+        "call_codex.py preserves structured failure context in CodexError (message, exit_code, stderr), but run_parallel_reviews.py stores only `str(e)` in ReviewResult.error.",
+        "review_runtime.py uses exceptions as payload values in results dict, while parse_findings.py signals failure via `ParseResult.error` return fields; callers must branch on unrelated error idioms.",
+        "run_parallel_reviews.py catch-all handlers coerce heterogeneous failures into generic strings (`Exception during review`, `Future execution error`, `DSPy review error`), obscuring origin and failure class."
+      ],
+      "suggestion": "Adopt one internal error contract (typed `ReviewError` object or `Result[T, E]`) for all non-CLI paths, preserving code/message/cause/trace context; convert to text + exit codes only at CLI boundaries.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "error_contract_fragmentation"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "No enforced cross-module convention for type annotations/forward references in executable scripts.",
+      "Shared configuration ownership is split across modules without a single canonical source.",
+      "Error handling evolved per module (CLI-first vs library-first) without a unified internal failure contract."
+    ],
+    "likely_symptoms": [
+      "forward_ref_annotation_breakage",
+      "security_level_constant_drift"
+    ],
+    "possible_false_positives": []
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "batch": "Architecture & Coupling",
+  "batch_index": 1,
+  "assessments": {
+    "cross_module_architecture": 76.0,
+    "high_level_elegance": 82.0
+  },
+  "dimension_notes": {
+    "cross_module_architecture": {
+      "evidence": [
+        "`constants.py` keeps deprecated path constants (`TRAINING_DIR_NAME`, `OPTIMIZED_DIR_NAME`, `EXPORT_DIR_NAME`) while `paths.py` defines the active path policy and repeats the same literals in path builders, creating dual ownership of path structure.",
+        "`paths.py` resolves base storage via `Path.cwd()` detection of `.claude`, so effective path roots vary with process working directory rather than an explicit app configuration boundary."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    },
+    "high_level_elegance": {
+      "evidence": [
+        "`codex_lm.py` mixes adapter definition with environment readiness policy: module import hard-fails if DSPy is absent, and object construction immediately performs CLI verification.",
+        "The module’s public role (LM adapter) is blurred with startup orchestration concerns, making this component less composable in contexts that only need type availability, deferred wiring, or test doubles."
+      ],
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "medium"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "cross_module_architecture",
+      "identifier": "split_path_contract_source",
+      "summary": "Path schema is owned by both `constants.py` and `paths.py`, leaving a persistent dual-contract boundary.",
+      "related_files": [
+        "constants.py",
+        "paths.py"
+      ],
+      "evidence": [
+        "`constants.py` marks path constants as deprecated but still exports `TRAINING_DIR_NAME`, `OPTIMIZED_DIR_NAME`, and `EXPORT_DIR_NAME`.",
+        "`paths.py` independently encodes the same directory names in `get_training_dir`, `get_optimized_dir`, and `get_export_dir`.",
+        "No enforcement mechanism exists to prevent new callers from using deprecated constants, so both interfaces remain live."
+      ],
+      "suggestion": "Collapse to one path contract owner: keep path structure only in `paths.py`, migrate any remaining imports off deprecated constants, then remove the deprecated exports (or gate them behind a short-lived compatibility shim with removal date).",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "configuration_boundary_drift"
+    },
+    {
+      "dimension": "cross_module_architecture",
+      "identifier": "cwd_driven_path_policy",
+      "summary": "Global path resolution depends on caller working directory, creating implicit cross-module coupling.",
+      "related_files": [
+        "paths.py",
+        "constants.py"
+      ],
+      "evidence": [
+        "`paths._get_base_claude_dir()` selects repository-local `.claude` by checking `Path.cwd()`.",
+        "All exported path getters inherit this behavior, so unrelated entrypoints can produce different storage locations solely from launch directory.",
+        "This runtime policy is implicit and not represented as an explicit configuration object or required parameter."
+      ],
+      "suggestion": "Make base directory resolution explicit: accept an injected base path (or centralized config object) and use environment overrides as the only implicit source; avoid `cwd`-based switching for shared state roots.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "configuration_boundary_drift"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "adapter_and_bootstrap_conflation",
+      "summary": "`CodexLM` combines adapter behavior with bootstrap checks, reducing ownership clarity.",
+      "related_files": [
+        "codex_lm.py",
+        "constants.py"
+      ],
+      "evidence": [
+        "`codex_lm.py` raises at import if DSPy is missing, coupling module load to environment state.",
+        "`CodexLM.__init__` performs `verify_codex_cli()` immediately, so constructing the adapter enforces process-level CLI readiness even when caller may want deferred initialization.",
+        "Timeout policy comes from shared global constants while runtime probing logic is embedded in the adapter, mixing configuration and orchestration responsibilities."
+      ],
+      "suggestion": "Separate concerns into (1) a pure adapter class and (2) a factory/bootstrap function that performs dependency and CLI checks; keep importable symbols load-safe and move readiness checks to explicit setup paths.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "startup_policy_mixed_with_domain_components"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Configuration ownership is split across legacy and current modules without a completed migration boundary.",
+      "Environment/bootstrap policy is embedded in domain adapter code instead of isolated at composition roots."
+    ],
+    "likely_symptoms": [
+      "split_path_contract_source",
+      "cwd_driven_path_policy",
+      "adapter_and_bootstrap_conflation"
+    ],
+    "possible_false_positives": []
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "plan": "# Zellij Bridge Phase 2 - Codex Review Summary\n\n**Date:** 2026-01-19\n**Project:** Willo\n**Task:** Zellij Bridge UI Integration (Phase 2)\n\n## Review Iterations\n\n### Iteration 1: Initial Review\n**HIGH (2):**\n- `@ObservedObject var bridge: ZellijBridge?` won't compile - property wrapper can't be optional\n- `newSession.transport as! NIOSSHTransport` can crash for non-SSH transports\n\n**MEDIUM (3):**\n- `startBridge` may block connect flow or double-start on reconnects\n- `focusTab` must use correct identifier (0-based index vs tab ID)\n- Bridge calls in command palette need error fallback to keybindings\n\n**Resolution:** Updated plan to use safe cast, plain optional, error fallback\n\n### Iteration 2: Reactivity & Race Conditions\n**HIGH (2):**\n- Plain optional bridge won't trigger UI re-renders\n- Auto-starting bridge can race Zellij startup - need retry logic\n\n**MEDIUM (2):**\n- Auto-start uses `workspace.sessionName` even when empty\n- Cached-session fast path skips bridge creation\n\n**Resolution:** Added SessionStore.activeBridge publishing, retry logic, named-session gating\n\n### Iteration 3: Retry & Observation\n**MEDIUM (4):**\n- Retry loop won't work due to idempotent startBridge caching\n- Brittle string comparison for `.unsupported` reason\n- UI gating needs proper observation via child views\n- Stale bridge on reconnect\n\n**Resolution:** Added stopBridge before retry, dedicated `sessionNotFound` enum, @ObservedObject in ZellijTabBar\n\n### Iteration 4: Final Polish\n**MEDIUM (2):**\n- `activeBridge` updates underspecified in SessionStore\n- Stop bridge on cached-session path causes flicker\n\n**LOW (3):**\n- `tabCount > 0` guard needed for shortcuts\n- `Task {}` wrapper needed for async calls\n- `sessionNotFound` case integration\n\n**Resolution:** Explicit activeBridge updates, no stop on cached-session, guards added\n\n## Final Status\nAll HIGH and MEDIUM issues addressed. Plan ready for implementation.\n\n## Key Learnings\n1. SwiftUI property wrappers (@ObservedObject) cannot be optional - use computed properties or wrappers\n2. Async bridge operations need Task {} wrappers in synchronous view handlers\n3. Retry loops need to clear cached state before retrying\n4. Published properties must be updated explicitly at all mutation points\n5. Cached-session vs reconnect paths need different bridge handling\n",
+  "domain": "frontend",
+  "other_domains": [],
+  "security_level": "internal",
+  "review_output": "- [MEDIUM] Retry loop won't work due to idempotent startBridge caching\n- [MEDIUM] Brittle string comparison for `.unsupported` reason\n- [MEDIUM] UI gating needs proper observation via child views\n- [MEDIUM] Stale bridge on reconnect",
+  "findings_acted_on": [
+    "Retry loop won't work due to idempotent startBridge caching",
+    "Brittle string comparison for `.unsupported` reason",
+    "UI gating needs proper observation via child views",
+    "Stale bridge on reconnect"
+  ],
+  "findings_ignored": [],
+  "missed_issues": [],
+  "stayed_in_lane": true,
+  "severity_gold": {
+    "MEDIUM": 4
+  },
+  "plan_id": "zellij-bridge-phase2",
+  "iteration": 3
+}

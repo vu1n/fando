@@ -1,0 +1,4850 @@
+{
+  "version": 1,
+  "created": "2026-02-28T17:23:02+00:00",
+  "last_scan": "2026-02-28T17:36:33+00:00",
+  "scan_count": 3,
+  "overall_score": 56.8,
+  "objective_score": 55.2,
+  "strict_score": 56.8,
+  "verified_strict_score": 55.2,
+  "stats": {
+    "total": 133,
+    "open": 107,
+    "fixed": 4,
+    "auto_resolved": 22,
+    "wontfix": 0,
+    "false_positive": 0,
+    "by_tier": {
+      "2": {
+        "open": 14,
+        "fixed": 0,
+        "auto_resolved": 1,
+        "wontfix": 0,
+        "false_positive": 0
+      },
+      "3": {
+        "open": 93,
+        "fixed": 4,
+        "auto_resolved": 1,
+        "wontfix": 0,
+        "false_positive": 0
+      },
+      "4": {
+        "open": 0,
+        "fixed": 0,
+        "auto_resolved": 20,
+        "wontfix": 0,
+        "false_positive": 0
+      }
+    }
+  },
+  "findings": {
+    "structural::run_parallel_reviews.py": {
+      "id": "structural::run_parallel_reviews.py",
+      "detector": "structural",
+      "file": "run_parallel_reviews.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Needs decomposition: large (529 LOC) / complexity score 51",
+      "detail": {
+        "loc": 529,
+        "complexity_score": 51,
+        "complexity_signals": [
+          "nesting depth 12",
+          "long function (main: 107 LOC)"
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:02+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "structural::aggregate_findings.py": {
+      "id": "structural::aggregate_findings.py",
+      "detector": "structural",
+      "file": "aggregate_findings.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Needs decomposition: large (368 LOC)",
+      "detail": {
+        "loc": 368
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:02+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "structural::review_signatures.py": {
+      "id": "structural::review_signatures.py",
+      "detector": "structural",
+      "file": "review_signatures.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Needs decomposition: large (328 LOC)",
+      "detail": {
+        "loc": 328
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:02+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "structural::optimize.py": {
+      "id": "structural::optimize.py",
+      "detector": "structural",
+      "file": "optimize.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Needs decomposition: large (322 LOC)",
+      "detail": {
+        "loc": 322
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:02+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "structural::backfill_training.py": {
+      "id": "structural::backfill_training.py",
+      "detector": "structural",
+      "file": "backfill_training.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Needs decomposition: large (301 LOC)",
+      "detail": {
+        "loc": 301
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:02+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "flat_dirs::.": {
+      "id": "flat_dirs::.",
+      "detector": "flat_dirs",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Flat directory: 20 files \u2014 consider grouping by domain",
+      "detail": {
+        "file_count": 20
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:02+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "orphaned::run_parallel_reviews.py": {
+      "id": "orphaned::run_parallel_reviews.py",
+      "detector": "orphaned",
+      "file": "run_parallel_reviews.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Orphaned file (529 LOC): zero importers, not an entry point",
+      "detail": {
+        "loc": 529
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "orphaned::aggregate_findings.py": {
+      "id": "orphaned::aggregate_findings.py",
+      "detector": "orphaned",
+      "file": "aggregate_findings.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Orphaned file (368 LOC): zero importers, not an entry point",
+      "detail": {
+        "loc": 368
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "orphaned::optimize.py": {
+      "id": "orphaned::optimize.py",
+      "detector": "orphaned",
+      "file": "optimize.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Orphaned file (322 LOC): zero importers, not an entry point",
+      "detail": {
+        "loc": 322
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "orphaned::backfill_training.py": {
+      "id": "orphaned::backfill_training.py",
+      "detector": "orphaned",
+      "file": "backfill_training.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Orphaned file (301 LOC): zero importers, not an entry point",
+      "detail": {
+        "loc": 301
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "orphaned::detect_security_level.py": {
+      "id": "orphaned::detect_security_level.py",
+      "detector": "orphaned",
+      "file": "detect_security_level.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Orphaned file (268 LOC): zero importers, not an entry point",
+      "detail": {
+        "loc": 268
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "orphaned::secrets.py": {
+      "id": "orphaned::secrets.py",
+      "detector": "orphaned",
+      "file": "secrets.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Orphaned file (246 LOC): zero importers, not an entry point",
+      "detail": {
+        "loc": 246
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "orphaned::collect_training.py": {
+      "id": "orphaned::collect_training.py",
+      "detector": "orphaned",
+      "file": "collect_training.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Orphaned file (108 LOC): zero importers, not an entry point",
+      "detail": {
+        "loc": 108
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::run_parallel_reviews.py": {
+      "id": "test_coverage::run_parallel_reviews.py",
+      "detector": "test_coverage",
+      "file": "run_parallel_reviews.py",
+      "tier": 2,
+      "confidence": "high",
+      "summary": "Untested module (529 LOC, 0 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_critical",
+        "loc": 529,
+        "importer_count": 0,
+        "loc_weight": 23.0,
+        "complexity_score": 51
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::aggregate_findings.py": {
+      "id": "test_coverage::aggregate_findings.py",
+      "detector": "test_coverage",
+      "file": "aggregate_findings.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (368 LOC, 0 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 368,
+        "importer_count": 0,
+        "loc_weight": 19.183326093250876
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::optimize.py": {
+      "id": "test_coverage::optimize.py",
+      "detector": "test_coverage",
+      "file": "optimize.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (322 LOC, 0 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 322,
+        "importer_count": 0,
+        "loc_weight": 17.944358444926362
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::backfill_training.py": {
+      "id": "test_coverage::backfill_training.py",
+      "detector": "test_coverage",
+      "file": "backfill_training.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (301 LOC, 0 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 301,
+        "importer_count": 0,
+        "loc_weight": 17.349351572897472
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::detect_profiles.py": {
+      "id": "test_coverage::detect_profiles.py",
+      "detector": "test_coverage",
+      "file": "detect_profiles.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (287 LOC, 2 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 287,
+        "importer_count": 2,
+        "loc_weight": 16.941074346097416
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::detect_security_level.py": {
+      "id": "test_coverage::detect_security_level.py",
+      "detector": "test_coverage",
+      "file": "detect_security_level.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (268 LOC, 0 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 268,
+        "importer_count": 0,
+        "loc_weight": 16.3707055437449
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::secrets.py": {
+      "id": "test_coverage::secrets.py",
+      "detector": "test_coverage",
+      "file": "secrets.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (246 LOC, 0 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 246,
+        "importer_count": 0,
+        "loc_weight": 15.684387141358123
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::call_codex.py": {
+      "id": "test_coverage::call_codex.py",
+      "detector": "test_coverage",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (244 LOC, 2 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 244,
+        "importer_count": 2,
+        "loc_weight": 15.620499351813308
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::parse_findings.py": {
+      "id": "test_coverage::parse_findings.py",
+      "detector": "test_coverage",
+      "file": "parse_findings.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (223 LOC, 2 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 223,
+        "importer_count": 2,
+        "loc_weight": 14.933184523068078
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::training_metric.py": {
+      "id": "test_coverage::training_metric.py",
+      "detector": "test_coverage",
+      "file": "training_metric.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (222 LOC, 2 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 222,
+        "importer_count": 2,
+        "loc_weight": 14.89966442575134
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::dspy_reviewers.py": {
+      "id": "test_coverage::dspy_reviewers.py",
+      "detector": "test_coverage",
+      "file": "dspy_reviewers.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (181 LOC, 4 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 181,
+        "importer_count": 4,
+        "loc_weight": 13.45362404707371
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::review_runtime.py": {
+      "id": "test_coverage::review_runtime.py",
+      "detector": "test_coverage",
+      "file": "review_runtime.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (168 LOC, 1 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 168,
+        "importer_count": 1,
+        "loc_weight": 12.96148139681572
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::training_store.py": {
+      "id": "test_coverage::training_store.py",
+      "detector": "test_coverage",
+      "file": "training_store.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (165 LOC, 1 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 165,
+        "importer_count": 1,
+        "loc_weight": 12.84523257866513
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::codex_lm.py": {
+      "id": "test_coverage::codex_lm.py",
+      "detector": "test_coverage",
+      "file": "codex_lm.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (155 LOC, 1 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 155,
+        "importer_count": 1,
+        "loc_weight": 12.449899597988733
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::review_conversion.py": {
+      "id": "test_coverage::review_conversion.py",
+      "detector": "test_coverage",
+      "file": "review_conversion.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (141 LOC, 1 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 141,
+        "importer_count": 1,
+        "loc_weight": 11.874342087037917
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::collect_training.py": {
+      "id": "test_coverage::collect_training.py",
+      "detector": "test_coverage",
+      "file": "collect_training.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (108 LOC, 0 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 108,
+        "importer_count": 0,
+        "loc_weight": 10.392304845413264
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::paths.py": {
+      "id": "test_coverage::paths.py",
+      "detector": "test_coverage",
+      "file": "paths.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (104 LOC, 5 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 104,
+        "importer_count": 5,
+        "loc_weight": 10.198039027185569
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "test_coverage::review_module.py": {
+      "id": "test_coverage::review_module.py",
+      "detector": "test_coverage",
+      "file": "review_module.py",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Untested module (77 LOC, 2 importers) \u2014 no test files found",
+      "detail": {
+        "kind": "untested_module",
+        "loc": 77,
+        "importer_count": 2,
+        "loc_weight": 8.774964387392123
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::aggregate_findings.py::sys_exit_in_library": {
+      "id": "smells::aggregate_findings.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "aggregate_findings.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "4x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 4,
+        "lines": [
+          302,
+          306,
+          363,
+          364
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::backfill_training.py::sys_exit_in_library": {
+      "id": "smells::backfill_training.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "backfill_training.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "2x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 2,
+        "lines": [
+          251,
+          270
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::call_codex.py::sys_exit_in_library": {
+      "id": "smells::call_codex.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "call_codex.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "4x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 4,
+        "lines": [
+          217,
+          220,
+          226,
+          233
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::collect_training.py::sys_exit_in_library": {
+      "id": "smells::collect_training.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "collect_training.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "3x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 3,
+        "lines": [
+          69,
+          76,
+          82
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::detect_profiles.py::sys_exit_in_library": {
+      "id": "smells::detect_profiles.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "detect_profiles.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "3x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 3,
+        "lines": [
+          235,
+          242,
+          249
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::detect_security_level.py::sys_exit_in_library": {
+      "id": "smells::detect_security_level.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "detect_security_level.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "3x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 3,
+        "lines": [
+          225,
+          232,
+          239
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::optimize.py::sys_exit_in_library": {
+      "id": "smells::optimize.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "optimize.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "1x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 1,
+        "lines": [
+          35
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::parse_findings.py::sys_exit_in_library": {
+      "id": "smells::parse_findings.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "parse_findings.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "2x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 2,
+        "lines": [
+          180,
+          219
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::run_parallel_reviews.py::sys_exit_in_library": {
+      "id": "smells::run_parallel_reviews.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "run_parallel_reviews.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "6x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 6,
+        "lines": [
+          434,
+          436,
+          447,
+          460,
+          524,
+          525
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::secrets.py::sys_exit_in_library": {
+      "id": "smells::secrets.py::sys_exit_in_library",
+      "detector": "smells",
+      "file": "secrets.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "4x sys.exit() outside CLI entry point \u2014 use exceptions",
+      "detail": {
+        "smell_id": "sys_exit_in_library",
+        "severity": "high",
+        "count": 4,
+        "lines": [
+          211,
+          235,
+          238,
+          242
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::dspy_reviewers.py::swallowed_error": {
+      "id": "smells::dspy_reviewers.py::swallowed_error",
+      "detector": "smells",
+      "file": "dspy_reviewers.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "1x Catch block that only logs (swallowed error)",
+      "detail": {
+        "smell_id": "swallowed_error",
+        "severity": "high",
+        "count": 1,
+        "lines": [
+          26
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::run_parallel_reviews.py::monster_function": {
+      "id": "smells::run_parallel_reviews.py::monster_function",
+      "detector": "smells",
+      "file": "run_parallel_reviews.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "1x Monster function (>150 LOC)",
+      "detail": {
+        "smell_id": "monster_function",
+        "severity": "high",
+        "count": 1,
+        "lines": [
+          363
+        ]
+      },
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:33+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T17:36:33+00:00",
+        "scan_verified": true
+      }
+    },
+    "smells::backfill_training.py::annotation_quality": {
+      "id": "smells::backfill_training.py::annotation_quality",
+      "detector": "smells",
+      "file": "backfill_training.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x Loose type annotation \u2014 use specific types",
+      "detail": {
+        "smell_id": "annotation_quality",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          219
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::detect_profiles.py::annotation_quality": {
+      "id": "smells::detect_profiles.py::annotation_quality",
+      "detector": "smells",
+      "file": "detect_profiles.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x Loose type annotation \u2014 use specific types",
+      "detail": {
+        "smell_id": "annotation_quality",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          184
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::detect_security_level.py::annotation_quality": {
+      "id": "smells::detect_security_level.py::annotation_quality",
+      "detector": "smells",
+      "file": "detect_security_level.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x Loose type annotation \u2014 use specific types",
+      "detail": {
+        "smell_id": "annotation_quality",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          182
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::dspy_reviewers.py::annotation_quality": {
+      "id": "smells::dspy_reviewers.py::annotation_quality",
+      "detector": "smells",
+      "file": "dspy_reviewers.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x Loose type annotation \u2014 use specific types",
+      "detail": {
+        "smell_id": "annotation_quality",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          130
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::parse_findings.py::annotation_quality": {
+      "id": "smells::parse_findings.py::annotation_quality",
+      "detector": "smells",
+      "file": "parse_findings.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x Loose type annotation \u2014 use specific types",
+      "detail": {
+        "smell_id": "annotation_quality",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          158
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::run_parallel_reviews.py::annotation_quality": {
+      "id": "smells::run_parallel_reviews.py::annotation_quality",
+      "detector": "smells",
+      "file": "run_parallel_reviews.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x Loose type annotation \u2014 use specific types",
+      "detail": {
+        "smell_id": "annotation_quality",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          363
+        ]
+      },
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:33+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T17:36:33+00:00",
+        "scan_verified": true
+      }
+    },
+    "smells::optimize.py::unsafe_file_write": {
+      "id": "smells::optimize.py::unsafe_file_write",
+      "detector": "smells",
+      "file": "optimize.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x Non-atomic file write (use temp+rename for safety)",
+      "detail": {
+        "smell_id": "unsafe_file_write",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          205
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::training_store.py::unsafe_file_write": {
+      "id": "smells::training_store.py::unsafe_file_write",
+      "detector": "smells",
+      "file": "training_store.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x Non-atomic file write (use temp+rename for safety)",
+      "detail": {
+        "smell_id": "unsafe_file_write",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          123
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::aggregate_findings.py::deferred_import": {
+      "id": "smells::aggregate_findings.py::deferred_import",
+      "detector": "smells",
+      "file": "aggregate_findings.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          272
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::backfill_training.py::deferred_import": {
+      "id": "smells::backfill_training.py::deferred_import",
+      "detector": "smells",
+      "file": "backfill_training.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          220
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::call_codex.py::deferred_import": {
+      "id": "smells::call_codex.py::deferred_import",
+      "detector": "smells",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          186
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::collect_training.py::deferred_import": {
+      "id": "smells::collect_training.py::deferred_import",
+      "detector": "smells",
+      "file": "collect_training.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          26
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::detect_profiles.py::deferred_import": {
+      "id": "smells::detect_profiles.py::deferred_import",
+      "detector": "smells",
+      "file": "detect_profiles.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          198
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::detect_security_level.py::deferred_import": {
+      "id": "smells::detect_security_level.py::deferred_import",
+      "detector": "smells",
+      "file": "detect_security_level.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          195
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::dspy_reviewers.py::deferred_import": {
+      "id": "smells::dspy_reviewers.py::deferred_import",
+      "detector": "smells",
+      "file": "dspy_reviewers.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          132
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::parse_findings.py::deferred_import": {
+      "id": "smells::parse_findings.py::deferred_import",
+      "detector": "smells",
+      "file": "parse_findings.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          160
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::review_conversion.py::deferred_import": {
+      "id": "smells::review_conversion.py::deferred_import",
+      "detector": "smells",
+      "file": "review_conversion.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          82
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::review_runtime.py::deferred_import": {
+      "id": "smells::review_runtime.py::deferred_import",
+      "detector": "smells",
+      "file": "review_runtime.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          121
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::run_parallel_reviews.py::deferred_import": {
+      "id": "smells::run_parallel_reviews.py::deferred_import",
+      "detector": "smells",
+      "file": "run_parallel_reviews.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          423
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::secrets.py::deferred_import": {
+      "id": "smells::secrets.py::deferred_import",
+      "detector": "smells",
+      "file": "secrets.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "1x Function-level import (possible circular import workaround)",
+      "detail": {
+        "smell_id": "deferred_import",
+        "severity": "low",
+        "count": 1,
+        "lines": [
+          185
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::secrets.py::security::log_sensitive::secrets.py::227": {
+      "id": "security::secrets.py::security::log_sensitive::secrets.py::227",
+      "detector": "security",
+      "file": "secrets.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "Sensitive data may be logged",
+      "detail": {
+        "kind": "log_sensitive",
+        "severity": "medium",
+        "line": 227,
+        "content": "                print(f\"Found {len(warnings)} potential secret(s):\", file=sys.stderr)",
+        "remediation": "Remove sensitive data from log statements"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::secrets.py::security::log_sensitive::secrets.py::237": {
+      "id": "security::secrets.py::security::log_sensitive::secrets.py::237",
+      "detector": "security",
+      "file": "secrets.py",
+      "tier": 2,
+      "confidence": "medium",
+      "summary": "Sensitive data may be logged",
+      "detail": {
+        "kind": "log_sensitive",
+        "severity": "medium",
+        "line": 237,
+        "content": "                print(\"No secrets found.\")",
+        "remediation": "Remove sensitive data from log statements"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::call_codex.py::security::B404::call_codex.py::9": {
+      "id": "security::call_codex.py::security::B404::call_codex.py::9",
+      "detector": "security",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "[B404] Consider possible security implications associated with the subprocess module.",
+      "detail": {
+        "kind": "B404",
+        "severity": "low",
+        "line": 9,
+        "content": "8 \"\"\"\n9 import subprocess\n10 import sys\n",
+        "remediation": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess",
+        "test_name": "blacklist",
+        "source": "bandit"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::call_codex.py::security::B607::call_codex.py::54": {
+      "id": "security::call_codex.py::security::B607::call_codex.py::54",
+      "detector": "security",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "[B607] Starting a process with a partial executable path",
+      "detail": {
+        "kind": "B607",
+        "severity": "low",
+        "line": 54,
+        "content": "53         # Check if codex exists\n54         version_result = subprocess.run(\n55             ['codex', '--version'],\n56             capture_output=True,\n57             text=True,\n58             timeo",
+        "remediation": "https://bandit.readthedocs.io/en/1.9.4/plugins/b607_start_process_with_partial_path.html",
+        "test_name": "start_process_with_partial_path",
+        "source": "bandit"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::call_codex.py::security::B603::call_codex.py::54": {
+      "id": "security::call_codex.py::security::B603::call_codex.py::54",
+      "detector": "security",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "[B603] subprocess call - check for execution of untrusted input.",
+      "detail": {
+        "kind": "B603",
+        "severity": "low",
+        "line": 54,
+        "content": "53         # Check if codex exists\n54         version_result = subprocess.run(\n55             ['codex', '--version'],\n56             capture_output=True,\n57             text=True,\n58             timeo",
+        "remediation": "https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html",
+        "test_name": "subprocess_without_shell_equals_true",
+        "source": "bandit"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::call_codex.py::security::B607::call_codex.py::65": {
+      "id": "security::call_codex.py::security::B607::call_codex.py::65",
+      "detector": "security",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "[B607] Starting a process with a partial executable path",
+      "detail": {
+        "kind": "B607",
+        "severity": "low",
+        "line": 65,
+        "content": "64         # Test --skip-git-repo-check support\n65         help_result = subprocess.run(\n66             ['codex', 'exec', '--help'],\n67             capture_output=True,\n68             text=True,\n69   ",
+        "remediation": "https://bandit.readthedocs.io/en/1.9.4/plugins/b607_start_process_with_partial_path.html",
+        "test_name": "start_process_with_partial_path",
+        "source": "bandit"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::call_codex.py::security::B603::call_codex.py::65": {
+      "id": "security::call_codex.py::security::B603::call_codex.py::65",
+      "detector": "security",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "[B603] subprocess call - check for execution of untrusted input.",
+      "detail": {
+        "kind": "B603",
+        "severity": "low",
+        "line": 65,
+        "content": "64         # Test --skip-git-repo-check support\n65         help_result = subprocess.run(\n66             ['codex', 'exec', '--help'],\n67             capture_output=True,\n68             text=True,\n69   ",
+        "remediation": "https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html",
+        "test_name": "subprocess_without_shell_equals_true",
+        "source": "bandit"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::call_codex.py::security::B603::call_codex.py::116": {
+      "id": "security::call_codex.py::security::B603::call_codex.py::116",
+      "detector": "security",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "[B603] subprocess call - check for execution of untrusted input.",
+      "detail": {
+        "kind": "B603",
+        "severity": "low",
+        "line": 116,
+        "content": "115     try:\n116         result = subprocess.run(\n117             cmd,\n118             input=input_text,\n119             capture_output=True,\n120             text=True,\n121             timeout=timeout",
+        "remediation": "https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html",
+        "test_name": "subprocess_without_shell_equals_true",
+        "source": "bandit"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::codex_lm.py::security::B404::codex_lm.py::15": {
+      "id": "security::codex_lm.py::security::B404::codex_lm.py::15",
+      "detector": "security",
+      "file": "codex_lm.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "[B404] Consider possible security implications associated with the subprocess module.",
+      "detail": {
+        "kind": "B404",
+        "severity": "low",
+        "line": 15,
+        "content": "14 \"\"\"\n15 import subprocess\n16 import time\n",
+        "remediation": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess",
+        "test_name": "blacklist",
+        "source": "bandit"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "security::codex_lm.py::security::B603::codex_lm.py::85": {
+      "id": "security::codex_lm.py::security::B603::codex_lm.py::85",
+      "detector": "security",
+      "file": "codex_lm.py",
+      "tier": 3,
+      "confidence": "low",
+      "summary": "[B603] subprocess call - check for execution of untrusted input.",
+      "detail": {
+        "kind": "B603",
+        "severity": "low",
+        "line": 85,
+        "content": "84         try:\n85             result = subprocess.run(\n86                 cmd,\n87                 input=text_prompt,\n88                 capture_output=True,\n89                 text=True,\n90          ",
+        "remediation": "https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html",
+        "test_name": "subprocess_without_shell_equals_true",
+        "source": "bandit"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "zone": "production",
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::call_codex.py::overwritten_key::result::installed": {
+      "id": "dict_keys::call_codex.py::overwritten_key::result::installed",
+      "detector": "dict_keys",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"installed\" overwritten on `result` at line 61 (previously set at line 45, never read between)",
+      "detail": {
+        "kind": "overwritten_key",
+        "key": "installed",
+        "line": 61,
+        "info": "in verify_codex_cli()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::call_codex.py::overwritten_key::result::version": {
+      "id": "dict_keys::call_codex.py::overwritten_key::result::version",
+      "detector": "dict_keys",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"version\" overwritten on `result` at line 62 (previously set at line 45, never read between)",
+      "detail": {
+        "kind": "overwritten_key",
+        "key": "version",
+        "line": 62,
+        "info": "in verify_codex_cli()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::call_codex.py::overwritten_key::result::supports_skip_git": {
+      "id": "dict_keys::call_codex.py::overwritten_key::result::supports_skip_git",
+      "detector": "dict_keys",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"supports_skip_git\" overwritten on `result` at line 71 (previously set at line 45, never read between)",
+      "detail": {
+        "kind": "overwritten_key",
+        "key": "supports_skip_git",
+        "line": 71,
+        "info": "in verify_codex_cli()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::call_codex.py::overwritten_key::result::error": {
+      "id": "dict_keys::call_codex.py::overwritten_key::result::error",
+      "detector": "dict_keys",
+      "file": "call_codex.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"error\" overwritten on `result` at line 76 (previously set at line 74, never read between)",
+      "detail": {
+        "kind": "overwritten_key",
+        "key": "error",
+        "line": 76,
+        "info": "in verify_codex_cli()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::codex_lm.py::dead_write::response::choices": {
+      "id": "dict_keys::codex_lm.py::dead_write::response::choices",
+      "detector": "dict_keys",
+      "file": "codex_lm.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"choices\" written to `response` at line 111 but never read",
+      "detail": {
+        "kind": "dead_write",
+        "key": "choices",
+        "line": 111,
+        "info": "in forward()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::codex_lm.py::dead_write::response::created": {
+      "id": "dict_keys::codex_lm.py::dead_write::response::created",
+      "detector": "dict_keys",
+      "file": "codex_lm.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"created\" written to `response` at line 111 but never read",
+      "detail": {
+        "kind": "dead_write",
+        "key": "created",
+        "line": 111,
+        "info": "in forward()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::codex_lm.py::dead_write::response::id": {
+      "id": "dict_keys::codex_lm.py::dead_write::response::id",
+      "detector": "dict_keys",
+      "file": "codex_lm.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"id\" written to `response` at line 111 but never read",
+      "detail": {
+        "kind": "dead_write",
+        "key": "id",
+        "line": 111,
+        "info": "in forward()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::codex_lm.py::dead_write::response::model": {
+      "id": "dict_keys::codex_lm.py::dead_write::response::model",
+      "detector": "dict_keys",
+      "file": "codex_lm.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"model\" written to `response` at line 111 but never read",
+      "detail": {
+        "kind": "dead_write",
+        "key": "model",
+        "line": 111,
+        "info": "in forward()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "dict_keys::codex_lm.py::dead_write::response::object": {
+      "id": "dict_keys::codex_lm.py::dead_write::response::object",
+      "detector": "dict_keys",
+      "file": "codex_lm.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Dict key \"object\" written to `response` at line 111 but never read",
+      "detail": {
+        "kind": "dead_write",
+        "key": "object",
+        "line": 111,
+        "info": "in forward()"
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:36:33+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::aggregate_findings.py::unreviewed": {
+      "id": "subjective_review::aggregate_findings.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "aggregate_findings.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 368
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::backfill_training.py::unreviewed": {
+      "id": "subjective_review::backfill_training.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "backfill_training.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 301
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::call_codex.py::unreviewed": {
+      "id": "subjective_review::call_codex.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "call_codex.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 244
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::codex_lm.py::unreviewed": {
+      "id": "subjective_review::codex_lm.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "codex_lm.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 155
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::collect_training.py::unreviewed": {
+      "id": "subjective_review::collect_training.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "collect_training.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 108
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::detect_profiles.py::unreviewed": {
+      "id": "subjective_review::detect_profiles.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "detect_profiles.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 287
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::detect_security_level.py::unreviewed": {
+      "id": "subjective_review::detect_security_level.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "detect_security_level.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 268
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::dspy_reviewers.py::unreviewed": {
+      "id": "subjective_review::dspy_reviewers.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "dspy_reviewers.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 181
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::optimize.py::unreviewed": {
+      "id": "subjective_review::optimize.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "optimize.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 322
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::parse_findings.py::unreviewed": {
+      "id": "subjective_review::parse_findings.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "parse_findings.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 223
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::paths.py::unreviewed": {
+      "id": "subjective_review::paths.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "paths.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 104
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::review_conversion.py::unreviewed": {
+      "id": "subjective_review::review_conversion.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "review_conversion.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 141
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::review_module.py::unreviewed": {
+      "id": "subjective_review::review_module.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "review_module.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 77
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::review_runtime.py::unreviewed": {
+      "id": "subjective_review::review_runtime.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "review_runtime.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 168
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::review_signatures.py::unreviewed": {
+      "id": "subjective_review::review_signatures.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "review_signatures.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 328
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::run_parallel_reviews.py::unreviewed": {
+      "id": "subjective_review::run_parallel_reviews.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "run_parallel_reviews.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 523
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::secrets.py::unreviewed": {
+      "id": "subjective_review::secrets.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "secrets.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 246
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::training_metric.py::unreviewed": {
+      "id": "subjective_review::training_metric.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "training_metric.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 222
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::training_store.py::unreviewed": {
+      "id": "subjective_review::training_store.py::unreviewed",
+      "detector": "subjective_review",
+      "file": "training_store.py",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No design review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed",
+        "loc": 165
+      },
+      "status": "auto_resolved",
+      "note": "resolved by reviewed_files cache refresh",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Per-file review cache refreshed for this file",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "subjective_review::.::holistic_unreviewed": {
+      "id": "subjective_review::.::holistic_unreviewed",
+      "detector": "subjective_review",
+      "file": ".",
+      "tier": 4,
+      "confidence": "low",
+      "summary": "No holistic codebase review on record \u2014 run `desloppify review --prepare`",
+      "detail": {
+        "reason": "unreviewed"
+      },
+      "status": "auto_resolved",
+      "note": "resolved by holistic review import",
+      "first_seen": "2026-02-28T17:23:03+00:00",
+      "last_seen": "2026-02-28T17:23:03+00:00",
+      "resolved_at": "2026-02-28T17:36:30+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "agent_import",
+        "text": "Holistic review refreshed; coverage marker superseded",
+        "attested_at": "2026-02-28T17:36:30+00:00",
+        "scan_verified": false
+      }
+    },
+    "review::.::holistic::cross_module_architecture::split_path_contract_source::5426217e": {
+      "id": "review::.::holistic::cross_module_architecture::split_path_contract_source::5426217e",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Path schema is owned by both `constants.py` and `paths.py`, leaving a persistent dual-contract boundary.",
+      "detail": {
+        "holistic": true,
+        "dimension": "cross_module_architecture",
+        "related_files": [
+          "constants.py",
+          "paths.py"
+        ],
+        "evidence": [
+          "`constants.py` marks path constants as deprecated but still exports `TRAINING_DIR_NAME`, `OPTIMIZED_DIR_NAME`, and `EXPORT_DIR_NAME`.",
+          "`paths.py` independently encodes the same directory names in `get_training_dir`, `get_optimized_dir`, and `get_export_dir`.",
+          "No enforcement mechanism exists to prevent new callers from using deprecated constants, so both interfaces remain live."
+        ],
+        "suggestion": "Collapse to one path contract owner: keep path structure only in `paths.py`, migrate any remaining imports off deprecated constants, then remove the deprecated exports (or gate them behind a short-lived compatibility shim with removal date).",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::cross_module_architecture::cwd_driven_path_policy::780d8060": {
+      "id": "review::.::holistic::cross_module_architecture::cwd_driven_path_policy::780d8060",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Global path resolution depends on caller working directory, creating implicit cross-module coupling.",
+      "detail": {
+        "holistic": true,
+        "dimension": "cross_module_architecture",
+        "related_files": [
+          "paths.py",
+          "constants.py"
+        ],
+        "evidence": [
+          "`paths._get_base_claude_dir()` selects repository-local `.claude` by checking `Path.cwd()`.",
+          "All exported path getters inherit this behavior, so unrelated entrypoints can produce different storage locations solely from launch directory.",
+          "This runtime policy is implicit and not represented as an explicit configuration object or required parameter."
+        ],
+        "suggestion": "Make base directory resolution explicit: accept an injected base path (or centralized config object) and use environment overrides as the only implicit source; avoid `cwd`-based switching for shared state roots.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::high_level_elegance::adapter_and_bootstrap_conflation::4ca00420": {
+      "id": "review::.::holistic::high_level_elegance::adapter_and_bootstrap_conflation::4ca00420",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "`CodexLM` combines adapter behavior with bootstrap checks, reducing ownership clarity.",
+      "detail": {
+        "holistic": true,
+        "dimension": "high_level_elegance",
+        "related_files": [
+          "codex_lm.py",
+          "constants.py"
+        ],
+        "evidence": [
+          "`codex_lm.py` raises at import if DSPy is missing, coupling module load to environment state.",
+          "`CodexLM.__init__` performs `verify_codex_cli()` immediately, so constructing the adapter enforces process-level CLI readiness even when caller may want deferred initialization.",
+          "Timeout policy comes from shared global constants while runtime probing logic is embedded in the adapter, mixing configuration and orchestration responsibilities."
+        ],
+        "suggestion": "Separate concerns into (1) a pure adapter class and (2) a factory/bootstrap function that performs dependency and CLI checks; keep importable symbols load-safe and move readiness checks to explicit setup paths.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::low_level_elegance::import_time_annotation_breakage::b57576cb": {
+      "id": "review::.::holistic::low_level_elegance::import_time_annotation_breakage::b57576cb",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Forward-referenced annotations and missing symbols make `run_parallel_reviews.py` fail at import time.",
+      "detail": {
+        "holistic": true,
+        "dimension": "low_level_elegance",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "aggregate_findings.py"
+        ],
+        "evidence": [
+          "`aggregate_review_result` annotates `ParallelReviewResult` and `ReviewResult` before those classes are defined.",
+          "`build_argument_parser` annotates return type as `argparse.ArgumentParser` even though `argparse` is only imported inside `main()`.",
+          "Direct import of `run_parallel_reviews` raises `NameError`, preventing downstream workflow use."
+        ],
+        "suggestion": "Add `from __future__ import annotations` (or quote forward refs), import `argparse` at module scope, and define/import `SECURITY_LEVELS` explicitly before parser construction.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::mid_level_elegance::cli_flags_do_not_control_behavior::664a9ca0": {
+      "id": "review::.::holistic::mid_level_elegance::cli_flags_do_not_control_behavior::664a9ca0",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Aggregation CLI exposes options that are currently no-ops.",
+      "detail": {
+        "holistic": true,
+        "dimension": "mid_level_elegance",
+        "related_files": [
+          "aggregate_findings.py",
+          "run_parallel_reviews.py"
+        ],
+        "evidence": [
+          "`--detect-conflicts` is parsed but `aggregate_findings(results)` is always called with conflict detection active.",
+          "`--show-duplicates` is parsed but no conditional branch emits duplicate detail based on the flag.",
+          "The CLI seam suggests configurable behavior while execution remains fixed."
+        ],
+        "suggestion": "Thread parsed flags into aggregation/output logic (e.g., `detect_conflicts` parameter and duplicate reporting branch), or remove unsupported flags from the interface.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::abstraction_fitness::missing_shared_review_schema::0b86a9d7": {
+      "id": "review::.::holistic::abstraction_fitness::missing_shared_review_schema::0b86a9d7",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Review data crosses modules via duplicated ad-hoc dict schemas instead of a shared model.",
+      "detail": {
+        "holistic": true,
+        "dimension": "abstraction_fitness",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "aggregate_findings.py",
+          "training_store.py"
+        ],
+        "evidence": [
+          "`run_parallel_reviews.py` manually builds nested JSON (`results`/`findings`/`items`) in `main()`.",
+          "`aggregate_findings.py` manually navigates and reconstructs objects from that same shape.",
+          "`training_store.py` performs separate manual dict serialization for training examples, continuing schema-by-convention patterns."
+        ],
+        "suggestion": "Introduce a shared typed schema/dataclass layer for review payloads and centralize serialize/deserialize helpers used by all three modules.",
+        "reasoning": ""
+      },
+      "status": "fixed",
+      "note": "Created review_models.py with shared Finding, AnnotatedFinding, ParseResult, ReviewResult, and ParallelReviewResult dataclasses. Updated parse_findings.py, aggregate_findings.py, and run_parallel_reviews.py to use centralized schema instead of duplicated local definitions.",
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": "2026-02-28T17:38:01+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually consolidated duplicate Finding classes into review_models.py and updated parse_findings.py, aggregate_findings.py, and run_parallel_reviews.py to use the shared schema, eliminating the ad-hoc dict schemas that were crossing module boundaries, and I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T17:38:01+00:00",
+        "scan_verified": false
+      }
+    },
+    "review::.::holistic::dependency_health::private_parser_dependency::e02341af": {
+      "id": "review::.::holistic::dependency_health::private_parser_dependency::e02341af",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Training storage depends on a private parsing helper, creating fragile module coupling.",
+      "detail": {
+        "holistic": true,
+        "dimension": "dependency_health",
+        "related_files": [
+          "training_store.py",
+          "run_parallel_reviews.py"
+        ],
+        "evidence": [
+          "`training_store.py` imports `_extract_finding_texts` directly, relying on a private/internal symbol contract.",
+          "The broader review pipeline already has parsing boundaries in other modules, but this module bypasses them and binds to internals."
+        ],
+        "suggestion": "Replace private-helper imports with a public parser API and make all modules consume the same stable parsing entry point.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::test_strategy::missing_coverage_for_core_path_and_cli_contracts::de9a7101": {
+      "id": "review::.::holistic::test_strategy::missing_coverage_for_core_path_and_cli_contracts::de9a7101",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Critical path and facade CLI behavior are untested despite high reuse and branching behavior.",
+      "detail": {
+        "holistic": true,
+        "dimension": "test_strategy",
+        "related_files": [
+          "paths.py",
+          "dspy_reviewers.py"
+        ],
+        "evidence": [
+          "`paths.py` contains multiple behavior branches (env overrides plus cwd/home fallback) with no tests validating precedence or portability outcomes.",
+          "`dspy_reviewers.py` contains CLI flows (`--check`, `--list-domains`, `--stats`) and optional dependency states, but no tests assert outputs or failure behavior.",
+          "Repository scan found no test files covering these modules."
+        ],
+        "suggestion": "Add a focused pytest suite: (1) parametrize `paths.py` over env/cwd/home combinations, (2) test `dspy_reviewers.main()` via argv monkeypatch and captured stdout for each flag, and (3) add one integration test that runs `--stats` with temporary training data directory wiring.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::mid_level_elegance::cwd_dependent_storage_seam::1a48337c": {
+      "id": "review::.::holistic::mid_level_elegance::cwd_dependent_storage_seam::1a48337c",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Path resolution relies on ambient cwd, creating non-explicit integration seams across consumers.",
+      "detail": {
+        "holistic": true,
+        "dimension": "mid_level_elegance",
+        "related_files": [
+          "paths.py",
+          "dspy_reviewers.py"
+        ],
+        "evidence": [
+          "`_get_base_claude_dir()` checks `Path.cwd() / '.claude'` first (`paths.py:34-36`) and otherwise falls back to home (`paths.py:39`).",
+          "Downstream entry points consume this implicitly through `get_training_dir()` and related helpers (`dspy_reviewers.py:97,160-165`), so identical commands can read/write different locations depending on launch directory."
+        ],
+        "suggestion": "Refactor path resolution to a single explicit root input (e.g., env var or injected base dir object) and have CLI/runtime pass that root explicitly; keep cwd fallback only as a thin compatibility path with a deprecation boundary.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::mid_level_elegance::inconsistent_optional_dependency_boundary::9bb1cddb": {
+      "id": "review::.::holistic::mid_level_elegance::inconsistent_optional_dependency_boundary::9bb1cddb",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Facade exposes mixed failure timing for missing DSPy, making boundary behavior unpredictable.",
+      "detail": {
+        "holistic": true,
+        "dimension": "mid_level_elegance",
+        "related_files": [
+          "dspy_reviewers.py",
+          "review_runtime.py"
+        ],
+        "evidence": [
+          "`dspy_reviewers.py` conditionally imports/binds some DSPy symbols at import time (`lines 51-66`), but still re-exports runtime functions unconditionally (`line 69`).",
+          "`run_dspy_review()` raises ImportError at call time when DSPy is absent (`review_runtime.py:112-113`), creating a different failure mode than missing import-time symbols."
+        ],
+        "suggestion": "Define one explicit optional-dependency contract at the facade boundary: either always expose stubs that raise a consistent custom error on use, or gate all DSPy-dependent exports behind a single capability object/function so import-time and call-time behavior are uniform.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::low_level_elegance::duplicated_security_level_contract::70aaf03d": {
+      "id": "review::.::holistic::low_level_elegance::duplicated_security_level_contract::70aaf03d",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Security-level enum is duplicated instead of reused from shared constants",
+      "detail": {
+        "holistic": true,
+        "dimension": "low_level_elegance",
+        "related_files": [
+          "collect_training.py",
+          "constants.py"
+        ],
+        "evidence": [
+          "`collect_training.py` hardcodes `choices=[\"personal\", \"internal\", \"public\", \"enterprise\"]` and default `\"public\"` in argparse.",
+          "`constants.py` already defines `SECURITY_LEVELS` and `DEFAULT_SECURITY_LEVEL` for the same policy surface."
+        ],
+        "suggestion": "Import and use `SECURITY_LEVELS` and `DEFAULT_SECURITY_LEVEL` in `collect_training.py` to make CLI validation and shared policy a single source of truth.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::low_level_elegance::unsafe_docstring_indexing_in_cli::901c59d9": {
+      "id": "review::.::holistic::low_level_elegance::unsafe_docstring_indexing_in_cli::901c59d9",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "--list-domains can crash on empty signature docstrings",
+      "detail": {
+        "holistic": true,
+        "dimension": "low_level_elegance",
+        "related_files": [
+          "dspy_reviewers.py",
+          "review_signatures.py"
+        ],
+        "evidence": [
+          "`dspy_reviewers.py` uses `.splitlines()[0]` when printing signature docs.",
+          "If any signature class in `review_signatures.py` has an empty/whitespace docstring, `splitlines()` is empty and indexing raises `IndexError`."
+        ],
+        "suggestion": "Guard with a fallback, e.g. `lines = (...).splitlines(); doc_first_line = lines[0] if lines else \"(no description)\"`.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::ai_generated_debt::deprecated_constants_without_retirement_path::114bb779": {
+      "id": "review::.::holistic::ai_generated_debt::deprecated_constants_without_retirement_path::114bb779",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Deprecated constants are retained as a live API with no enforced migration boundary",
+      "detail": {
+        "holistic": true,
+        "dimension": "ai_generated_debt",
+        "related_files": [
+          "constants.py",
+          "dspy_reviewers.py",
+          "collect_training.py"
+        ],
+        "evidence": [
+          "`constants.py` labels path constants as deprecated and says to use `paths.py`, but still exports and normalizes them as regular constants.",
+          "`dspy_reviewers.py` already consumes `paths.get_optimized_dir/get_training_dir`, showing partial migration to new path API.",
+          "No warning, alias shim, or removal timeline exists to prevent continued reads from deprecated constants."
+        ],
+        "suggestion": "Introduce a migration boundary: replace deprecated constants with explicit compatibility aliases that emit deprecation warnings, then remove internal usage and schedule deletion in one release window.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::package_organization::flat_root_mixed_domains::026d0466": {
+      "id": "review::.::holistic::package_organization::flat_root_mixed_domains::026d0466",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Root directory is overloaded with mixed-domain modules, obscuring ownership boundaries.",
+      "detail": {
+        "holistic": true,
+        "dimension": "package_organization",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "optimize.py",
+          "aggregate_findings.py",
+          "secrets.py",
+          "detect_profiles.py"
+        ],
+        "evidence": [
+          "Objective structure signal: root has 20 production files in a single directory, exceeding the >10 mixed-concern split trigger in the batch rubric.",
+          "Files with unrelated responsibilities (parallel review execution, GEPA optimization, finding aggregation, secret scanning, profile detection) all sit at the same root level.",
+          "The same root layer contains both pipeline internals and operational tooling CLIs, creating weak directory-level contracts."
+        ],
+        "suggestion": "Staged reorg plan: (1) create `review/` (`runtime.py`, `orchestrator.py`, `parsing.py`, `aggregation.py`), `review/dspy/` (`module.py`, `signatures.py`, `conversion.py`, `lm.py`), `training/` (`metric.py`, `store.py`, `collect.py`, `backfill.py`, `optimize.py`), `classification/` (`profiles.py`, `security_level.py`), and `cli/` (`run_parallel_reviews.py`, `call_codex.py`, `secrets.py`, thin wrappers only). (2) Move pure library modules first, then switch CLI scripts to import package modules, then trim old import paths. (3) Run import-update and validation commands after each stage: `rg -n \"from (review_|training_|detect_|parse_|call_)\" *.py`, `python3 -m compileall .`, and a smoke run of key CLIs (for example `python3 cli/run_parallel_reviews.py --check-only`, `python3 cli/call_codex.py --check-only`).",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::package_organization::library_cli_cohabitation::0620eece": {
+      "id": "review::.::holistic::package_organization::library_cli_cohabitation::0620eece",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Core library modules embed CLI entrypoints, blurring file placement and reuse boundaries.",
+      "detail": {
+        "holistic": true,
+        "dimension": "package_organization",
+        "related_files": [
+          "call_codex.py",
+          "parse_findings.py",
+          "detect_profiles.py",
+          "detect_security_level.py",
+          "dspy_reviewers.py"
+        ],
+        "evidence": [
+          "These files each expose reusable functions imported by other modules and also define in-file CLI flows via `main()` and `if __name__ == '__main__'`.",
+          "Example coupling: run_parallel_reviews.py imports call_codex.py and parse_findings.py as libraries; optimize.py/collect_training.py import dspy_reviewers.py while dspy_reviewers.py also contains CLI logic.",
+          "This forces module placement compromises: files cannot cleanly belong to `cli` or `library` layers."
+        ],
+        "suggestion": "Staged reorg plan: (1) split each mixed file into `*_core.py` (or package module) plus `cli/*.py` wrappers; start with `call_codex.py` and `parse_findings.py` because they are shared runtime dependencies. (2) Move detection modules next (`detect_profiles.py`, `detect_security_level.py`) into `classification/` and provide dedicated CLI adapters under `cli/`. (3) Move `dspy_reviewers.py` facade into `review/dspy/__init__.py` and keep only a diagnostic CLI wrapper in `cli/dspy_reviewers.py`. (4) Update imports with `rg -n \"from (call_codex|parse_findings|detect_profiles|detect_security_level|dspy_reviewers)\" -g '*.py'` and validate with `python3 -m compileall .` and targeted CLI smoke tests.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::high_level_elegance::review_domain_ownership_split::0efc29fb": {
+      "id": "review::.::holistic::high_level_elegance::review_domain_ownership_split::0efc29fb",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Reviewer-domain ownership is fragmented across separate top-level modules without a single authority.",
+      "detail": {
+        "holistic": true,
+        "dimension": "high_level_elegance",
+        "related_files": [
+          "detect_profiles.py",
+          "review_signatures.py",
+          "run_parallel_reviews.py",
+          "detect_security_level.py"
+        ],
+        "evidence": [
+          "Domain list/metadata and prompt paths are owned by `PROFILES` in detect_profiles.py, while DSPy contract definitions are in review_signatures.py and consumed through dspy_reviewers/review_module.",
+          "run_parallel_reviews.py orchestrates both codex and dspy backends and reads profile metadata from detect_profiles.py, but security-level policy comes from detect_security_level.py, splitting top-level policy ownership.",
+          "A new reviewer domain requires coordinated edits across multiple top-level modules rather than one capability package."
+        ],
+        "suggestion": "Staged reorg plan: (1) introduce a single `review/domains/` package with canonical domain registry (metadata, prompt path, signature binding, and security-level defaults). (2) Refactor `run_parallel_reviews.py` and `review_module.py` to consume only this registry API; keep adapters for legacy imports temporarily. (3) Move detection heuristics into `review/domains/detection.py` and make `detect_profiles.py`/`detect_security_level.py` thin CLI wrappers. (4) Validate with import checks (`rg -n \"PROFILES|DOMAIN_SIGNATURES|SECURITY_LEVELS\" -g '*.py'`) and end-to-end runs (`python3 cli/run_parallel_reviews.py --check-only`, domain listing commands).",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::high_level_elegance::orphan_tooling_at_core_layer::43ed37d8": {
+      "id": "review::.::holistic::high_level_elegance::orphan_tooling_at_core_layer::43ed37d8",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Zero-fan-in tooling modules share the same architectural layer as core review runtime.",
+      "detail": {
+        "holistic": true,
+        "dimension": "high_level_elegance",
+        "related_files": [
+          "aggregate_findings.py",
+          "secrets.py",
+          "backfill_training.py",
+          "run_parallel_reviews.py"
+        ],
+        "evidence": [
+          "holistic root_files reports fan_in=0 for aggregate_findings.py, secrets.py, and backfill_training.py, while core runtime orchestration also sits in root.",
+          "These modules behave as operational utilities, but their placement at the same top-level as runtime dependencies weakens the mental model of what is core vs optional tooling."
+        ],
+        "suggestion": "Staged reorg plan: (1) move fan-in-0 operational scripts to `tools/` (or `cli/tools/`) first because they have minimal import impact. (2) Keep core runtime files under `review/` and training files under `training/`. (3) Add a small `cli/README` or command index clarifying runtime vs maintenance scripts. (4) Update paths/imports via `rg -n \"aggregate_findings|backfill_training|secrets\" -g '*.py'` and validate by executing each moved tool in `--help` mode plus `python3 -m compileall .`.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::design_coherence::systemic_orchestration_boundary_blur::eeb3b626": {
+      "id": "review::.::holistic::design_coherence::systemic_orchestration_boundary_blur::eeb3b626",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Review orchestration responsibilities are spread across transport, execution, formatting, and exit-policy layers without a clean boundary.",
+      "detail": {
+        "holistic": true,
+        "dimension": "design_coherence",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "call_codex.py",
+          "aggregate_findings.py"
+        ],
+        "evidence": [
+          "run_parallel_reviews.py includes both backend-specific execution (run_parallel_reviews/run_parallel_reviews_dspy) and CLI surface behavior (argument parsing, formatting, exit decisions).",
+          "call_codex.py performs CLI capability probing and process execution concerns that are partially duplicated by readiness checks in run_parallel_reviews.py.",
+          "aggregate_findings.py re-implements downstream interpretation of the same review-result shape rather than consuming a shared domain object."
+        ],
+        "suggestion": "Introduce a shared review service layer with a typed `ReviewBundle` contract (execution-only), move CLI parsing/output/exit handling into thin adapters, and have `aggregate_findings.py` consume that contract rather than ad-hoc dictionaries.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::design_coherence::duplicated_result_schema_contract::247cf526": {
+      "id": "review::.::holistic::design_coherence::duplicated_result_schema_contract::247cf526",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Result-shape construction and interpretation are duplicated in multiple modules, creating fragile implicit contracts.",
+      "detail": {
+        "holistic": true,
+        "dimension": "design_coherence",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "aggregate_findings.py"
+        ],
+        "evidence": [
+          "run_parallel_reviews.py manually builds nested `output['results'][profile]` and findings item dicts in main().",
+          "aggregate_findings.py expects specific nested keys (`findings.items`, `level`, `text`) and counts severities by re-parsing those dicts.",
+          "No shared dataclass/serializer defines this transport schema, so both modules must stay manually synchronized."
+        ],
+        "suggestion": "Define a shared serializer/deserializer for review results (e.g., dataclass + `to_dict`/`from_dict`) and centralize severity counting there so both producer and consumer use one canonical schema.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::design_coherence::backfill_etl_pipeline_duplication::65fc35a1": {
+      "id": "review::.::holistic::design_coherence::backfill_etl_pipeline_duplication::65fc35a1",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Backfill parsing paths duplicate the same transformation pipeline instead of using reusable extraction/mapping stages.",
+      "detail": {
+        "holistic": true,
+        "dimension": "design_coherence",
+        "related_files": [
+          "backfill_training.py",
+          "collect_training.py",
+          "optimize.py"
+        ],
+        "evidence": [
+          "backfill_training.py has two parser functions that both parse source text, build severity maps, classify domain, and assemble `ReviewExample` objects with mostly parallel logic.",
+          "collect_training.py constructs and persists `ReviewExample` data via a separate one-off path with its own argument parsing and file-read behavior.",
+          "optimize.py consumes the same training data domain model, but ingestion/normalization responsibilities remain scattered across scripts."
+        ],
+        "suggestion": "Extract a shared training-example builder pipeline (parse source -> normalize findings -> classify domain -> build ReviewExample) and let each CLI provide only source adapters and I/O.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::design_coherence::mixed_domain_and_presentation_logic::b0c21b72": {
+      "id": "review::.::holistic::design_coherence::mixed_domain_and_presentation_logic::b0c21b72",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Core analysis modules mix domain computation with user-facing rendering, reducing composability.",
+      "detail": {
+        "holistic": true,
+        "dimension": "design_coherence",
+        "related_files": [
+          "aggregate_findings.py",
+          "detect_security_level.py",
+          "secrets.py"
+        ],
+        "evidence": [
+          "aggregate_findings.py houses pure aggregation logic and terminal-oriented rendering (`format_for_display`) in the same module.",
+          "detect_security_level.py and secrets.py both implement reusable analysis functions plus CLI-format-specific rendering/exit semantics in the same files.",
+          "This pattern repeats across scripts, making programmatic reuse rely on importing CLI-heavy modules."
+        ],
+        "suggestion": "Split each script into `core` (analysis/state transitions) and `cli` (argparse, formatting, exit codes) modules; keep core free of output-format concerns.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::convention_outlier::forward_ref_annotation_breakage::333d2ad4": {
+      "id": "review::.::holistic::convention_outlier::forward_ref_annotation_breakage::333d2ad4",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Inconsistent forward-reference typing style causes import-time and deferred NameError failures",
+      "detail": {
+        "holistic": true,
+        "dimension": "convention_outlier",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "backfill_training.py"
+        ],
+        "evidence": [
+          "run_parallel_reviews.py:73 annotates aggregate_review_result(result: ParallelReviewResult, ...) before ParallelReviewResult is declared (declaration starts line 113), and script startup fails with NameError.",
+          "backfill_training.py:51 and 133 annotate returns as list[ReviewExample], but ReviewExample is imported only inside main() at line 221; evaluating annotations later raises NameError."
+        ],
+        "suggestion": "Standardize annotation convention across scripts: either add `from __future__ import annotations` everywhere or quote forward refs (`\"ParallelReviewResult\"`, `\"ReviewExample\"`) and keep type declarations before first use.",
+        "reasoning": ""
+      },
+      "status": "fixed",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": "2026-02-28T17:45:13+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually added from __future__ import annotations to run_parallel_reviews.py and backfill_training.py to enable PEP 563 postponed evaluation of annotations, which fixes the forward reference NameError issues, and I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T17:45:13+00:00",
+        "scan_verified": false
+      }
+    },
+    "review::.::holistic::convention_outlier::security_level_constant_drift::092d40ea": {
+      "id": "review::.::holistic::convention_outlier::security_level_constant_drift::092d40ea",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Security-level configuration is duplicated with conflicting conventions, leading to broken references",
+      "detail": {
+        "holistic": true,
+        "dimension": "convention_outlier",
+        "related_files": [
+          "constants.py",
+          "detect_security_level.py",
+          "run_parallel_reviews.py"
+        ],
+        "evidence": [
+          "constants.py:33 defines SECURITY_LEVELS as a tuple of literal level names.",
+          "detect_security_level.py:31 reuses SECURITY_LEVELS name for a dict containing keyword metadata.",
+          "run_parallel_reviews.py:404 uses `choices=list(SECURITY_LEVELS)` but only imports DEFAULT_SECURITY_LEVEL from constants (line 35), so the symbol is unresolved in that module."
+        ],
+        "suggestion": "Create a single canonical security-level source (e.g., `security_levels.py`) and import it everywhere; use distinct names for enum-like values vs metadata (`SECURITY_LEVEL_NAMES` vs `SECURITY_LEVEL_CONFIG`) to prevent symbol collisions.",
+        "reasoning": ""
+      },
+      "status": "fixed",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": "2026-02-28T17:41:41+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually renamed SECURITY_LEVELS to SECURITY_LEVEL_CHOICES in constants.py and to SECURITY_LEVEL_CONFIG in detect_security_level.py to eliminate the naming collision, updated run_parallel_reviews.py to import and use SECURITY_LEVEL_CHOICES, and I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T17:41:41+00:00",
+        "scan_verified": false
+      }
+    },
+    "review::.::holistic::error_consistency::mixed_error_contracts_with_context_loss::e4adea13": {
+      "id": "review::.::holistic::error_consistency::mixed_error_contracts_with_context_loss::e4adea13",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Review pipeline mixes exception, sentinel, and string-error flows, dropping diagnostic context",
+      "detail": {
+        "holistic": true,
+        "dimension": "error_consistency",
+        "related_files": [
+          "call_codex.py",
+          "run_parallel_reviews.py",
+          "review_runtime.py",
+          "parse_findings.py"
+        ],
+        "evidence": [
+          "call_codex.py preserves structured failure context in CodexError (message, exit_code, stderr), but run_parallel_reviews.py stores only `str(e)` in ReviewResult.error.",
+          "review_runtime.py uses exceptions as payload values in results dict, while parse_findings.py signals failure via `ParseResult.error` return fields; callers must branch on unrelated error idioms.",
+          "run_parallel_reviews.py catch-all handlers coerce heterogeneous failures into generic strings (`Exception during review`, `Future execution error`, `DSPy review error`), obscuring origin and failure class."
+        ],
+        "suggestion": "Adopt one internal error contract (typed `ReviewError` object or `Result[T, E]`) for all non-CLI paths, preserving code/message/cause/trace context; convert to text + exit codes only at CLI boundaries.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::design_coherence::import_time_annotation_crash::30b27da8": {
+      "id": "review::.::holistic::design_coherence::import_time_annotation_crash::30b27da8",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Runtime-evaluated annotations crash two CLI modules at import time",
+      "detail": {
+        "holistic": true,
+        "dimension": "design_coherence",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "backfill_training.py"
+        ],
+        "evidence": [
+          "`python3 run_parallel_reviews.py --help` crashes with `NameError: name 'ParallelReviewResult' is not defined` at function annotation evaluation.",
+          "`python3 backfill_training.py --dry-run` crashes with `NameError: name 'ReviewExample' is not defined` at `parse_zellij_bridge` return type annotation.",
+          "Both modules define annotations referencing symbols not yet available in module global scope."
+        ],
+        "suggestion": "Adopt postponed annotation evaluation (`from __future__ import annotations`) and move required type imports/class definitions before annotation use; also replace local-only imports in backfill main with module-level imports for symbols used by top-level functions.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::cross_module_architecture::facade_boundary_collapse::f3f4da84": {
+      "id": "review::.::holistic::cross_module_architecture::facade_boundary_collapse::f3f4da84",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "dspy_reviewers facade collapses multiple subsystem boundaries into one import hub",
+      "detail": {
+        "holistic": true,
+        "dimension": "cross_module_architecture",
+        "related_files": [
+          "dspy_reviewers.py",
+          "optimize.py",
+          "collect_training.py",
+          "review_runtime.py",
+          "training_store.py"
+        ],
+        "evidence": [
+          "dspy_reviewers.py re-exports signatures, runtime orchestration, conversion, training metric, training store, and paths in one module.",
+          "Downstream CLIs (optimize.py, collect_training.py) import through this facade, coupling training/storage/runtime changes to one shared surface.",
+          "The facade\u2019s fan-out is high relative to this small codebase and creates broad change blast radius."
+        ],
+        "suggestion": "Split public API into bounded packages (`review/`, `training/`, `runtime/`) and update callers to import domain-local modules directly; keep a minimal compatibility shim in dspy_reviewers.py only for intentionally stable symbols.",
+        "reasoning": ""
+      },
+      "status": "fixed",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": "2026-02-28T22:08:29+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually updated collect_training.py, backfill_training.py, optimize.py, and run_parallel_reviews.py to import from domain-local modules (training_store, training_metric, review_signatures, review_runtime, review_conversion) instead of through the dspy_reviewers facade, updated dspy_reviewers.py to be a minimal compatibility shim with reduced exports and clear documentation that new code should import directly from specific modules, and I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:08:29+00:00",
+        "scan_verified": false
+      }
+    },
+    "review::.::holistic::error_consistency::backend_error_contract_drift::060bc9a8": {
+      "id": "review::.::holistic::error_consistency::backend_error_contract_drift::060bc9a8",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Codex and DSPy paths encode failures with incompatible error contracts",
+      "detail": {
+        "holistic": true,
+        "dimension": "error_consistency",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "review_runtime.py",
+          "review_conversion.py",
+          "call_codex.py"
+        ],
+        "evidence": [
+          "call_codex.py uses raised `CodexError` exceptions as primary failure channel.",
+          "review_runtime.py inserts raw Exception objects into result maps on worker failure.",
+          "run_parallel_reviews.py stores error text in `ReviewResult.error` while also carrying `ParseResult.error` in nested structures.",
+          "review_conversion.py converts exceptions into synthetic ParseResult errors, creating a third path."
+        ],
+        "suggestion": "Define one cross-backend error envelope (e.g., `ReviewError{kind,message,cause,backend}`) and require both runtime paths to emit it consistently before aggregation/output.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::abstraction_fitness::dual_parsing_abstractions::b63cf460": {
+      "id": "review::.::holistic::abstraction_fitness::dual_parsing_abstractions::b63cf460",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Two independent finding-parsing abstractions duplicate rules and drift risk",
+      "detail": {
+        "holistic": true,
+        "dimension": "abstraction_fitness",
+        "related_files": [
+          "parse_findings.py",
+          "review_conversion.py",
+          "run_parallel_reviews.py",
+          "training_metric.py"
+        ],
+        "evidence": [
+          "parse_findings.py parses markdown findings with section delimiters and stop-reason logic.",
+          "review_conversion.py implements separate finding extraction and stop logic directly from prediction text.",
+          "run_parallel_reviews.py uses different parsing routes per backend, and training_metric.py adds another local extractor."
+        ],
+        "suggestion": "Promote a single canonical structured parser module (severity counts, lgtm, stop reasons) and make both codex and dspy paths adapt into that contract; remove duplicate regex parsing helpers.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::package_organization::flat_root_mixed_concerns::39b1baa3": {
+      "id": "review::.::holistic::package_organization::flat_root_mixed_concerns::39b1baa3",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "Single-level 20-file root mixes runtime, parsing, security, and training concerns",
+      "detail": {
+        "holistic": true,
+        "dimension": "package_organization",
+        "related_files": [
+          "run_parallel_reviews.py",
+          "review_runtime.py",
+          "parse_findings.py",
+          "secrets.py",
+          "training_store.py",
+          "optimize.py"
+        ],
+        "evidence": [
+          "holistic_context.structure reports one directory with 20 production files and mixed concerns.",
+          "Many root files are low fan-in peripherals (<5) but remain at top-level, reducing navigability and ownership clarity.",
+          "Import affinity suggests natural concern groupings (review runtime/conversion/signatures/module, training metric/store/collect/backfill, detection/security helpers)."
+        ],
+        "suggestion": "Staged reorg plan: (1) create `review/`, `training/`, `detection/`, `cli/` folders; (2) move modules in order: review stack (`review_*`, `parse_findings`, `run_parallel_reviews`, `call_codex`, `codex_lm`), then training files (`training_*`, `collect_training`, `backfill_training`, `optimize`), then detection/security (`detect_*`, `secrets`), keeping `constants.py` and `paths.py` as shared core; (3) update imports via `rg -n '^from |^import '` and apply edits; (4) validate with `python3 -m py_compile $(fd -e py)` and smoke-run `python3 -m review.run_parallel_reviews --help` and `python3 -m cli.optimize --stats`.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "review::.::holistic::test_strategy::critical_paths_untested::2e3f6089": {
+      "id": "review::.::holistic::test_strategy::critical_paths_untested::2e3f6089",
+      "detector": "review",
+      "file": ".",
+      "tier": 3,
+      "confidence": "high",
+      "summary": "No test suite covers parsing, orchestration, or secret-detection critical paths",
+      "detail": {
+        "holistic": true,
+        "dimension": "test_strategy",
+        "related_files": [
+          "parse_findings.py",
+          "review_conversion.py",
+          "run_parallel_reviews.py",
+          "secrets.py",
+          "training_store.py"
+        ],
+        "evidence": [
+          "No tests discovered in assigned tree (`fd -HI -g '*test*.py'` and `fd -HI -g 'tests' -t d` returned no results).",
+          "High-risk behaviors (regex parsing, backend error aggregation, file persistence, secret scanning) rely on unverified branching logic."
+        ],
+        "suggestion": "Add a minimal pytest matrix: parser golden tests (`parse_findings`, `prediction_to_parse_result`), orchestration contract tests for both backends with mocks, secret scanner false-positive/false-negative fixtures, and training_store persistence roundtrip tests including malformed JSON handling.",
+        "reasoning": ""
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:29+00:00",
+      "last_seen": "2026-02-28T17:36:29+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "responsibility_cohesion::run_parallel_reviews.py": {
+      "id": "responsibility_cohesion::run_parallel_reviews.py",
+      "detector": "responsibility_cohesion",
+      "file": "run_parallel_reviews.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Mixed responsibilities: 8 top-level funcs across 2 disconnected clusters (6, 2)",
+      "detail": {
+        "loc": 529,
+        "function_count": 8,
+        "component_count": 2,
+        "component_sizes": [
+          6,
+          2
+        ],
+        "family_count": 6,
+        "import_cluster_count": 7,
+        "families": [
+          "aggregate",
+          "build",
+          "format",
+          "load",
+          "main",
+          "run"
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T17:36:30+00:00",
+      "last_seen": "2026-02-28T17:36:30+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    }
+  },
+  "scan_coverage": {
+    "python": {
+      "status": "full",
+      "confidence": 1.0,
+      "detectors": {
+        "security": {
+          "detector": "security",
+          "status": "full",
+          "confidence": 1.0,
+          "summary": "Security coverage complete for enabled detectors.",
+          "impact": "",
+          "remediation": "",
+          "tool": "",
+          "reason": ""
+        }
+      },
+      "warnings": [],
+      "updated_at": "2026-02-28T17:36:33+00:00"
+    }
+  },
+  "score_confidence": {
+    "status": "full",
+    "confidence": 1.0,
+    "detectors": [],
+    "dimensions": []
+  },
+  "subjective_integrity": {
+    "status": "disabled",
+    "target_score": null,
+    "matched_count": 0,
+    "matched_dimensions": [],
+    "reset_dimensions": []
+  },
+  "subjective_assessments": {
+    "abstraction_fitness": {
+      "score": 66.2,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00",
+      "components": [
+        "Abstraction Leverage",
+        "Indirection Cost",
+        "Interface Honesty"
+      ],
+      "component_scores": {
+        "Abstraction Leverage": 73.4,
+        "Indirection Cost": 75.2,
+        "Interface Honesty": 78.7
+      },
+      "needs_review_refresh": true,
+      "refresh_reason": "review_finding_fixed",
+      "stale_since": "2026-02-28T17:38:01+00:00"
+    },
+    "ai_generated_debt": {
+      "score": 75.8,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    },
+    "convention_outlier": {
+      "score": 60.9,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00",
+      "needs_review_refresh": true,
+      "refresh_reason": "review_finding_fixed",
+      "stale_since": "2026-02-28T17:45:13+00:00"
+    },
+    "cross_module_architecture": {
+      "score": 59.3,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00",
+      "needs_review_refresh": true,
+      "refresh_reason": "review_finding_fixed",
+      "stale_since": "2026-02-28T22:08:29+00:00"
+    },
+    "dependency_health": {
+      "score": 77.7,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    },
+    "design_coherence": {
+      "score": 49.2,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    },
+    "error_consistency": {
+      "score": 64.0,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    },
+    "high_level_elegance": {
+      "score": 59.0,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    },
+    "low_level_elegance": {
+      "score": 59.9,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    },
+    "mid_level_elegance": {
+      "score": 58.2,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    },
+    "package_organization": {
+      "score": 41.2,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    },
+    "test_strategy": {
+      "score": 48.6,
+      "source": "holistic",
+      "assessed_at": "2026-02-28T17:36:29+00:00"
+    }
+  },
+  "lang_capabilities": {
+    "python": {
+      "fixers": [],
+      "typecheck_cmd": ""
+    }
+  },
+  "zone_distribution": {
+    "production": 20
+  },
+  "scan_history": [
+    {
+      "timestamp": "2026-02-28T17:23:05+00:00",
+      "lang": "python",
+      "strict_score": 21.7,
+      "verified_strict_score": 54.2,
+      "objective_score": 54.2,
+      "overall_score": 21.7,
+      "open": 102,
+      "diff_new": 102,
+      "diff_resolved": 0,
+      "ignored": 0,
+      "raw_findings": 103,
+      "suppressed_pct": 0.0,
+      "ignore_patterns": 0,
+      "subjective_integrity": {
+        "status": "pass",
+        "matched_count": 0,
+        "reset_count": 0,
+        "target_score": 95.0
+      },
+      "score_confidence": {
+        "status": "full",
+        "confidence": 1.0,
+        "detector_count": 0,
+        "dimension_count": 0
+      },
+      "dimension_scores": {
+        "File health": {
+          "score": 82.5,
+          "strict": 82.5
+        },
+        "Code quality": {
+          "score": 83.5,
+          "strict": 83.5
+        },
+        "Duplication": {
+          "score": 100.0,
+          "strict": 100.0
+        },
+        "Test health": {
+          "score": 4.7,
+          "strict": 4.7
+        },
+        "Security": {
+          "score": 91.5,
+          "strict": 91.5
+        },
+        "Error consistency": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Abstraction fit": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "AI generated debt": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "High elegance": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Mid elegance": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Low elegance": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Cross-module arch": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Convention drift": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Dep health": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Test strategy": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Structure nav": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Design coherence": {
+          "score": 0.0,
+          "strict": 0.0
+        }
+      }
+    },
+    {
+      "timestamp": "2026-02-28T17:36:29+00:00",
+      "lang": "python",
+      "strict_score": 56.4,
+      "verified_strict_score": 54.2,
+      "objective_score": 54.2,
+      "overall_score": 56.4,
+      "open": 132,
+      "diff_new": 30,
+      "diff_resolved": 0,
+      "ignored": 0,
+      "raw_findings": 30,
+      "suppressed_pct": 0.0,
+      "ignore_patterns": 0,
+      "subjective_integrity": {
+        "status": "disabled",
+        "matched_count": 0,
+        "reset_count": 0,
+        "target_score": null
+      },
+      "score_confidence": {
+        "status": "full",
+        "confidence": 1.0,
+        "detector_count": 0,
+        "dimension_count": 0
+      },
+      "dimension_scores": {
+        "File health": {
+          "score": 82.5,
+          "strict": 82.5
+        },
+        "Code quality": {
+          "score": 83.5,
+          "strict": 83.5
+        },
+        "Duplication": {
+          "score": 100.0,
+          "strict": 100.0
+        },
+        "Test health": {
+          "score": 4.7,
+          "strict": 4.7
+        },
+        "Security": {
+          "score": 91.5,
+          "strict": 91.5
+        },
+        "Error consistency": {
+          "score": 64.0,
+          "strict": 64.0
+        },
+        "Abstraction fit": {
+          "score": 66.2,
+          "strict": 66.2
+        },
+        "AI generated debt": {
+          "score": 75.8,
+          "strict": 75.8
+        },
+        "High elegance": {
+          "score": 59.0,
+          "strict": 59.0
+        },
+        "Mid elegance": {
+          "score": 58.2,
+          "strict": 58.2
+        },
+        "Low elegance": {
+          "score": 59.9,
+          "strict": 59.9
+        },
+        "Cross-module arch": {
+          "score": 59.3,
+          "strict": 59.3
+        },
+        "Convention drift": {
+          "score": 60.9,
+          "strict": 60.9
+        },
+        "Dep health": {
+          "score": 77.7,
+          "strict": 77.7
+        },
+        "Test strategy": {
+          "score": 48.6,
+          "strict": 48.6
+        },
+        "Structure nav": {
+          "score": 41.2,
+          "strict": 41.2
+        },
+        "Design coherence": {
+          "score": 49.2,
+          "strict": 49.2
+        }
+      }
+    },
+    {
+      "timestamp": "2026-02-28T17:36:33+00:00",
+      "lang": "python",
+      "strict_score": 56.8,
+      "verified_strict_score": 55.2,
+      "objective_score": 55.2,
+      "overall_score": 56.8,
+      "open": 111,
+      "diff_new": 1,
+      "diff_resolved": 2,
+      "ignored": 0,
+      "raw_findings": 82,
+      "suppressed_pct": 0.0,
+      "ignore_patterns": 0,
+      "subjective_integrity": {
+        "status": "pass",
+        "matched_count": 0,
+        "reset_count": 0,
+        "target_score": 95.0
+      },
+      "score_confidence": {
+        "status": "full",
+        "confidence": 1.0,
+        "detector_count": 0,
+        "dimension_count": 0
+      },
+      "dimension_scores": {
+        "File health": {
+          "score": 82.5,
+          "strict": 82.5
+        },
+        "Code quality": {
+          "score": 83.5,
+          "strict": 83.5
+        },
+        "Duplication": {
+          "score": 100.0,
+          "strict": 100.0
+        },
+        "Test health": {
+          "score": 6.7,
+          "strict": 6.7
+        },
+        "Security": {
+          "score": 91.5,
+          "strict": 91.5
+        },
+        "Error consistency": {
+          "score": 64.0,
+          "strict": 64.0
+        },
+        "Abstraction fit": {
+          "score": 66.2,
+          "strict": 66.2
+        },
+        "AI generated debt": {
+          "score": 75.8,
+          "strict": 75.8
+        },
+        "High elegance": {
+          "score": 59.0,
+          "strict": 59.0
+        },
+        "Mid elegance": {
+          "score": 58.2,
+          "strict": 58.2
+        },
+        "Low elegance": {
+          "score": 59.9,
+          "strict": 59.9
+        },
+        "Cross-module arch": {
+          "score": 59.3,
+          "strict": 59.3
+        },
+        "Convention drift": {
+          "score": 60.9,
+          "strict": 60.9
+        },
+        "Dep health": {
+          "score": 77.7,
+          "strict": 77.7
+        },
+        "Test strategy": {
+          "score": 48.6,
+          "strict": 48.6
+        },
+        "Structure nav": {
+          "score": 41.2,
+          "strict": 41.2
+        },
+        "Design coherence": {
+          "score": 49.2,
+          "strict": 49.2
+        }
+      }
+    }
+  ],
+  "tool_hash": "e073c6da67fa",
+  "scan_path": ".",
+  "scan_completeness": {
+    "python": "full"
+  },
+  "potentials": {
+    "python": {
+      "unused": 20,
+      "structural": 20,
+      "flat_dirs": 1,
+      "props": 0,
+      "responsibility_cohesion": 1,
+      "single_use": 4,
+      "cycles": 20,
+      "orphaned": 20,
+      "facade": 20,
+      "coupling": 0,
+      "uncalled_functions": 7,
+      "test_coverage": 265,
+      "smells": 20,
+      "global_mutable_config": 20,
+      "security": 20,
+      "private_imports": 20,
+      "dict_keys": 20,
+      "subjective_review": 19,
+      "boilerplate_duplication": 0,
+      "dupes": 67,
+      "stale_wontfix": 0
+    }
+  },
+  "codebase_metrics": {
+    "python": {
+      "total_files": 20,
+      "total_loc": 4506,
+      "total_directories": 1
+    }
+  },
+  "dimension_scores": {
+    "File health": {
+      "score": 82.5,
+      "strict_score": 82.5,
+      "verified_strict_score": 82.5,
+      "checks": 20,
+      "issues": 5,
+      "tier": 3,
+      "detectors": {
+        "structural": {
+          "potential": 20,
+          "pass_rate": 0.825,
+          "issues": 5,
+          "weighted_failures": 3.5
+        }
+      },
+      "strict": 82.5
+    },
+    "Code quality": {
+      "score": 83.5,
+      "strict_score": 83.5,
+      "verified_strict_score": 83.5,
+      "checks": 146,
+      "issues": 48,
+      "tier": 3,
+      "detectors": {
+        "unused": {
+          "potential": 20,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
+        },
+        "smells": {
+          "potential": 20,
+          "pass_rate": 0.25999999999999995,
+          "issues": 30,
+          "weighted_failures": 14.8
+        },
+        "dict_keys": {
+          "potential": 20,
+          "pass_rate": 0.85,
+          "issues": 9,
+          "weighted_failures": 3.0
+        },
+        "global_mutable_config": {
+          "potential": 20,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
+        },
+        "orphaned": {
+          "potential": 20,
+          "pass_rate": 0.755,
+          "issues": 7,
+          "weighted_failures": 4.9
+        },
+        "flat_dirs": {
+          "potential": 1,
+          "pass_rate": 0.30000000000000004,
+          "issues": 1,
+          "weighted_failures": 0.7
+        },
+        "facade": {
+          "potential": 20,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
+        },
+        "single_use": {
+          "potential": 4,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
+        },
+        "responsibility_cohesion": {
+          "potential": 1,
+          "pass_rate": 0.30000000000000004,
+          "issues": 1,
+          "weighted_failures": 0.7
+        },
+        "private_imports": {
+          "potential": 20,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
+        }
+      },
+      "strict": 83.5
+    },
+    "Duplication": {
+      "score": 100.0,
+      "strict_score": 100.0,
+      "verified_strict_score": 100.0,
+      "checks": 67,
+      "issues": 0,
+      "tier": 3,
+      "detectors": {
+        "dupes": {
+          "potential": 67,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
+        }
+      },
+      "strict": 100.0
+    },
+    "Test health": {
+      "score": 6.7,
+      "strict_score": 6.7,
+      "verified_strict_score": 6.7,
+      "checks": 284,
+      "issues": 18,
+      "tier": 4,
+      "detectors": {
+        "test_coverage": {
+          "potential": 265,
+          "pass_rate": 0.0004662663755470502,
+          "issues": 18,
+          "weighted_failures": 264.87643941048003
+        },
+        "subjective_review": {
+          "potential": 19,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
+        }
+      },
+      "strict": 6.7
+    },
+    "Security": {
+      "score": 91.5,
+      "strict_score": 91.5,
+      "verified_strict_score": 91.5,
+      "checks": 40,
+      "issues": 10,
+      "tier": 4,
+      "detectors": {
+        "security": {
+          "potential": 20,
+          "pass_rate": 0.8300000000000001,
+          "issues": 10,
+          "weighted_failures": 3.4
+        },
+        "cycles": {
+          "potential": 20,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
+        }
+      },
+      "strict": 91.5
+    },
+    "Error consistency": {
+      "score": 64.0,
+      "strict_score": 64.0,
+      "verified_strict_score": 64.0,
+      "checks": 10,
+      "issues": 2,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.64,
+          "issues": 2,
+          "weighted_failures": 3.6,
+          "assessment_score": 64.0,
+          "placeholder": false,
+          "dimension_key": "error_consistency",
+          "configured_weight": 3.0,
+          "components": []
+        }
+      },
+      "strict": 64.0
+    },
+    "Abstraction fit": {
+      "score": 66.2,
+      "strict_score": 66.2,
+      "verified_strict_score": 66.2,
+      "checks": 10,
+      "issues": 1,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.662,
+          "issues": 1,
+          "weighted_failures": 3.38,
+          "assessment_score": 66.2,
+          "placeholder": false,
+          "dimension_key": "abstraction_fitness",
+          "configured_weight": 8.0,
+          "components": [
+            "Abstraction Leverage",
+            "Indirection Cost",
+            "Interface Honesty"
+          ],
+          "component_scores": {
+            "Abstraction Leverage": 73.4,
+            "Indirection Cost": 75.2,
+            "Interface Honesty": 78.7
+          }
+        }
+      },
+      "strict": 66.2
+    },
+    "AI generated debt": {
+      "score": 75.8,
+      "strict_score": 75.8,
+      "verified_strict_score": 75.8,
+      "checks": 10,
+      "issues": 1,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.758,
+          "issues": 1,
+          "weighted_failures": 2.42,
+          "assessment_score": 75.8,
+          "placeholder": false,
+          "dimension_key": "ai_generated_debt",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 75.8
+    },
+    "High elegance": {
+      "score": 59.0,
+      "strict_score": 59.0,
+      "verified_strict_score": 59.0,
+      "checks": 10,
+      "issues": 3,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.59,
+          "issues": 3,
+          "weighted_failures": 4.1,
+          "assessment_score": 59.0,
+          "placeholder": false,
+          "dimension_key": "high_level_elegance",
+          "configured_weight": 22.0,
+          "components": []
+        }
+      },
+      "strict": 59.0
+    },
+    "Mid elegance": {
+      "score": 58.2,
+      "strict_score": 58.2,
+      "verified_strict_score": 58.2,
+      "checks": 10,
+      "issues": 3,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.582,
+          "issues": 3,
+          "weighted_failures": 4.18,
+          "assessment_score": 58.2,
+          "placeholder": false,
+          "dimension_key": "mid_level_elegance",
+          "configured_weight": 22.0,
+          "components": []
+        }
+      },
+      "strict": 58.2
+    },
+    "Low elegance": {
+      "score": 59.9,
+      "strict_score": 59.9,
+      "verified_strict_score": 59.9,
+      "checks": 10,
+      "issues": 3,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.599,
+          "issues": 3,
+          "weighted_failures": 4.01,
+          "assessment_score": 59.9,
+          "placeholder": false,
+          "dimension_key": "low_level_elegance",
+          "configured_weight": 12.0,
+          "components": []
+        }
+      },
+      "strict": 59.9
+    },
+    "Cross-module arch": {
+      "score": 59.3,
+      "strict_score": 59.3,
+      "verified_strict_score": 59.3,
+      "checks": 10,
+      "issues": 2,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.593,
+          "issues": 2,
+          "weighted_failures": 4.07,
+          "assessment_score": 59.3,
+          "placeholder": false,
+          "dimension_key": "cross_module_architecture",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 59.3
+    },
+    "Convention drift": {
+      "score": 60.9,
+      "strict_score": 60.9,
+      "verified_strict_score": 60.9,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.609,
+          "issues": 0,
+          "weighted_failures": 3.91,
+          "assessment_score": 60.9,
+          "placeholder": false,
+          "dimension_key": "convention_outlier",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 60.9
+    },
+    "Dep health": {
+      "score": 77.7,
+      "strict_score": 77.7,
+      "verified_strict_score": 77.7,
+      "checks": 10,
+      "issues": 1,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.777,
+          "issues": 1,
+          "weighted_failures": 2.23,
+          "assessment_score": 77.7,
+          "placeholder": false,
+          "dimension_key": "dependency_health",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 77.7
+    },
+    "Test strategy": {
+      "score": 48.6,
+      "strict_score": 48.6,
+      "verified_strict_score": 48.6,
+      "checks": 10,
+      "issues": 2,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.486,
+          "issues": 2,
+          "weighted_failures": 5.14,
+          "assessment_score": 48.6,
+          "placeholder": false,
+          "dimension_key": "test_strategy",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 48.6
+    },
+    "Structure nav": {
+      "score": 41.2,
+      "strict_score": 41.2,
+      "verified_strict_score": 41.2,
+      "checks": 10,
+      "issues": 3,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.412,
+          "issues": 3,
+          "weighted_failures": 5.88,
+          "assessment_score": 41.2,
+          "placeholder": false,
+          "dimension_key": "package_organization",
+          "configured_weight": 5.0,
+          "components": []
+        }
+      },
+      "strict": 41.2
+    },
+    "Design coherence": {
+      "score": 49.2,
+      "strict_score": 49.2,
+      "verified_strict_score": 49.2,
+      "checks": 10,
+      "issues": 5,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.492,
+          "issues": 5,
+          "weighted_failures": 5.08,
+          "assessment_score": 49.2,
+          "placeholder": false,
+          "dimension_key": "design_coherence",
+          "configured_weight": 10.0,
+          "components": []
+        }
+      },
+      "strict": 49.2
+    }
+  },
+  "reminder_history": {
+    "report_scores": 2,
+    "review_findings_pending": 1,
+    "stagnant_nudge": 4,
+    "feedback_nudge": 1
+  },
+  "review_cache": {
+    "files": {
+      "paths.py": {
+        "content_hash": "4142a130ab86ef96",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "constants.py": {
+        "content_hash": "e8a26323db6b5ec2",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "codex_lm.py": {
+        "content_hash": "3b166db9f85fc42b",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "run_parallel_reviews.py": {
+        "content_hash": "3b335c12d0d65af6",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "aggregate_findings.py": {
+        "content_hash": "436416ac47d8050a",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "training_store.py": {
+        "content_hash": "d6d9058111abdc85",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "review_signatures.py": {
+        "content_hash": "226411db13249f15",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "dspy_reviewers.py": {
+        "content_hash": "5be308bfeae8ac66",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "collect_training.py": {
+        "content_hash": "f2e80a9abb0499c2",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "call_codex.py": {
+        "content_hash": "33c48302925a2b29",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "detect_profiles.py": {
+        "content_hash": "97af7d36cb068ae2",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "parse_findings.py": {
+        "content_hash": "98e34c2108e6ad7b",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "review_module.py": {
+        "content_hash": "d6d8253ea9de6d4f",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "training_metric.py": {
+        "content_hash": "7e84b5ec36b3c10e",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "review_conversion.py": {
+        "content_hash": "0a5face0e59dd5d8",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "review_runtime.py": {
+        "content_hash": "86604a96d5ecc208",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "backfill_training.py": {
+        "content_hash": "415919404ed36b6f",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "detect_security_level.py": {
+        "content_hash": "3ab90475bf0dd3d1",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "optimize.py": {
+        "content_hash": "f6043b7b412373f4",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      },
+      "secrets.py": {
+        "content_hash": "d080e5d70e5970c4",
+        "reviewed_at": "2026-02-28T17:36:30+00:00",
+        "finding_count": 0
+      }
+    },
+    "holistic": {
+      "reviewed_at": "2026-02-28T17:36:30+00:00",
+      "file_count_at_review": 20,
+      "finding_count": 30,
+      "reviewed_files_count": 20,
+      "full_sweep_included": true
+    }
+  },
+  "assessment_import_audit": [
+    {
+      "timestamp": "2026-02-28T17:36:30+00:00",
+      "mode": "trusted_internal",
+      "trusted": true,
+      "reason": "trusted internal run-batches import",
+      "override_used": false,
+      "attested_external": false,
+      "provisional": false,
+      "provisional_count": 0,
+      "attest": "",
+      "import_file": "/Users/vuln/code/fando/fando-plan/scripts/.desloppify/subagents/runs/20260228_173113/holistic_findings_merged.json"
+    }
+  ]
+}

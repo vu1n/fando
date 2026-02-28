@@ -1,0 +1,896 @@
+{
+  "assessments": {
+    "abstraction_fitness": {
+      "score": 66.2,
+      "components": [
+        "Abstraction Leverage",
+        "Indirection Cost",
+        "Interface Honesty"
+      ],
+      "component_scores": {
+        "Abstraction Leverage": 73.4,
+        "Indirection Cost": 75.2,
+        "Interface Honesty": 78.7
+      }
+    },
+    "ai_generated_debt": 75.8,
+    "convention_outlier": 60.9,
+    "cross_module_architecture": 59.3,
+    "dependency_health": 77.7,
+    "design_coherence": 49.2,
+    "error_consistency": 64.0,
+    "high_level_elegance": 59.0,
+    "low_level_elegance": 59.9,
+    "mid_level_elegance": 58.2,
+    "package_organization": 41.2,
+    "test_strategy": 48.6
+  },
+  "dimension_notes": {
+    "cross_module_architecture": {
+      "evidence": [
+        "`constants.py` keeps deprecated path constants (`TRAINING_DIR_NAME`, `OPTIMIZED_DIR_NAME`, `EXPORT_DIR_NAME`) while `paths.py` defines the active path policy and repeats the same literals in path builders, creating dual ownership of path structure.",
+        "`paths.py` resolves base storage via `Path.cwd()` detection of `.claude`, so effective path roots vary with process working directory rather than an explicit app configuration boundary."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "high_level_elegance": {
+      "evidence": [
+        "Single modules often carry both reusable APIs and CLI responsibilities (call_codex.py, parse_findings.py, detect_profiles.py, detect_security_level.py, dspy_reviewers.py all define business functions plus `main()` entrypoints).",
+        "Domain ownership is split across multiple top-level files: reviewer taxonomy and prompt paths live in detect_profiles.py (PROFILES), security classification policy in detect_security_level.py (SECURITY_LEVELS), and DSPy review contracts in review_signatures.py (DOMAIN_SIGNATURES).",
+        "The root file list and imports indicate a toolchain assembled from peer scripts instead of bounded subsystems, which makes the primary architecture (review runtime vs training vs utility tooling) harder to explain and navigate."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "abstraction_fitness": {
+      "evidence": [
+        "`run_parallel_reviews.py` hand-serializes review results into nested dicts in `main()` while `aggregate_findings.py` re-parses the same shape with hardcoded keys (`results` -> `findings` -> `items`).",
+        "`training_store.py` separately defines another persistence shape for review/training artifacts, creating multiple ad-hoc data contracts for adjacent workflows.",
+        "No shared typed transport model exists for review output, so changes in one serializer require manual synchronized edits in other modules."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "issues_preventing_higher_score": "",
+      "sub_axes": {
+        "abstraction_leverage": 69.0,
+        "indirection_cost": 77.0,
+        "interface_honesty": 76.0
+      }
+    },
+    "dependency_health": {
+      "evidence": [
+        "`training_store.py` imports and depends on a private helper naming pattern (`_extract_finding_texts`), coupling this module to an internal parsing detail instead of a stable public API boundary.",
+        "The review pipeline currently depends on implicit JSON key conventions across `run_parallel_reviews.py`, `aggregate_findings.py`, and `training_store.py` rather than a shared schema object.",
+        "This increases change fragility: small parser/schema edits can silently break downstream consumers."
+      ],
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "medium",
+      "issues_preventing_higher_score": ""
+    },
+    "mid_level_elegance": {
+      "evidence": [
+        "`aggregate_findings.py` exposes `--detect-conflicts` and `--show-duplicates` CLI flags, but neither flag influences execution/output path; aggregation behavior is effectively fixed.",
+        "The CLI seam advertises toggles that do not map to behavior, so caller intent is not transmitted across module boundaries.",
+        "This creates a misleading orchestration contract in a script intended to compose with `run_parallel_reviews.py` output."
+      ],
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "low_level_elegance": {
+      "evidence": [
+        "`run_parallel_reviews.py` uses runtime-evaluated type annotations that reference names before definition/import (`ParallelReviewResult`, `ReviewResult`, and `argparse.ArgumentParser`), causing import-time failure.",
+        "Local validation shows module import fails with `NameError` before CLI execution.",
+        "`run_parallel_reviews.py` also references `SECURITY_LEVELS` in argument choices without a visible import/definition in the file, introducing another runtime break once parser construction is reached."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "single_edit",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "test_strategy": {
+      "evidence": [
+        "No test files were found in the repository for the assigned modules (`fd -HI \"test|tests|pytest\"` returned no matches).",
+        "`paths.py` is a high-fan-in module (5 importers in packet context) with behavior branches for env overrides and cwd/home fallback, but no verification of branch matrix.",
+        "`dspy_reviewers.py` exposes user-facing CLI paths (`--check`, `--list-domains`, `--stats`) and optional-dependency behavior without tests for no-DSPy, empty training set, or malformed training data cases."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "ai_generated_debt": {
+      "evidence": [
+        "`constants.py` marks path constants as deprecated but still defines `TRAINING_DIR_NAME`, `OPTIMIZED_DIR_NAME`, and `EXPORT_DIR_NAME` with no sunset mechanism, which preserves dual-path migration state.",
+        "`collect_training.py` redefines security-level choices inline instead of reusing `SECURITY_LEVELS`/`DEFAULT_SECURITY_LEVEL`, creating copy-paste policy drift.",
+        "Deprecation commentary in `constants.py` is extensive but not coupled to runtime warnings/tests that prevent new use, which is a common migration-stall pattern."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "package_organization": {
+      "evidence": [
+        "holistic_context.structure.directory_profiles['.'] shows a flat root with 20 production files and mixed concerns in one directory (review orchestration, DSPy runtime, training pipelines, secret scanning, aggregation CLIs).",
+        "holistic_context.structure.root_files marks many low fan-in root stragglers (fan_in 0-2), including aggregate_findings.py, backfill_training.py, collect_training.py, detect_security_level.py, optimize.py, run_parallel_reviews.py, and secrets.py.",
+        "Boundary overlap is visible in root-level imports: run_parallel_reviews.py imports call_codex.py/parse_findings.py/detect_profiles.py while optimize.py and collect_training.py import dspy_reviewers.py, so library internals and operational CLIs are colocated without package separation."
+      ],
+      "impact_scope": "codebase",
+      "fix_scope": "architectural_change",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "design_coherence": {
+      "evidence": [
+        "run_parallel_reviews.py combines prompt construction, backend dispatch, concurrency orchestration, output formatting, and process-exit policy in one module (e.g., run_single_review, run_parallel_reviews, run_parallel_reviews_dspy, format_results_for_display, and main).",
+        "aggregate_findings.py and run_parallel_reviews.py each define their own JSON transport/aggregation shapes inline rather than a shared review-result contract, creating duplicated schema logic across modules.",
+        "backfill_training.py contains source-specific parsers (parse_zellij_bridge, parse_jj_workspace) that duplicate a common extract->classify->assemble ReviewExample pipeline while main() also handles persistence/stats, blending ETL and CLI concerns.",
+        "call_codex.py re-checks CLI capabilities on every call (call_codex -> verify_codex_cli), while run_parallel_reviews.py also has separate CLI readiness logic, indicating orchestration concern leakage across boundaries."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "convention_outlier": {
+      "evidence": [
+        "run_parallel_reviews.py defines aggregate_review_result() before ParallelReviewResult and annotates parameter as ParallelReviewResult (line 73), which raises NameError at import time when running the script.",
+        "backfill_training.py uses ReviewExample in return annotations (lines 51, 133) before importing ReviewExample (import occurs inside main at line 221), creating deferred annotation failures when annotations are evaluated.",
+        "Security-level constants are split with conflicting conventions: constants.py defines SECURITY_LEVELS as a tuple of names (line 33), detect_security_level.py defines SECURITY_LEVELS as a dict of metadata (line 31), and run_parallel_reviews.py references SECURITY_LEVELS in argparse choices (line 404) without importing it."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    },
+    "error_consistency": {
+      "evidence": [
+        "call_codex.py raises structured CodexError carrying exit_code/stderr (lines 21-24, 170-174), but run_parallel_reviews.py immediately degrades it to plain strings via str(e) (lines 198-199, 259), losing machine-usable error context.",
+        "review_runtime.py returns Exception instances as normal data in results (line 166), while parse_findings.py returns ParseResult.error sentinels (lines 61, 85) and aggregate_findings.py uses process exits for input errors (lines 301-306), producing mixed failure contracts across one review pipeline.",
+        "run_parallel_reviews.py uses broad catch-all handlers (lines 201-202, 256-261, 320-322), which normalizes operational failures and programming defects into generic string errors, making failures less predictable to callers."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high",
+      "issues_preventing_higher_score": ""
+    }
+  },
+  "findings": [
+    {
+      "dimension": "cross_module_architecture",
+      "identifier": "split_path_contract_source",
+      "summary": "Path schema is owned by both `constants.py` and `paths.py`, leaving a persistent dual-contract boundary.",
+      "related_files": [
+        "constants.py",
+        "paths.py"
+      ],
+      "evidence": [
+        "`constants.py` marks path constants as deprecated but still exports `TRAINING_DIR_NAME`, `OPTIMIZED_DIR_NAME`, and `EXPORT_DIR_NAME`.",
+        "`paths.py` independently encodes the same directory names in `get_training_dir`, `get_optimized_dir`, and `get_export_dir`.",
+        "No enforcement mechanism exists to prevent new callers from using deprecated constants, so both interfaces remain live."
+      ],
+      "suggestion": "Collapse to one path contract owner: keep path structure only in `paths.py`, migrate any remaining imports off deprecated constants, then remove the deprecated exports (or gate them behind a short-lived compatibility shim with removal date).",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "configuration_boundary_drift"
+    },
+    {
+      "dimension": "cross_module_architecture",
+      "identifier": "cwd_driven_path_policy",
+      "summary": "Global path resolution depends on caller working directory, creating implicit cross-module coupling.",
+      "related_files": [
+        "paths.py",
+        "constants.py"
+      ],
+      "evidence": [
+        "`paths._get_base_claude_dir()` selects repository-local `.claude` by checking `Path.cwd()`.",
+        "All exported path getters inherit this behavior, so unrelated entrypoints can produce different storage locations solely from launch directory.",
+        "This runtime policy is implicit and not represented as an explicit configuration object or required parameter."
+      ],
+      "suggestion": "Make base directory resolution explicit: accept an injected base path (or centralized config object) and use environment overrides as the only implicit source; avoid `cwd`-based switching for shared state roots.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "configuration_boundary_drift"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "adapter_and_bootstrap_conflation",
+      "summary": "`CodexLM` combines adapter behavior with bootstrap checks, reducing ownership clarity.",
+      "related_files": [
+        "codex_lm.py",
+        "constants.py"
+      ],
+      "evidence": [
+        "`codex_lm.py` raises at import if DSPy is missing, coupling module load to environment state.",
+        "`CodexLM.__init__` performs `verify_codex_cli()` immediately, so constructing the adapter enforces process-level CLI readiness even when caller may want deferred initialization.",
+        "Timeout policy comes from shared global constants while runtime probing logic is embedded in the adapter, mixing configuration and orchestration responsibilities."
+      ],
+      "suggestion": "Separate concerns into (1) a pure adapter class and (2) a factory/bootstrap function that performs dependency and CLI checks; keep importable symbols load-safe and move readiness checks to explicit setup paths.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "startup_policy_mixed_with_domain_components"
+    },
+    {
+      "dimension": "low_level_elegance",
+      "identifier": "import_time_annotation_breakage",
+      "summary": "Forward-referenced annotations and missing symbols make `run_parallel_reviews.py` fail at import time.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "aggregate_findings.py"
+      ],
+      "evidence": [
+        "`aggregate_review_result` annotates `ParallelReviewResult` and `ReviewResult` before those classes are defined.",
+        "`build_argument_parser` annotates return type as `argparse.ArgumentParser` even though `argparse` is only imported inside `main()`.",
+        "Direct import of `run_parallel_reviews` raises `NameError`, preventing downstream workflow use."
+      ],
+      "suggestion": "Add `from __future__ import annotations` (or quote forward refs), import `argparse` at module scope, and define/import `SECURITY_LEVELS` explicitly before parser construction.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "runtime_contracts_not_executed_in_ci"
+    },
+    {
+      "dimension": "mid_level_elegance",
+      "identifier": "cli_flags_do_not_control_behavior",
+      "summary": "Aggregation CLI exposes options that are currently no-ops.",
+      "related_files": [
+        "aggregate_findings.py",
+        "run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "`--detect-conflicts` is parsed but `aggregate_findings(results)` is always called with conflict detection active.",
+        "`--show-duplicates` is parsed but no conditional branch emits duplicate detail based on the flag.",
+        "The CLI seam suggests configurable behavior while execution remains fixed."
+      ],
+      "suggestion": "Thread parsed flags into aggregation/output logic (e.g., `detect_conflicts` parameter and duplicate reporting branch), or remove unsupported flags from the interface.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "runtime_contracts_not_executed_in_ci"
+    },
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "missing_shared_review_schema",
+      "summary": "Review data crosses modules via duplicated ad-hoc dict schemas instead of a shared model.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "aggregate_findings.py",
+        "training_store.py"
+      ],
+      "evidence": [
+        "`run_parallel_reviews.py` manually builds nested JSON (`results`/`findings`/`items`) in `main()`.",
+        "`aggregate_findings.py` manually navigates and reconstructs objects from that same shape.",
+        "`training_store.py` performs separate manual dict serialization for training examples, continuing schema-by-convention patterns."
+      ],
+      "suggestion": "Introduce a shared typed schema/dataclass layer for review payloads and centralize serialize/deserialize helpers used by all three modules.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "schema_by_convention"
+    },
+    {
+      "dimension": "dependency_health",
+      "identifier": "private_parser_dependency",
+      "summary": "Training storage depends on a private parsing helper, creating fragile module coupling.",
+      "related_files": [
+        "training_store.py",
+        "run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "`training_store.py` imports `_extract_finding_texts` directly, relying on a private/internal symbol contract.",
+        "The broader review pipeline already has parsing boundaries in other modules, but this module bypasses them and binds to internals."
+      ],
+      "suggestion": "Replace private-helper imports with a public parser API and make all modules consume the same stable parsing entry point.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "schema_by_convention"
+    },
+    {
+      "dimension": "test_strategy",
+      "identifier": "missing_coverage_for_core_path_and_cli_contracts",
+      "summary": "Critical path and facade CLI behavior are untested despite high reuse and branching behavior.",
+      "related_files": [
+        "paths.py",
+        "dspy_reviewers.py"
+      ],
+      "evidence": [
+        "`paths.py` contains multiple behavior branches (env overrides plus cwd/home fallback) with no tests validating precedence or portability outcomes.",
+        "`dspy_reviewers.py` contains CLI flows (`--check`, `--list-domains`, `--stats`) and optional dependency states, but no tests assert outputs or failure behavior.",
+        "Repository scan found no test files covering these modules."
+      ],
+      "suggestion": "Add a focused pytest suite: (1) parametrize `paths.py` over env/cwd/home combinations, (2) test `dspy_reviewers.main()` via argv monkeypatch and captured stdout for each flag, and (3) add one integration test that runs `--stats` with temporary training data directory wiring.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "implicit_runtime_context"
+    },
+    {
+      "dimension": "mid_level_elegance",
+      "identifier": "cwd_dependent_storage_seam",
+      "summary": "Path resolution relies on ambient cwd, creating non-explicit integration seams across consumers.",
+      "related_files": [
+        "paths.py",
+        "dspy_reviewers.py"
+      ],
+      "evidence": [
+        "`_get_base_claude_dir()` checks `Path.cwd() / '.claude'` first (`paths.py:34-36`) and otherwise falls back to home (`paths.py:39`).",
+        "Downstream entry points consume this implicitly through `get_training_dir()` and related helpers (`dspy_reviewers.py:97,160-165`), so identical commands can read/write different locations depending on launch directory."
+      ],
+      "suggestion": "Refactor path resolution to a single explicit root input (e.g., env var or injected base dir object) and have CLI/runtime pass that root explicitly; keep cwd fallback only as a thin compatibility path with a deprecation boundary.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "implicit_runtime_context"
+    },
+    {
+      "dimension": "mid_level_elegance",
+      "identifier": "inconsistent_optional_dependency_boundary",
+      "summary": "Facade exposes mixed failure timing for missing DSPy, making boundary behavior unpredictable.",
+      "related_files": [
+        "dspy_reviewers.py",
+        "review_runtime.py"
+      ],
+      "evidence": [
+        "`dspy_reviewers.py` conditionally imports/binds some DSPy symbols at import time (`lines 51-66`), but still re-exports runtime functions unconditionally (`line 69`).",
+        "`run_dspy_review()` raises ImportError at call time when DSPy is absent (`review_runtime.py:112-113`), creating a different failure mode than missing import-time symbols."
+      ],
+      "suggestion": "Define one explicit optional-dependency contract at the facade boundary: either always expose stubs that raise a consistent custom error on use, or gate all DSPy-dependent exports behind a single capability object/function so import-time and call-time behavior are uniform.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "implicit_runtime_context"
+    },
+    {
+      "dimension": "low_level_elegance",
+      "identifier": "duplicated_security_level_contract",
+      "summary": "Security-level enum is duplicated instead of reused from shared constants",
+      "related_files": [
+        "collect_training.py",
+        "constants.py"
+      ],
+      "evidence": [
+        "`collect_training.py` hardcodes `choices=[\"personal\", \"internal\", \"public\", \"enterprise\"]` and default `\"public\"` in argparse.",
+        "`constants.py` already defines `SECURITY_LEVELS` and `DEFAULT_SECURITY_LEVEL` for the same policy surface."
+      ],
+      "suggestion": "Import and use `SECURITY_LEVELS` and `DEFAULT_SECURITY_LEVEL` in `collect_training.py` to make CLI validation and shared policy a single source of truth.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "migration_contract_duplication"
+    },
+    {
+      "dimension": "low_level_elegance",
+      "identifier": "unsafe_docstring_indexing_in_cli",
+      "summary": "--list-domains can crash on empty signature docstrings",
+      "related_files": [
+        "dspy_reviewers.py",
+        "review_signatures.py"
+      ],
+      "evidence": [
+        "`dspy_reviewers.py` uses `.splitlines()[0]` when printing signature docs.",
+        "If any signature class in `review_signatures.py` has an empty/whitespace docstring, `splitlines()` is empty and indexing raises `IndexError`."
+      ],
+      "suggestion": "Guard with a fallback, e.g. `lines = (...).splitlines(); doc_first_line = lines[0] if lines else \"(no description)\"`.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "single_edit",
+      "root_cause_cluster": "defensive_cli_output_handling"
+    },
+    {
+      "dimension": "ai_generated_debt",
+      "identifier": "deprecated_constants_without_retirement_path",
+      "summary": "Deprecated constants are retained as a live API with no enforced migration boundary",
+      "related_files": [
+        "constants.py",
+        "dspy_reviewers.py",
+        "collect_training.py"
+      ],
+      "evidence": [
+        "`constants.py` labels path constants as deprecated and says to use `paths.py`, but still exports and normalizes them as regular constants.",
+        "`dspy_reviewers.py` already consumes `paths.get_optimized_dir/get_training_dir`, showing partial migration to new path API.",
+        "No warning, alias shim, or removal timeline exists to prevent continued reads from deprecated constants."
+      ],
+      "suggestion": "Introduce a migration boundary: replace deprecated constants with explicit compatibility aliases that emit deprecation warnings, then remove internal usage and schedule deletion in one release window.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "migration_contract_duplication"
+    },
+    {
+      "dimension": "package_organization",
+      "identifier": "flat_root_mixed_domains",
+      "summary": "Root directory is overloaded with mixed-domain modules, obscuring ownership boundaries.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "optimize.py",
+        "aggregate_findings.py",
+        "secrets.py",
+        "detect_profiles.py"
+      ],
+      "evidence": [
+        "Objective structure signal: root has 20 production files in a single directory, exceeding the >10 mixed-concern split trigger in the batch rubric.",
+        "Files with unrelated responsibilities (parallel review execution, GEPA optimization, finding aggregation, secret scanning, profile detection) all sit at the same root level.",
+        "The same root layer contains both pipeline internals and operational tooling CLIs, creating weak directory-level contracts."
+      ],
+      "suggestion": "Staged reorg plan: (1) create `review/` (`runtime.py`, `orchestrator.py`, `parsing.py`, `aggregation.py`), `review/dspy/` (`module.py`, `signatures.py`, `conversion.py`, `lm.py`), `training/` (`metric.py`, `store.py`, `collect.py`, `backfill.py`, `optimize.py`), `classification/` (`profiles.py`, `security_level.py`), and `cli/` (`run_parallel_reviews.py`, `call_codex.py`, `secrets.py`, thin wrappers only). (2) Move pure library modules first, then switch CLI scripts to import package modules, then trim old import paths. (3) Run import-update and validation commands after each stage: `rg -n \"from (review_|training_|detect_|parse_|call_)\" *.py`, `python3 -m compileall .`, and a smoke run of key CLIs (for example `python3 cli/run_parallel_reviews.py --check-only`, `python3 cli/call_codex.py --check-only`).",
+      "confidence": "high",
+      "impact_scope": "codebase",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "root_flattening_without_subpackages"
+    },
+    {
+      "dimension": "package_organization",
+      "identifier": "library_cli_cohabitation",
+      "summary": "Core library modules embed CLI entrypoints, blurring file placement and reuse boundaries.",
+      "related_files": [
+        "call_codex.py",
+        "parse_findings.py",
+        "detect_profiles.py",
+        "detect_security_level.py",
+        "dspy_reviewers.py"
+      ],
+      "evidence": [
+        "These files each expose reusable functions imported by other modules and also define in-file CLI flows via `main()` and `if __name__ == '__main__'`.",
+        "Example coupling: run_parallel_reviews.py imports call_codex.py and parse_findings.py as libraries; optimize.py/collect_training.py import dspy_reviewers.py while dspy_reviewers.py also contains CLI logic.",
+        "This forces module placement compromises: files cannot cleanly belong to `cli` or `library` layers."
+      ],
+      "suggestion": "Staged reorg plan: (1) split each mixed file into `*_core.py` (or package module) plus `cli/*.py` wrappers; start with `call_codex.py` and `parse_findings.py` because they are shared runtime dependencies. (2) Move detection modules next (`detect_profiles.py`, `detect_security_level.py`) into `classification/` and provide dedicated CLI adapters under `cli/`. (3) Move `dspy_reviewers.py` facade into `review/dspy/__init__.py` and keep only a diagnostic CLI wrapper in `cli/dspy_reviewers.py`. (4) Update imports with `rg -n \"from (call_codex|parse_findings|detect_profiles|detect_security_level|dspy_reviewers)\" -g '*.py'` and validate with `python3 -m compileall .` and targeted CLI smoke tests.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "root_flattening_without_subpackages"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "review_domain_ownership_split",
+      "summary": "Reviewer-domain ownership is fragmented across separate top-level modules without a single authority.",
+      "related_files": [
+        "detect_profiles.py",
+        "review_signatures.py",
+        "run_parallel_reviews.py",
+        "detect_security_level.py"
+      ],
+      "evidence": [
+        "Domain list/metadata and prompt paths are owned by `PROFILES` in detect_profiles.py, while DSPy contract definitions are in review_signatures.py and consumed through dspy_reviewers/review_module.",
+        "run_parallel_reviews.py orchestrates both codex and dspy backends and reads profile metadata from detect_profiles.py, but security-level policy comes from detect_security_level.py, splitting top-level policy ownership.",
+        "A new reviewer domain requires coordinated edits across multiple top-level modules rather than one capability package."
+      ],
+      "suggestion": "Staged reorg plan: (1) introduce a single `review/domains/` package with canonical domain registry (metadata, prompt path, signature binding, and security-level defaults). (2) Refactor `run_parallel_reviews.py` and `review_module.py` to consume only this registry API; keep adapters for legacy imports temporarily. (3) Move detection heuristics into `review/domains/detection.py` and make `detect_profiles.py`/`detect_security_level.py` thin CLI wrappers. (4) Validate with import checks (`rg -n \"PROFILES|DOMAIN_SIGNATURES|SECURITY_LEVELS\" -g '*.py'`) and end-to-end runs (`python3 cli/run_parallel_reviews.py --check-only`, domain listing commands).",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "domain_model_not_centralized"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "orphan_tooling_at_core_layer",
+      "summary": "Zero-fan-in tooling modules share the same architectural layer as core review runtime.",
+      "related_files": [
+        "aggregate_findings.py",
+        "secrets.py",
+        "backfill_training.py",
+        "run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "holistic root_files reports fan_in=0 for aggregate_findings.py, secrets.py, and backfill_training.py, while core runtime orchestration also sits in root.",
+        "These modules behave as operational utilities, but their placement at the same top-level as runtime dependencies weakens the mental model of what is core vs optional tooling."
+      ],
+      "suggestion": "Staged reorg plan: (1) move fan-in-0 operational scripts to `tools/` (or `cli/tools/`) first because they have minimal import impact. (2) Keep core runtime files under `review/` and training files under `training/`. (3) Add a small `cli/README` or command index clarifying runtime vs maintenance scripts. (4) Update paths/imports via `rg -n \"aggregate_findings|backfill_training|secrets\" -g '*.py'` and validate by executing each moved tool in `--help` mode plus `python3 -m compileall .`.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "root_flattening_without_subpackages"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "systemic_orchestration_boundary_blur",
+      "summary": "Review orchestration responsibilities are spread across transport, execution, formatting, and exit-policy layers without a clean boundary.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "call_codex.py",
+        "aggregate_findings.py"
+      ],
+      "evidence": [
+        "run_parallel_reviews.py includes both backend-specific execution (run_parallel_reviews/run_parallel_reviews_dspy) and CLI surface behavior (argument parsing, formatting, exit decisions).",
+        "call_codex.py performs CLI capability probing and process execution concerns that are partially duplicated by readiness checks in run_parallel_reviews.py.",
+        "aggregate_findings.py re-implements downstream interpretation of the same review-result shape rather than consuming a shared domain object."
+      ],
+      "suggestion": "Introduce a shared review service layer with a typed `ReviewBundle` contract (execution-only), move CLI parsing/output/exit handling into thin adapters, and have `aggregate_findings.py` consume that contract rather than ad-hoc dictionaries.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "orchestration_boundary_blur"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "duplicated_result_schema_contract",
+      "summary": "Result-shape construction and interpretation are duplicated in multiple modules, creating fragile implicit contracts.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "aggregate_findings.py"
+      ],
+      "evidence": [
+        "run_parallel_reviews.py manually builds nested `output['results'][profile]` and findings item dicts in main().",
+        "aggregate_findings.py expects specific nested keys (`findings.items`, `level`, `text`) and counts severities by re-parsing those dicts.",
+        "No shared dataclass/serializer defines this transport schema, so both modules must stay manually synchronized."
+      ],
+      "suggestion": "Define a shared serializer/deserializer for review results (e.g., dataclass + `to_dict`/`from_dict`) and centralize severity counting there so both producer and consumer use one canonical schema.",
+      "confidence": "high",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "implicit_data_contracts"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "backfill_etl_pipeline_duplication",
+      "summary": "Backfill parsing paths duplicate the same transformation pipeline instead of using reusable extraction/mapping stages.",
+      "related_files": [
+        "backfill_training.py",
+        "collect_training.py",
+        "optimize.py"
+      ],
+      "evidence": [
+        "backfill_training.py has two parser functions that both parse source text, build severity maps, classify domain, and assemble `ReviewExample` objects with mostly parallel logic.",
+        "collect_training.py constructs and persists `ReviewExample` data via a separate one-off path with its own argument parsing and file-read behavior.",
+        "optimize.py consumes the same training data domain model, but ingestion/normalization responsibilities remain scattered across scripts."
+      ],
+      "suggestion": "Extract a shared training-example builder pipeline (parse source -> normalize findings -> classify domain -> build ReviewExample) and let each CLI provide only source adapters and I/O.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "training_pipeline_fragmentation"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "mixed_domain_and_presentation_logic",
+      "summary": "Core analysis modules mix domain computation with user-facing rendering, reducing composability.",
+      "related_files": [
+        "aggregate_findings.py",
+        "detect_security_level.py",
+        "secrets.py"
+      ],
+      "evidence": [
+        "aggregate_findings.py houses pure aggregation logic and terminal-oriented rendering (`format_for_display`) in the same module.",
+        "detect_security_level.py and secrets.py both implement reusable analysis functions plus CLI-format-specific rendering/exit semantics in the same files.",
+        "This pattern repeats across scripts, making programmatic reuse rely on importing CLI-heavy modules."
+      ],
+      "suggestion": "Split each script into `core` (analysis/state transitions) and `cli` (argparse, formatting, exit codes) modules; keep core free of output-format concerns.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "presentation_domain_mixing"
+    },
+    {
+      "dimension": "convention_outlier",
+      "identifier": "forward_ref_annotation_breakage",
+      "summary": "Inconsistent forward-reference typing style causes import-time and deferred NameError failures",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "backfill_training.py"
+      ],
+      "evidence": [
+        "run_parallel_reviews.py:73 annotates aggregate_review_result(result: ParallelReviewResult, ...) before ParallelReviewResult is declared (declaration starts line 113), and script startup fails with NameError.",
+        "backfill_training.py:51 and 133 annotate returns as list[ReviewExample], but ReviewExample is imported only inside main() at line 221; evaluating annotations later raises NameError."
+      ],
+      "suggestion": "Standardize annotation convention across scripts: either add `from __future__ import annotations` everywhere or quote forward refs (`\"ParallelReviewResult\"`, `\"ReviewExample\"`) and keep type declarations before first use.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "typing_convention_drift"
+    },
+    {
+      "dimension": "convention_outlier",
+      "identifier": "security_level_constant_drift",
+      "summary": "Security-level configuration is duplicated with conflicting conventions, leading to broken references",
+      "related_files": [
+        "constants.py",
+        "detect_security_level.py",
+        "run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "constants.py:33 defines SECURITY_LEVELS as a tuple of literal level names.",
+        "detect_security_level.py:31 reuses SECURITY_LEVELS name for a dict containing keyword metadata.",
+        "run_parallel_reviews.py:404 uses `choices=list(SECURITY_LEVELS)` but only imports DEFAULT_SECURITY_LEVEL from constants (line 35), so the symbol is unresolved in that module."
+      ],
+      "suggestion": "Create a single canonical security-level source (e.g., `security_levels.py`) and import it everywhere; use distinct names for enum-like values vs metadata (`SECURITY_LEVEL_NAMES` vs `SECURITY_LEVEL_CONFIG`) to prevent symbol collisions.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "shared_config_drift"
+    },
+    {
+      "dimension": "error_consistency",
+      "identifier": "mixed_error_contracts_with_context_loss",
+      "summary": "Review pipeline mixes exception, sentinel, and string-error flows, dropping diagnostic context",
+      "related_files": [
+        "call_codex.py",
+        "run_parallel_reviews.py",
+        "review_runtime.py",
+        "parse_findings.py"
+      ],
+      "evidence": [
+        "call_codex.py preserves structured failure context in CodexError (message, exit_code, stderr), but run_parallel_reviews.py stores only `str(e)` in ReviewResult.error.",
+        "review_runtime.py uses exceptions as payload values in results dict, while parse_findings.py signals failure via `ParseResult.error` return fields; callers must branch on unrelated error idioms.",
+        "run_parallel_reviews.py catch-all handlers coerce heterogeneous failures into generic strings (`Exception during review`, `Future execution error`, `DSPy review error`), obscuring origin and failure class."
+      ],
+      "suggestion": "Adopt one internal error contract (typed `ReviewError` object or `Result[T, E]`) for all non-CLI paths, preserving code/message/cause/trace context; convert to text + exit codes only at CLI boundaries.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "error_contract_fragmentation"
+    },
+    {
+      "dimension": "design_coherence",
+      "identifier": "import_time_annotation_crash",
+      "summary": "Runtime-evaluated annotations crash two CLI modules at import time",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "backfill_training.py"
+      ],
+      "evidence": [
+        "`python3 run_parallel_reviews.py --help` crashes with `NameError: name 'ParallelReviewResult' is not defined` at function annotation evaluation.",
+        "`python3 backfill_training.py --dry-run` crashes with `NameError: name 'ReviewExample' is not defined` at `parse_zellij_bridge` return type annotation.",
+        "Both modules define annotations referencing symbols not yet available in module global scope."
+      ],
+      "suggestion": "Adopt postponed annotation evaluation (`from __future__ import annotations`) and move required type imports/class definitions before annotation use; also replace local-only imports in backfill main with module-level imports for symbols used by top-level functions.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "runtime_annotation_symbols"
+    },
+    {
+      "dimension": "cross_module_architecture",
+      "identifier": "facade_boundary_collapse",
+      "summary": "dspy_reviewers facade collapses multiple subsystem boundaries into one import hub",
+      "related_files": [
+        "dspy_reviewers.py",
+        "optimize.py",
+        "collect_training.py",
+        "review_runtime.py",
+        "training_store.py"
+      ],
+      "evidence": [
+        "dspy_reviewers.py re-exports signatures, runtime orchestration, conversion, training metric, training store, and paths in one module.",
+        "Downstream CLIs (optimize.py, collect_training.py) import through this facade, coupling training/storage/runtime changes to one shared surface.",
+        "The facade\u2019s fan-out is high relative to this small codebase and creates broad change blast radius."
+      ],
+      "suggestion": "Split public API into bounded packages (`review/`, `training/`, `runtime/`) and update callers to import domain-local modules directly; keep a minimal compatibility shim in dspy_reviewers.py only for intentionally stable symbols.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "boundary_blur_facade"
+    },
+    {
+      "dimension": "error_consistency",
+      "identifier": "backend_error_contract_drift",
+      "summary": "Codex and DSPy paths encode failures with incompatible error contracts",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "review_runtime.py",
+        "review_conversion.py",
+        "call_codex.py"
+      ],
+      "evidence": [
+        "call_codex.py uses raised `CodexError` exceptions as primary failure channel.",
+        "review_runtime.py inserts raw Exception objects into result maps on worker failure.",
+        "run_parallel_reviews.py stores error text in `ReviewResult.error` while also carrying `ParseResult.error` in nested structures.",
+        "review_conversion.py converts exceptions into synthetic ParseResult errors, creating a third path."
+      ],
+      "suggestion": "Define one cross-backend error envelope (e.g., `ReviewError{kind,message,cause,backend}`) and require both runtime paths to emit it consistently before aggregation/output.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "inconsistent_failure_model"
+    },
+    {
+      "dimension": "abstraction_fitness",
+      "identifier": "dual_parsing_abstractions",
+      "summary": "Two independent finding-parsing abstractions duplicate rules and drift risk",
+      "related_files": [
+        "parse_findings.py",
+        "review_conversion.py",
+        "run_parallel_reviews.py",
+        "training_metric.py"
+      ],
+      "evidence": [
+        "parse_findings.py parses markdown findings with section delimiters and stop-reason logic.",
+        "review_conversion.py implements separate finding extraction and stop logic directly from prediction text.",
+        "run_parallel_reviews.py uses different parsing routes per backend, and training_metric.py adds another local extractor."
+      ],
+      "suggestion": "Promote a single canonical structured parser module (severity counts, lgtm, stop reasons) and make both codex and dspy paths adapt into that contract; remove duplicate regex parsing helpers.",
+      "confidence": "medium",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "duplicate_parsing_logic"
+    },
+    {
+      "dimension": "package_organization",
+      "identifier": "flat_root_mixed_concerns",
+      "summary": "Single-level 20-file root mixes runtime, parsing, security, and training concerns",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "review_runtime.py",
+        "parse_findings.py",
+        "secrets.py",
+        "training_store.py",
+        "optimize.py"
+      ],
+      "evidence": [
+        "holistic_context.structure reports one directory with 20 production files and mixed concerns.",
+        "Many root files are low fan-in peripherals (<5) but remain at top-level, reducing navigability and ownership clarity.",
+        "Import affinity suggests natural concern groupings (review runtime/conversion/signatures/module, training metric/store/collect/backfill, detection/security helpers)."
+      ],
+      "suggestion": "Staged reorg plan: (1) create `review/`, `training/`, `detection/`, `cli/` folders; (2) move modules in order: review stack (`review_*`, `parse_findings`, `run_parallel_reviews`, `call_codex`, `codex_lm`), then training files (`training_*`, `collect_training`, `backfill_training`, `optimize`), then detection/security (`detect_*`, `secrets`), keeping `constants.py` and `paths.py` as shared core; (3) update imports via `rg -n '^from |^import '` and apply edits; (4) validate with `python3 -m py_compile $(fd -e py)` and smoke-run `python3 -m review.run_parallel_reviews --help` and `python3 -m cli.optimize --stats`.",
+      "confidence": "high",
+      "impact_scope": "codebase",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "flat_layout_coupling"
+    },
+    {
+      "dimension": "test_strategy",
+      "identifier": "critical_paths_untested",
+      "summary": "No test suite covers parsing, orchestration, or secret-detection critical paths",
+      "related_files": [
+        "parse_findings.py",
+        "review_conversion.py",
+        "run_parallel_reviews.py",
+        "secrets.py",
+        "training_store.py"
+      ],
+      "evidence": [
+        "No tests discovered in assigned tree (`fd -HI -g '*test*.py'` and `fd -HI -g 'tests' -t d` returned no results).",
+        "High-risk behaviors (regex parsing, backend error aggregation, file persistence, secret scanning) rely on unverified branching logic."
+      ],
+      "suggestion": "Add a minimal pytest matrix: parser golden tests (`parse_findings`, `prediction_to_parse_result`), orchestration contract tests for both backends with mocks, secret scanner false-positive/false-negative fixtures, and training_store persistence roundtrip tests including malformed JSON handling.",
+      "confidence": "high",
+      "impact_scope": "codebase",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "missing_validation_net"
+    }
+  ],
+  "review_quality": {
+    "batch_count": 8,
+    "dimension_coverage": 0.281,
+    "evidence_density": 2.167,
+    "high_score_missing_issue_note": 0,
+    "finding_pressure": 73.03,
+    "dimensions_with_findings": 12
+  },
+  "review_scope": {
+    "reviewed_files_count": 20,
+    "successful_batch_count": 8,
+    "full_sweep_included": true,
+    "total_files": 20,
+    "imported_dimensions": [
+      "abstraction_fitness",
+      "ai_generated_debt",
+      "convention_outlier",
+      "cross_module_architecture",
+      "dependency_health",
+      "design_coherence",
+      "error_consistency",
+      "high_level_elegance",
+      "low_level_elegance",
+      "mid_level_elegance",
+      "package_organization",
+      "test_strategy"
+    ]
+  },
+  "reviewed_files": [
+    "paths.py",
+    "constants.py",
+    "codex_lm.py",
+    "run_parallel_reviews.py",
+    "aggregate_findings.py",
+    "training_store.py",
+    "review_signatures.py",
+    "dspy_reviewers.py",
+    "collect_training.py",
+    "call_codex.py",
+    "detect_profiles.py",
+    "parse_findings.py",
+    "review_module.py",
+    "training_metric.py",
+    "review_conversion.py",
+    "review_runtime.py",
+    "backfill_training.py",
+    "detect_security_level.py",
+    "optimize.py",
+    "secrets.py"
+  ],
+  "provenance": {
+    "kind": "blind_review_batch_import",
+    "blind": true,
+    "runner": "codex",
+    "run_stamp": "20260228_173113",
+    "created_at": "2026-02-28T17:36:29+00:00",
+    "batch_count": 8,
+    "batch_indexes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "packet_path": "/Users/vuln/code/fando/fando-plan/scripts/.desloppify/review_packet_blind.json",
+    "packet_sha256": "539942ec389954910fb636b5860683516e9d5b9c3eb6e336d1442236ca3f9bc9"
+  },
+  "assessment_coverage": {
+    "scored_dimensions": [
+      "naming_quality",
+      "logic_clarity",
+      "type_safety",
+      "contract_coherence",
+      "error_consistency",
+      "abstraction_fitness",
+      "ai_generated_debt",
+      "high_level_elegance",
+      "mid_level_elegance",
+      "low_level_elegance",
+      "cross_module_architecture",
+      "initialization_coupling",
+      "convention_outlier",
+      "dependency_health",
+      "test_strategy",
+      "api_surface_coherence",
+      "authorization_consistency",
+      "incomplete_migration",
+      "package_organization",
+      "design_coherence"
+    ],
+    "selected_dimensions": [
+      "cross_module_architecture",
+      "convention_outlier",
+      "error_consistency",
+      "abstraction_fitness",
+      "dependency_health",
+      "test_strategy",
+      "ai_generated_debt",
+      "package_organization",
+      "high_level_elegance",
+      "mid_level_elegance",
+      "low_level_elegance",
+      "design_coherence"
+    ],
+    "imported_dimensions": [
+      "abstraction_fitness",
+      "ai_generated_debt",
+      "convention_outlier",
+      "cross_module_architecture",
+      "dependency_health",
+      "design_coherence",
+      "error_consistency",
+      "high_level_elegance",
+      "low_level_elegance",
+      "mid_level_elegance",
+      "package_organization",
+      "test_strategy"
+    ],
+    "missing_dimensions": [
+      "naming_quality",
+      "logic_clarity",
+      "type_safety",
+      "contract_coherence",
+      "initialization_coupling",
+      "api_surface_coherence",
+      "authorization_consistency",
+      "incomplete_migration"
+    ]
+  }
+}

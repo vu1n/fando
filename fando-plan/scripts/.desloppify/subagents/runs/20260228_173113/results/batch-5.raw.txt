@@ -1,0 +1,129 @@
+{
+  "batch": "Package Organization",
+  "batch_index": 5,
+  "assessments": {
+    "package_organization": 62.0,
+    "high_level_elegance": 70.0
+  },
+  "dimension_notes": {
+    "package_organization": {
+      "evidence": [
+        "holistic_context.structure.directory_profiles['.'] shows a flat root with 20 production files and mixed concerns in one directory (review orchestration, DSPy runtime, training pipelines, secret scanning, aggregation CLIs).",
+        "holistic_context.structure.root_files marks many low fan-in root stragglers (fan_in 0-2), including aggregate_findings.py, backfill_training.py, collect_training.py, detect_security_level.py, optimize.py, run_parallel_reviews.py, and secrets.py.",
+        "Boundary overlap is visible in root-level imports: run_parallel_reviews.py imports call_codex.py/parse_findings.py/detect_profiles.py while optimize.py and collect_training.py import dspy_reviewers.py, so library internals and operational CLIs are colocated without package separation."
+      ],
+      "impact_scope": "codebase",
+      "fix_scope": "architectural_change",
+      "confidence": "high"
+    },
+    "high_level_elegance": {
+      "evidence": [
+        "Single modules often carry both reusable APIs and CLI responsibilities (call_codex.py, parse_findings.py, detect_profiles.py, detect_security_level.py, dspy_reviewers.py all define business functions plus `main()` entrypoints).",
+        "Domain ownership is split across multiple top-level files: reviewer taxonomy and prompt paths live in detect_profiles.py (PROFILES), security classification policy in detect_security_level.py (SECURITY_LEVELS), and DSPy review contracts in review_signatures.py (DOMAIN_SIGNATURES).",
+        "The root file list and imports indicate a toolchain assembled from peer scripts instead of bounded subsystems, which makes the primary architecture (review runtime vs training vs utility tooling) harder to explain and navigate."
+      ],
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "confidence": "high"
+    }
+  },
+  "findings": [
+    {
+      "dimension": "package_organization",
+      "identifier": "flat_root_mixed_domains",
+      "summary": "Root directory is overloaded with mixed-domain modules, obscuring ownership boundaries.",
+      "related_files": [
+        "run_parallel_reviews.py",
+        "optimize.py",
+        "aggregate_findings.py",
+        "secrets.py",
+        "detect_profiles.py"
+      ],
+      "evidence": [
+        "Objective structure signal: root has 20 production files in a single directory, exceeding the >10 mixed-concern split trigger in the batch rubric.",
+        "Files with unrelated responsibilities (parallel review execution, GEPA optimization, finding aggregation, secret scanning, profile detection) all sit at the same root level.",
+        "The same root layer contains both pipeline internals and operational tooling CLIs, creating weak directory-level contracts."
+      ],
+      "suggestion": "Staged reorg plan: (1) create `review/` (`runtime.py`, `orchestrator.py`, `parsing.py`, `aggregation.py`), `review/dspy/` (`module.py`, `signatures.py`, `conversion.py`, `lm.py`), `training/` (`metric.py`, `store.py`, `collect.py`, `backfill.py`, `optimize.py`), `classification/` (`profiles.py`, `security_level.py`), and `cli/` (`run_parallel_reviews.py`, `call_codex.py`, `secrets.py`, thin wrappers only). (2) Move pure library modules first, then switch CLI scripts to import package modules, then trim old import paths. (3) Run import-update and validation commands after each stage: `rg -n \"from (review_|training_|detect_|parse_|call_)\" *.py`, `python3 -m compileall .`, and a smoke run of key CLIs (for example `python3 cli/run_parallel_reviews.py --check-only`, `python3 cli/call_codex.py --check-only`).",
+      "confidence": "high",
+      "impact_scope": "codebase",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "root_flattening_without_subpackages"
+    },
+    {
+      "dimension": "package_organization",
+      "identifier": "library_cli_cohabitation",
+      "summary": "Core library modules embed CLI entrypoints, blurring file placement and reuse boundaries.",
+      "related_files": [
+        "call_codex.py",
+        "parse_findings.py",
+        "detect_profiles.py",
+        "detect_security_level.py",
+        "dspy_reviewers.py"
+      ],
+      "evidence": [
+        "These files each expose reusable functions imported by other modules and also define in-file CLI flows via `main()` and `if __name__ == '__main__'`.",
+        "Example coupling: run_parallel_reviews.py imports call_codex.py and parse_findings.py as libraries; optimize.py/collect_training.py import dspy_reviewers.py while dspy_reviewers.py also contains CLI logic.",
+        "This forces module placement compromises: files cannot cleanly belong to `cli` or `library` layers."
+      ],
+      "suggestion": "Staged reorg plan: (1) split each mixed file into `*_core.py` (or package module) plus `cli/*.py` wrappers; start with `call_codex.py` and `parse_findings.py` because they are shared runtime dependencies. (2) Move detection modules next (`detect_profiles.py`, `detect_security_level.py`) into `classification/` and provide dedicated CLI adapters under `cli/`. (3) Move `dspy_reviewers.py` facade into `review/dspy/__init__.py` and keep only a diagnostic CLI wrapper in `cli/dspy_reviewers.py`. (4) Update imports with `rg -n \"from (call_codex|parse_findings|detect_profiles|detect_security_level|dspy_reviewers)\" -g '*.py'` and validate with `python3 -m compileall .` and targeted CLI smoke tests.",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "root_flattening_without_subpackages"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "review_domain_ownership_split",
+      "summary": "Reviewer-domain ownership is fragmented across separate top-level modules without a single authority.",
+      "related_files": [
+        "detect_profiles.py",
+        "review_signatures.py",
+        "run_parallel_reviews.py",
+        "detect_security_level.py"
+      ],
+      "evidence": [
+        "Domain list/metadata and prompt paths are owned by `PROFILES` in detect_profiles.py, while DSPy contract definitions are in review_signatures.py and consumed through dspy_reviewers/review_module.",
+        "run_parallel_reviews.py orchestrates both codex and dspy backends and reads profile metadata from detect_profiles.py, but security-level policy comes from detect_security_level.py, splitting top-level policy ownership.",
+        "A new reviewer domain requires coordinated edits across multiple top-level modules rather than one capability package."
+      ],
+      "suggestion": "Staged reorg plan: (1) introduce a single `review/domains/` package with canonical domain registry (metadata, prompt path, signature binding, and security-level defaults). (2) Refactor `run_parallel_reviews.py` and `review_module.py` to consume only this registry API; keep adapters for legacy imports temporarily. (3) Move detection heuristics into `review/domains/detection.py` and make `detect_profiles.py`/`detect_security_level.py` thin CLI wrappers. (4) Validate with import checks (`rg -n \"PROFILES|DOMAIN_SIGNATURES|SECURITY_LEVELS\" -g '*.py'`) and end-to-end runs (`python3 cli/run_parallel_reviews.py --check-only`, domain listing commands).",
+      "confidence": "high",
+      "impact_scope": "subsystem",
+      "fix_scope": "architectural_change",
+      "root_cause_cluster": "domain_model_not_centralized"
+    },
+    {
+      "dimension": "high_level_elegance",
+      "identifier": "orphan_tooling_at_core_layer",
+      "summary": "Zero-fan-in tooling modules share the same architectural layer as core review runtime.",
+      "related_files": [
+        "aggregate_findings.py",
+        "secrets.py",
+        "backfill_training.py",
+        "run_parallel_reviews.py"
+      ],
+      "evidence": [
+        "holistic root_files reports fan_in=0 for aggregate_findings.py, secrets.py, and backfill_training.py, while core runtime orchestration also sits in root.",
+        "These modules behave as operational utilities, but their placement at the same top-level as runtime dependencies weakens the mental model of what is core vs optional tooling."
+      ],
+      "suggestion": "Staged reorg plan: (1) move fan-in-0 operational scripts to `tools/` (or `cli/tools/`) first because they have minimal import impact. (2) Keep core runtime files under `review/` and training files under `training/`. (3) Add a small `cli/README` or command index clarifying runtime vs maintenance scripts. (4) Update paths/imports via `rg -n \"aggregate_findings|backfill_training|secrets\" -g '*.py'` and validate by executing each moved tool in `--help` mode plus `python3 -m compileall .`.",
+      "confidence": "medium",
+      "impact_scope": "module",
+      "fix_scope": "multi_file_refactor",
+      "root_cause_cluster": "root_flattening_without_subpackages"
+    }
+  ],
+  "retrospective": {
+    "root_causes": [
+      "Flat-root growth pattern accumulated utilities, CLIs, and core libraries without introducing subpackages.",
+      "No single package owns reviewer domain metadata/contracts, so policy and behavior are split across modules."
+    ],
+    "likely_symptoms": [
+      "flat_root_mixed_domains",
+      "library_cli_cohabitation",
+      "orphan_tooling_at_core_layer"
+    ],
+    "possible_false_positives": []
+  }
+}

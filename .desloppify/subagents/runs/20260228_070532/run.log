@@ -1,0 +1,45 @@
+2026-02-28T07:05:32+00:00 run-start runner=codex parallel=True max_parallel=3 timeout=1200s heartbeat=15.0s stall_warning=0s stall_kill=120s retries=1 retry_backoff=2.0s upper_bound=60m selected=[1, 2, 3, 4, 5, 6, 7, 8]
+2026-02-28T07:05:32+00:00 run-path /Users/vuln/code/fando/.desloppify/subagents/runs/20260228_070532
+2026-02-28T07:05:32+00:00 packet /Users/vuln/code/fando/.desloppify/review_packets/holistic_packet_20260228_070532.json
+2026-02-28T07:05:32+00:00 blind-packet /Users/vuln/code/fando/.desloppify/review_packet_blind.json
+2026-02-28T07:05:32+00:00 batch-queued batch=1 position=1/8
+2026-02-28T07:05:32+00:00 batch-start batch=1 position=1/8
+2026-02-28T07:05:32+00:00 batch-queued batch=2 position=2/8
+2026-02-28T07:05:32+00:00 batch-start batch=2 position=2/8
+2026-02-28T07:05:32+00:00 batch-queued batch=3 position=3/8
+2026-02-28T07:05:32+00:00 batch-start batch=3 position=3/8
+2026-02-28T07:05:32+00:00 batch-queued batch=4 position=4/8
+2026-02-28T07:05:32+00:00 batch-queued batch=5 position=5/8
+2026-02-28T07:05:32+00:00 batch-queued batch=6 position=6/8
+2026-02-28T07:05:32+00:00 batch-queued batch=7 position=7/8
+2026-02-28T07:05:32+00:00 batch-queued batch=8 position=8/8
+2026-02-28T07:05:47+00:00 heartbeat active=[1, 2, 3] queued=[4, 5, 6, 7, 8] elapsed={1:15, 2:15, 3:15}
+2026-02-28T07:06:02+00:00 heartbeat active=[1, 2, 3] queued=[4, 5, 6, 7, 8] elapsed={1:30, 2:30, 3:30}
+2026-02-28T07:06:17+00:00 batch-start batch=4 position=4/8
+2026-02-28T07:06:17+00:00 batch-done batch=1 position=1/8 code=0 elapsed=44
+2026-02-28T07:06:32+00:00 heartbeat active=[2, 3, 4] queued=[5, 6, 7, 8] elapsed={2:59, 3:59, 4:15}
+2026-02-28T07:06:47+00:00 heartbeat active=[2, 3, 4] queued=[5, 6, 7, 8] elapsed={2:74, 3:74, 4:30}
+2026-02-28T07:07:02+00:00 heartbeat active=[2, 3, 4] queued=[5, 6, 7, 8] elapsed={2:89, 3:89, 4:45}
+2026-02-28T07:07:08+00:00 batch-start batch=5 position=5/8
+2026-02-28T07:07:08+00:00 batch-done batch=2 position=2/8 code=0 elapsed=95
+2026-02-28T07:07:13+00:00 batch-start batch=6 position=6/8
+2026-02-28T07:07:13+00:00 batch-done batch=3 position=3/8 code=0 elapsed=100
+2026-02-28T07:07:22+00:00 batch-start batch=7 position=7/8
+2026-02-28T07:07:22+00:00 batch-done batch=4 position=4/8 code=0 elapsed=65
+2026-02-28T07:07:37+00:00 heartbeat active=[5, 6, 7] queued=[8] elapsed={5:29, 6:24, 7:15}
+2026-02-28T07:07:52+00:00 heartbeat active=[5, 6, 7] queued=[8] elapsed={5:44, 6:39, 7:30}
+2026-02-28T07:08:07+00:00 heartbeat active=[5, 6, 7] queued=[8] elapsed={5:59, 6:54, 7:45}
+2026-02-28T07:08:12+00:00 batch-start batch=8 position=8/8
+2026-02-28T07:08:12+00:00 batch-done batch=5 position=5/8 code=0 elapsed=64
+2026-02-28T07:08:27+00:00 heartbeat active=[6, 7, 8] queued=[] elapsed={6:74, 7:65, 8:15}
+2026-02-28T07:08:29+00:00 batch-done batch=7 position=7/8 code=0 elapsed=67
+2026-02-28T07:08:44+00:00 heartbeat active=[6, 8] queued=[] elapsed={6:91, 8:32}
+2026-02-28T07:08:44+00:00 batch-done batch=6 position=6/8 code=0 elapsed=91
+2026-02-28T07:08:59+00:00 heartbeat active=[8] queued=[] elapsed={8:47}
+2026-02-28T07:09:14+00:00 heartbeat active=[8] queued=[] elapsed={8:62}
+2026-02-28T07:09:29+00:00 heartbeat active=[8] queued=[] elapsed={8:77}
+2026-02-28T07:09:44+00:00 heartbeat active=[8] queued=[] elapsed={8:92}
+2026-02-28T07:09:59+00:00 heartbeat active=[8] queued=[] elapsed={8:107}
+2026-02-28T07:10:08+00:00 batch-done batch=8 position=8/8 code=0 elapsed=116
+2026-02-28T07:10:08+00:00 run-summary /Users/vuln/code/fando/.desloppify/subagents/runs/20260228_070532/run_summary.json
+2026-02-28T07:10:09+00:00 run-finished successful=[1, 2, 3, 4, 5, 6, 7, 8] failed=[] imported=/Users/vuln/code/fando/.desloppify/subagents/runs/20260228_070532/holistic_findings_merged.json
