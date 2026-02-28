@@ -201,9 +201,6 @@ def parse_jj_workspace(path: Path) -> list[ReviewExample]:
 
 
 def main():
-    # Add parent scripts dir for imports (only when run as script)
-    sys.path.insert(0, str(Path(__file__).parent))
-
     from detect_profiles import PROFILES
     from dspy_reviewers import ReviewExample, save_training_example, load_training_examples
 
