@@ -88,8 +88,9 @@ def find_latest_plan(project: str = None) -> PlanInfo | None:
         try:
             stat = p.stat()
             plan_stats.append((p, stat))
-        except (OSError, PermissionError):
+        except (OSError, PermissionError) as e:
             # Skip files that can't be accessed
+            logger.debug(f"Skipping inaccessible file {p}: {e}")
             continue
 
     if not plan_stats:
@@ -141,8 +142,9 @@ def list_plans(project: str = None) -> list[PlanInfo]:
                 continue
             try:
                 stat = plan_file.stat()
-            except (OSError, PermissionError):
+            except (OSError, PermissionError) as e:
                 # Skip files that can't be accessed
+                logger.debug(f"Skipping inaccessible file {plan_file}: {e}")
                 continue
             plans.append(PlanInfo(
                 path=str(plan_file),
