@@ -100,6 +100,55 @@ def get_diff_stats(ref: str) -> tuple[int, int]:
     return additions, deletions
 
 
+def _collect_diff(
+    ref: str,
+    head_ref: str,
+    include_untracked: bool = False
+) -> ImplementationDiff:
+    """
+    Internal diff collection pipeline with shared orchestration.
+
+    Args:
+        ref: Git reference to diff against
+        head_ref: Current HEAD reference for metadata
+        include_untracked: Whether to include untracked files
+
+    Returns:
+        ImplementationDiff with collected diff data, or error if git fails
+    """
+    # Get list of changed files
+    files_result = _run_git(['diff', '--name-only', ref])
+    files = files_result.stdout.strip().split('\n') if files_result.stdout.strip() else []
+
+    # Include untracked files if requested
+    if include_untracked:
+        untracked_result = _run_git(['ls-files', '--others', '--exclude-standard'])
+        if untracked_result.stdout.strip():
+            files.extend(untracked_result.stdout.strip().split('\n'))
+
+    # Get diff
+    diff_result = _run_git(['diff', ref])
+
+    if diff_result.returncode != 0:
+        return ImplementationDiff(
+            diff="", base_ref=ref[:8] if len(ref) > 8 else ref, head_ref=head_ref,
+            files_changed=files,
+            error=f"git diff failed: {diff_result.stderr}"
+        )
+
+    # Get stats
+    additions, deletions = get_diff_stats(ref)
+
+    return ImplementationDiff(
+        diff=diff_result.stdout,
+        base_ref=ref[:8] if len(ref) > 8 else ref,
+        head_ref=head_ref,
+        files_changed=files,
+        additions=additions,
+        deletions=deletions
+    )
+
+
 def gather_diff(ref: str = None, target_branch: str = "main") -> ImplementationDiff:
     """
     Gather git diff for verification.
@@ -127,31 +176,8 @@ def gather_diff(ref: str = None, target_branch: str = "main") -> ImplementationD
                 error=f"Could not find base branch ({target_branch}/master). Specify --ref explicitly."
             )
 
-    # Get list of changed files
-    files_result = _run_git(['diff', '--name-only', ref])
-    files = files_result.stdout.strip().split('\n') if files_result.stdout.strip() else []
-
-    # Get full diff
-    diff_result = _run_git(['diff', ref])
-
-    if diff_result.returncode != 0:
-        return ImplementationDiff(
-            diff="", base_ref=ref[:8], head_ref=head_ref,
-            files_changed=files,
-            error=f"git diff failed: {diff_result.stderr}"
-        )
-
-    # Get stats
-    additions, deletions = get_diff_stats(ref)
-
-    return ImplementationDiff(
-        diff=diff_result.stdout,
-        base_ref=ref[:8] if len(ref) > 8 else ref,
-        head_ref=head_ref,
-        files_changed=files,
-        additions=additions,
-        deletions=deletions
-    )
+    # Use shared diff collection pipeline (no untracked files for committed diffs)
+    return _collect_diff(ref, head_ref, include_untracked=False)
 
 
 def gather_working_tree_diff() -> ImplementationDiff:
@@ -168,28 +194,10 @@ def gather_working_tree_diff() -> ImplementationDiff:
 
     head_ref = get_current_ref() or "HEAD"
 
-    # Get staged + unstaged changes
-    files_result = _run_git(['diff', '--name-only', 'HEAD'])
-    files = files_result.stdout.strip().split('\n') if files_result.stdout.strip() else []
-
-    # Include untracked files
-    untracked_result = _run_git(['ls-files', '--others', '--exclude-standard'])
-    if untracked_result.stdout.strip():
-        files.extend(untracked_result.stdout.strip().split('\n'))
-
-    # Get diff
-    diff_result = _run_git(['diff', 'HEAD'])
-
-    additions, deletions = get_diff_stats('HEAD')
-
-    return ImplementationDiff(
-        diff=diff_result.stdout,
-        base_ref="HEAD",
-        head_ref="working-tree",
-        files_changed=files,
-        additions=additions,
-        deletions=deletions
-    )
+    # Use shared diff collection pipeline (include untracked files for working tree)
+    result = _collect_diff('HEAD', 'working-tree', include_untracked=True)
+    result.head_ref = "working-tree"
+    return result
 
 
 def main() -> None:
