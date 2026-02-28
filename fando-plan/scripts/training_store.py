@@ -17,6 +17,7 @@ Usage:
 """
 import json
 import logging
+import tempfile
 from pathlib import Path
 
 from constants import SIGNIFICANT_WORD_MIN_LENGTH, FINDING_ADDRESS_THRESHOLD
@@ -120,7 +121,25 @@ def save_training_example(example: ReviewExample) -> Path:
         "plan_id": example.plan_id,
         "iteration": example.iteration,
     }
-    path.write_text(json.dumps(data, indent=2))
+    # Atomic write: temp file + rename
+    temp_fd, temp_path = tempfile.mkstemp(
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp"
+    )
+    try:
+        import os
+        with os.fdopen(temp_fd, 'w') as f:
+            json.dump(data, f, indent=2)
+        os.rename(temp_path, path)
+    except Exception:
+        # Clean up temp file on error
+        try:
+            import os
+            os.unlink(temp_path)
+        except Exception:
+            pass
+        raise
     return path
 
 

@@ -2,180 +2,85 @@
   "command": "next",
   "items": [
     {
-      "id": "auto/dict_keys-dead_write",
+      "id": "auto/smells-unsafe_file_write",
       "kind": "cluster",
       "action_type": "refactor",
-      "summary": "Fix 5 dead write issues",
-      "member_count": 5,
+      "summary": "Fix 2 unsafe file write issues",
+      "member_count": 2,
       "members": [
         {
-          "id": "dict_keys::codex_lm.py::dead_write::response::choices",
+          "id": "smells::optimize.py::unsafe_file_write",
           "kind": "finding",
           "tier": 3,
           "effective_tier": 3,
           "confidence": "medium",
-          "detector": "dict_keys",
-          "file": "codex_lm.py",
-          "summary": "Dict key \"choices\" written to `response` at line 111 but never read",
+          "detector": "smells",
+          "file": "optimize.py",
+          "summary": "1x Non-atomic file write (use temp+rename for safety)",
           "detail": {
-            "kind": "dead_write",
-            "key": "choices",
-            "line": 111,
-            "info": "in forward()"
+            "smell_id": "unsafe_file_write",
+            "severity": "medium",
+            "count": 1,
+            "lines": [
+              202
+            ]
           },
           "status": "open",
-          "primary_command": "desloppify plan done \"dict_keys::codex_lm.py::dead_write::response::choices\" --note \"<what you did>\" --attest \"I have actually [DESCRIBE THE CONCRETE CHANGE YOU MADE] and I am not gaming the score by resolving without fixing.\"",
-          "queue_position": 45,
+          "primary_command": "desloppify plan done \"smells::optimize.py::unsafe_file_write\" --note \"<what you did>\" --attest \"I have actually [DESCRIBE THE CONCRETE CHANGE YOU MADE] and I am not gaming the score by resolving without fixing.\"",
+          "queue_position": 11,
           "plan_cluster": {
-            "name": "auto/dict_keys-dead_write",
-            "description": "Fix 5 dead write issues",
-            "total_items": 5,
+            "name": "auto/smells-unsafe_file_write",
+            "description": "Fix 2 unsafe file write issues",
+            "total_items": 2,
             "sibling_ids": [
-              "dict_keys::codex_lm.py::dead_write::response::choices",
-              "dict_keys::codex_lm.py::dead_write::response::created",
-              "dict_keys::codex_lm.py::dead_write::response::id",
-              "dict_keys::codex_lm.py::dead_write::response::model",
-              "dict_keys::codex_lm.py::dead_write::response::object"
+              "smells::optimize.py::unsafe_file_write",
+              "smells::training_store.py::unsafe_file_write"
             ]
           }
         },
         {
-          "id": "dict_keys::codex_lm.py::dead_write::response::created",
+          "id": "smells::training_store.py::unsafe_file_write",
           "kind": "finding",
           "tier": 3,
           "effective_tier": 3,
           "confidence": "medium",
-          "detector": "dict_keys",
-          "file": "codex_lm.py",
-          "summary": "Dict key \"created\" written to `response` at line 111 but never read",
+          "detector": "smells",
+          "file": "training_store.py",
+          "summary": "1x Non-atomic file write (use temp+rename for safety)",
           "detail": {
-            "kind": "dead_write",
-            "key": "created",
-            "line": 111,
-            "info": "in forward()"
-          },
-          "status": "open",
-          "primary_command": "desloppify plan done \"dict_keys::codex_lm.py::dead_write::response::created\" --note \"<what you did>\" --attest \"I have actually [DESCRIBE THE CONCRETE CHANGE YOU MADE] and I am not gaming the score by resolving without fixing.\"",
-          "queue_position": 46,
-          "plan_cluster": {
-            "name": "auto/dict_keys-dead_write",
-            "description": "Fix 5 dead write issues",
-            "total_items": 5,
-            "sibling_ids": [
-              "dict_keys::codex_lm.py::dead_write::response::choices",
-              "dict_keys::codex_lm.py::dead_write::response::created",
-              "dict_keys::codex_lm.py::dead_write::response::id",
-              "dict_keys::codex_lm.py::dead_write::response::model",
-              "dict_keys::codex_lm.py::dead_write::response::object"
+            "smell_id": "unsafe_file_write",
+            "severity": "medium",
+            "count": 1,
+            "lines": [
+              123
             ]
-          }
-        },
-        {
-          "id": "dict_keys::codex_lm.py::dead_write::response::id",
-          "kind": "finding",
-          "tier": 3,
-          "effective_tier": 3,
-          "confidence": "medium",
-          "detector": "dict_keys",
-          "file": "codex_lm.py",
-          "summary": "Dict key \"id\" written to `response` at line 111 but never read",
-          "detail": {
-            "kind": "dead_write",
-            "key": "id",
-            "line": 111,
-            "info": "in forward()"
           },
           "status": "open",
-          "primary_command": "desloppify plan done \"dict_keys::codex_lm.py::dead_write::response::id\" --note \"<what you did>\" --attest \"I have actually [DESCRIBE THE CONCRETE CHANGE YOU MADE] and I am not gaming the score by resolving without fixing.\"",
-          "queue_position": 47,
+          "primary_command": "desloppify plan done \"smells::training_store.py::unsafe_file_write\" --note \"<what you did>\" --attest \"I have actually [DESCRIBE THE CONCRETE CHANGE YOU MADE] and I am not gaming the score by resolving without fixing.\"",
+          "queue_position": 12,
           "plan_cluster": {
-            "name": "auto/dict_keys-dead_write",
-            "description": "Fix 5 dead write issues",
-            "total_items": 5,
+            "name": "auto/smells-unsafe_file_write",
+            "description": "Fix 2 unsafe file write issues",
+            "total_items": 2,
             "sibling_ids": [
-              "dict_keys::codex_lm.py::dead_write::response::choices",
-              "dict_keys::codex_lm.py::dead_write::response::created",
-              "dict_keys::codex_lm.py::dead_write::response::id",
-              "dict_keys::codex_lm.py::dead_write::response::model",
-              "dict_keys::codex_lm.py::dead_write::response::object"
-            ]
-          }
-        },
-        {
-          "id": "dict_keys::codex_lm.py::dead_write::response::model",
-          "kind": "finding",
-          "tier": 3,
-          "effective_tier": 3,
-          "confidence": "medium",
-          "detector": "dict_keys",
-          "file": "codex_lm.py",
-          "summary": "Dict key \"model\" written to `response` at line 111 but never read",
-          "detail": {
-            "kind": "dead_write",
-            "key": "model",
-            "line": 111,
-            "info": "in forward()"
-          },
-          "status": "open",
-          "primary_command": "desloppify plan done \"dict_keys::codex_lm.py::dead_write::response::model\" --note \"<what you did>\" --attest \"I have actually [DESCRIBE THE CONCRETE CHANGE YOU MADE] and I am not gaming the score by resolving without fixing.\"",
-          "queue_position": 48,
-          "plan_cluster": {
-            "name": "auto/dict_keys-dead_write",
-            "description": "Fix 5 dead write issues",
-            "total_items": 5,
-            "sibling_ids": [
-              "dict_keys::codex_lm.py::dead_write::response::choices",
-              "dict_keys::codex_lm.py::dead_write::response::created",
-              "dict_keys::codex_lm.py::dead_write::response::id",
-              "dict_keys::codex_lm.py::dead_write::response::model",
-              "dict_keys::codex_lm.py::dead_write::response::object"
-            ]
-          }
-        },
-        {
-          "id": "dict_keys::codex_lm.py::dead_write::response::object",
-          "kind": "finding",
-          "tier": 3,
-          "effective_tier": 3,
-          "confidence": "medium",
-          "detector": "dict_keys",
-          "file": "codex_lm.py",
-          "summary": "Dict key \"object\" written to `response` at line 111 but never read",
-          "detail": {
-            "kind": "dead_write",
-            "key": "object",
-            "line": 111,
-            "info": "in forward()"
-          },
-          "status": "open",
-          "primary_command": "desloppify plan done \"dict_keys::codex_lm.py::dead_write::response::object\" --note \"<what you did>\" --attest \"I have actually [DESCRIBE THE CONCRETE CHANGE YOU MADE] and I am not gaming the score by resolving without fixing.\"",
-          "queue_position": 49,
-          "plan_cluster": {
-            "name": "auto/dict_keys-dead_write",
-            "description": "Fix 5 dead write issues",
-            "total_items": 5,
-            "sibling_ids": [
-              "dict_keys::codex_lm.py::dead_write::response::choices",
-              "dict_keys::codex_lm.py::dead_write::response::created",
-              "dict_keys::codex_lm.py::dead_write::response::id",
-              "dict_keys::codex_lm.py::dead_write::response::model",
-              "dict_keys::codex_lm.py::dead_write::response::object"
+              "smells::optimize.py::unsafe_file_write",
+              "smells::training_store.py::unsafe_file_write"
             ]
           }
         }
       ],
-      "primary_command": "fix dict key mismatches",
-      "cluster_name": "auto/dict_keys-dead_write",
+      "primary_command": "fix code smells",
+      "cluster_name": "auto/smells-unsafe_file_write",
       "cluster_auto": true,
-      "detector": "dict_keys"
+      "detector": "smells"
     }
   ],
   "queue": {
     "tier_counts": {
       "1": 0,
       "2": 2,
-      "3": 49,
-      "4": 18
+      "3": 12,
+      "4": 19
     },
     "requested_tier": null,
     "selected_tier": null,
@@ -185,11 +90,11 @@
       3,
       4
     ],
-    "total": 30
+    "total": 19
   },
   "narrative": {
-    "phase": "regression",
-    "headline": "\u26a0 2 security findings \u2014 review before other cleanup. Score shifted 10.2 pts \u2014 this is normal after structural changes. Rescan after your next fix to see the real trend. (26 review findings \u2014 run `desloppify show review --status open`)",
+    "phase": "early_momentum",
+    "headline": "\u26a0 2 security findings \u2014 review before other cleanup. Score 47.1/100 with 102 findings open. Keep the momentum going. (26 review findings \u2014 run `desloppify show review --status open`)",
     "dimensions": {
       "lowest_dimensions": [
         {
@@ -222,7 +127,7 @@
         {
           "name": "Duplication",
           "strict": 100.0,
-          "stuck_scans": 4
+          "stuck_scans": 5
         }
       ]
     },
@@ -252,17 +157,16 @@
       {
         "type": "refactor",
         "detector": "dict_keys",
-        "count": 9,
-        "description": "9 dict_keys findings in 2 cluster(s) \u2014 run `desloppify next`",
+        "count": 4,
+        "description": "4 dict_keys findings in 1 cluster(s) \u2014 run `desloppify next`",
         "command": "desloppify next",
         "impact": 0.0,
         "dimension": "Code quality",
         "priority": 3,
         "clusters": [
-          "auto/dict_keys-overwritten_key",
-          "auto/dict_keys-dead_write"
+          "auto/dict_keys-overwritten_key"
         ],
-        "cluster_count": 2,
+        "cluster_count": 1,
         "lane": "refactor_0"
       },
       {
@@ -339,8 +243,8 @@
       {
         "type": "manual_fix",
         "detector": "subjective_review",
-        "count": 8,
-        "description": "8 subjective_review findings in 1 cluster(s) \u2014 run `desloppify next`",
+        "count": 9,
+        "description": "9 subjective_review findings in 1 cluster(s) \u2014 run `desloppify next`",
         "command": "desloppify next",
         "impact": 0.0,
         "dimension": "Test health",
@@ -355,7 +259,7 @@
     "strategy": {
       "fixer_leverage": {
         "auto_fixable_count": 0,
-        "total_count": 158,
+        "total_count": 154,
         "coverage": 0.0,
         "impact_ratio": 0.0,
         "recommendation": "none"
@@ -445,19 +349,12 @@
     "risk_flags": [],
     "strict_target": {
       "target": 95.0,
-      "current": 47.0,
-      "gap": 48.0,
+      "current": 47.1,
+      "gap": 47.9,
       "state": "below",
       "warning": null
     },
     "reminders": [
-      {
-        "type": "review_findings_pending",
-        "message": "26 review finding(s) need investigation. Run `desloppify show review --status open` to see the work queue.",
-        "command": "desloppify show review --status open",
-        "priority": 1,
-        "severity": "high"
-      },
       {
         "type": "fp_calibration_orphaned_production",
         "message": "100% of orphaned findings in production zone are false positives. Consider reviewing detection rules for production files.",
@@ -467,22 +364,17 @@
       }
     ],
     "reminder_history": {
-      "report_scores": 3,
+      "report_scores": 4,
       "review_findings_pending": 3,
       "stagnant_nudge": 4,
-      "feedback_nudge": 2,
-      "fp_calibration_orphaned_production": 1
+      "feedback_nudge": 3,
+      "fp_calibration_orphaned_production": 2
     }
   },
   "plan": {
     "active": true,
     "focus": null,
     "clusters": [
-      {
-        "name": "auto/orphaned",
-        "description": "Fix 8 orphaned issues",
-        "item_count": 8
-      },
       {
         "name": "auto/test_coverage",
         "description": "Fix 18 test coverage issues",
@@ -517,11 +409,6 @@
         "name": "auto/dict_keys-overwritten_key",
         "description": "Fix 4 overwritten key issues",
         "item_count": 4
-      },
-      {
-        "name": "auto/dict_keys-dead_write",
-        "description": "Fix 5 dead write issues",
-        "item_count": 5
       },
       {
         "name": "auto/review-cross_module_architecture",
@@ -570,8 +457,8 @@
       },
       {
         "name": "auto/subjective_review",
-        "description": "Address 8 subjective_review review findings",
-        "item_count": 8
+        "description": "Address 9 subjective_review review findings",
+        "item_count": 9
       },
       {
         "name": "auto/stale-review",
@@ -580,12 +467,12 @@
       }
     ],
     "total_ordered": 5,
-    "total_skipped": 55,
+    "total_skipped": 79,
     "plan_overrides_narrative": true
   },
-  "overall_score": 47.0,
-  "objective_score": 56.1,
-  "strict_score": 47.0,
+  "overall_score": 47.1,
+  "objective_score": 56.4,
+  "strict_score": 47.1,
   "scorecard_dimensions": [
     {
       "name": "File health",
@@ -624,10 +511,10 @@
     },
     {
       "name": "Code quality",
-      "score": 85.5,
-      "strict": 85.5,
+      "score": 86.5,
+      "strict": 86.5,
       "checks": 150,
-      "issues": 47,
+      "issues": 42,
       "tier": 3,
       "subjective": false
     },
@@ -744,10 +631,10 @@
     },
     {
       "name": "Test health",
-      "score": 5.0,
-      "strict": 5.0,
+      "score": 4.9,
+      "strict": 4.9,
       "checks": 283,
-      "issues": 26,
+      "issues": 27,
       "tier": 4,
       "subjective": false
     },

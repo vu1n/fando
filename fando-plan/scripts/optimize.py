@@ -24,7 +24,9 @@ Optimized modules:      ~/.claude/skills/fando-plan/optimized/{domain}.json
 """
 import argparse
 import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any, Optional
 
@@ -199,7 +201,23 @@ def export_optimized() -> None:
         if isinstance(data, dict):
             _extract_instructions(data, lines, depth=0)
 
-        md_path.write_text("\n".join(lines))
+        # Atomic write: temp file + rename
+        temp_fd, temp_path = tempfile.mkstemp(
+            dir=md_path.parent,
+            prefix=f".{md_path.name}.",
+            suffix=".tmp"
+        )
+        try:
+            with os.fdopen(temp_fd, 'w') as f:
+                f.write("\n".join(lines))
+            os.rename(temp_path, md_path)
+        except Exception:
+            # Clean up temp file on error
+            try:
+                os.unlink(temp_path)
+            except Exception:
+                pass
+            raise
         print(f"    Written to {md_path}")
 
     print(f"\nAll exports in: {export_dir}")
