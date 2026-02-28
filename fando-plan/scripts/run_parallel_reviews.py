@@ -273,11 +273,18 @@ def run_parallel_reviews_dspy(
     Calls dspy_reviewers.run_dspy_review(), converts predictions to text,
     then feeds through parse_findings() so the output type matches the
     Codex backend exactly.
+
+    Returns:
+        ParallelReviewResult (empty if no profiles provided)
     """
     result = ParallelReviewResult()
 
     if not DSPY_AVAILABLE:
         raise ImportError("DSPy backend requires: uv pip install -e '.[dspy]'")
+
+    # Early return for empty profiles matches run_parallel_reviews() behavior
+    if not profiles:
+        return result
 
     predictions = run_dspy_review(
         plan=plan,

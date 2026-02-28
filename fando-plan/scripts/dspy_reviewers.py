@@ -432,10 +432,14 @@ def run_dspy_review(
         max_workers: Thread pool size (default: len(profiles))
 
     Returns:
-        Dict mapping profile name → dspy.Prediction
+        Dict mapping profile name → dspy.Prediction (empty dict if no profiles)
     """
     if not DSPY_AVAILABLE:
         raise ImportError("DSPy is required: uv pip install -e '.[dspy]'")
+
+    # Early return for empty profiles matches run_parallel_reviews() behavior
+    if not profiles:
+        return {}
 
     # Configure CodexLM as the DSPy LM (if not already configured)
     if dspy.settings.lm is None:
