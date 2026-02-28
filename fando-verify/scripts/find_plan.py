@@ -82,9 +82,21 @@ def find_latest_plan(project: str = None) -> PlanInfo | None:
         return None
 
     # Sort by modification time, most recent first
-    plans.sort(key=lambda p: p.stat().st_mtime, reverse=True)
-    latest = plans[0]
-    stat = latest.stat()
+    # Handle stat failures gracefully (permission errors, race conditions)
+    plan_stats = []
+    for p in plans:
+        try:
+            stat = p.stat()
+            plan_stats.append((p, stat))
+        except (OSError, PermissionError):
+            # Skip files that can't be accessed
+            continue
+
+    if not plan_stats:
+        return None
+
+    plan_stats.sort(key=lambda ps: ps[1].st_mtime, reverse=True)
+    latest, stat = plan_stats[0]
 
     return PlanInfo(
         path=str(latest),
@@ -127,7 +139,11 @@ def list_plans(project: str = None) -> list[PlanInfo]:
         for plan_file in project_dir.glob("*.md"):
             if plan_file.name.endswith("-verify.md"):
                 continue
-            stat = plan_file.stat()
+            try:
+                stat = plan_file.stat()
+            except (OSError, PermissionError):
+                # Skip files that can't be accessed
+                continue
             plans.append(PlanInfo(
                 path=str(plan_file),
                 project=proj_name,
