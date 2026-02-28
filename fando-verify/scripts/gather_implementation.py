@@ -25,21 +25,38 @@ class ImplementationDiff:
     error: str | None = None
 
 
+def _run_git(args: list[str], timeout: int = 30) -> subprocess.CompletedProcess[str]:
+    """Run git command with standard timeout and output handling.
+
+    Args:
+        args: Git command arguments (e.g., ['rev-parse', '--short', 'HEAD'])
+        timeout: Maximum seconds to wait (default: 30)
+
+    Returns:
+        subprocess.CompletedProcess with stdout/stderr as strings
+
+    Raises:
+        subprocess.TimeoutExpired: If git command times out
+        FileNotFoundError: If git is not available
+    """
+    cmd = ['git'] + args
+    return subprocess.run(
+        cmd,
+        capture_output=True,
+        text=True,
+        timeout=timeout
+    )
+
+
 def is_git_repo() -> bool:
     """Check if current directory is in a git repository."""
-    result = subprocess.run(
-        ['git', 'rev-parse', '--git-dir'],
-        capture_output=True, text=True, timeout=30
-    )
+    result = _run_git(['rev-parse', '--git-dir'])
     return result.returncode == 0
 
 
 def get_current_ref() -> str | None:
     """Get current HEAD reference."""
-    result = subprocess.run(
-        ['git', 'rev-parse', '--short', 'HEAD'],
-        capture_output=True, text=True, timeout=30
-    )
+    result = _run_git(['rev-parse', '--short', 'HEAD'])
     if result.returncode == 0:
         return result.stdout.strip()
     return None
@@ -54,10 +71,7 @@ def get_merge_base(target: str = "main") -> str | None:
     branches_to_try = [target, "master", f"origin/{target}", "origin/main", "origin/master"]
 
     for branch in branches_to_try:
-        result = subprocess.run(
-            ['git', 'merge-base', 'HEAD', branch],
-            capture_output=True, text=True, timeout=30
-        )
+        result = _run_git(['merge-base', 'HEAD', branch])
         if result.returncode == 0:
             return result.stdout.strip()
     return None
@@ -65,10 +79,7 @@ def get_merge_base(target: str = "main") -> str | None:
 
 def get_diff_stats(ref: str) -> tuple[int, int]:
     """Get additions and deletions count."""
-    result = subprocess.run(
-        ['git', 'diff', '--shortstat', ref],
-        capture_output=True, text=True, timeout=30
-    )
+    result = _run_git(['diff', '--shortstat', ref])
     if result.returncode != 0:
         return 0, 0
 
@@ -117,17 +128,11 @@ def gather_diff(ref: str = None, target_branch: str = "main") -> ImplementationD
             )
 
     # Get list of changed files
-    files_result = subprocess.run(
-        ['git', 'diff', '--name-only', ref],
-        capture_output=True, text=True, timeout=30
-    )
+    files_result = _run_git(['diff', '--name-only', ref])
     files = files_result.stdout.strip().split('\n') if files_result.stdout.strip() else []
 
     # Get full diff
-    diff_result = subprocess.run(
-        ['git', 'diff', ref],
-        capture_output=True, text=True, timeout=30
-    )
+    diff_result = _run_git(['diff', ref])
 
     if diff_result.returncode != 0:
         return ImplementationDiff(
@@ -164,25 +169,16 @@ def gather_working_tree_diff() -> ImplementationDiff:
     head_ref = get_current_ref() or "HEAD"
 
     # Get staged + unstaged changes
-    files_result = subprocess.run(
-        ['git', 'diff', '--name-only', 'HEAD'],
-        capture_output=True, text=True, timeout=30
-    )
+    files_result = _run_git(['diff', '--name-only', 'HEAD'])
     files = files_result.stdout.strip().split('\n') if files_result.stdout.strip() else []
 
     # Include untracked files
-    untracked_result = subprocess.run(
-        ['git', 'ls-files', '--others', '--exclude-standard'],
-        capture_output=True, text=True, timeout=30
-    )
+    untracked_result = _run_git(['ls-files', '--others', '--exclude-standard'])
     if untracked_result.stdout.strip():
         files.extend(untracked_result.stdout.strip().split('\n'))
 
     # Get diff
-    diff_result = subprocess.run(
-        ['git', 'diff', 'HEAD'],
-        capture_output=True, text=True, timeout=30
-    )
+    diff_result = _run_git(['diff', 'HEAD'])
 
     additions, deletions = get_diff_stats('HEAD')
 
