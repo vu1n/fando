@@ -107,22 +107,8 @@ class CodexLM(BaseLM):
 
         output_text = result.stdout.strip()
 
-        # Return OpenAI chat-completion-compatible format
+        # Return OpenAI usage-compatible format
         response = {
-            "id": f"codex-{int(time.time())}",
-            "object": "chat.completion",
-            "created": int(time.time()),
-            "model": "codex/exec",
-            "choices": [
-                {
-                    "index": 0,
-                    "message": {
-                        "role": "assistant",
-                        "content": output_text,
-                    },
-                    "finish_reason": "stop",
-                }
-            ],
             "usage": {
                 "prompt_tokens": len(text_prompt.split()),
                 "completion_tokens": len(output_text.split()),

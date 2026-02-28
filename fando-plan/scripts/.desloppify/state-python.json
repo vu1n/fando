@@ -1,36 +1,36 @@
 {
   "version": 1,
   "created": "2026-02-28T17:23:02+00:00",
-  "last_scan": "2026-02-28T17:36:33+00:00",
-  "scan_count": 3,
-  "overall_score": 56.8,
-  "objective_score": 55.2,
-  "strict_score": 56.8,
-  "verified_strict_score": 55.2,
+  "last_scan": "2026-02-28T22:27:37+00:00",
+  "scan_count": 4,
+  "overall_score": 47.0,
+  "objective_score": 56.1,
+  "strict_score": 47.0,
+  "verified_strict_score": 55.0,
   "stats": {
-    "total": 133,
-    "open": 107,
+    "total": 149,
+    "open": 106,
     "fixed": 4,
-    "auto_resolved": 22,
+    "auto_resolved": 31,
     "wontfix": 0,
-    "false_positive": 0,
+    "false_positive": 8,
     "by_tier": {
       "2": {
-        "open": 14,
+        "open": 13,
         "fixed": 0,
-        "auto_resolved": 1,
+        "auto_resolved": 2,
         "wontfix": 0,
         "false_positive": 0
       },
       "3": {
-        "open": 93,
+        "open": 85,
         "fixed": 4,
-        "auto_resolved": 1,
+        "auto_resolved": 9,
         "wontfix": 0,
-        "false_positive": 0
+        "false_positive": 8
       },
       "4": {
-        "open": 0,
+        "open": 8,
         "fixed": 0,
         "auto_resolved": 20,
         "wontfix": 0,
@@ -45,9 +45,9 @@
       "file": "run_parallel_reviews.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Needs decomposition: large (529 LOC) / complexity score 51",
+      "summary": "Needs decomposition: large (507 LOC) / complexity score 51",
       "detail": {
-        "loc": 529,
+        "loc": 507,
         "complexity_score": 51,
         "complexity_signals": [
           "nesting depth 12",
@@ -57,7 +57,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -72,14 +72,14 @@
       "file": "aggregate_findings.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Needs decomposition: large (368 LOC)",
+      "summary": "Needs decomposition: large (363 LOC)",
       "detail": {
-        "loc": 368
+        "loc": 363
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -101,7 +101,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -116,14 +116,14 @@
       "file": "optimize.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Needs decomposition: large (322 LOC)",
+      "summary": "Needs decomposition: large (319 LOC)",
       "detail": {
-        "loc": 322
+        "loc": 319
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -138,14 +138,14 @@
       "file": "backfill_training.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Needs decomposition: large (301 LOC)",
+      "summary": "Needs decomposition: large (304 LOC)",
       "detail": {
-        "loc": 301
+        "loc": 304
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -160,14 +160,22 @@
       "file": ".",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Flat directory: 20 files \u2014 consider grouping by domain",
+      "summary": "Directory overload: 21 files, 0 child dirs (combined 21) \u2014 consider grouping by domain",
       "detail": {
-        "file_count": 20
+        "file_count": 21,
+        "child_dir_count": 0,
+        "combined_score": 21,
+        "kind": "overload",
+        "parent_sibling_count": 0,
+        "wrapper_item_count": 0,
+        "sparse_child_count": 0,
+        "sparse_child_ratio": 0.0,
+        "sparse_child_file_threshold": 0
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:02+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -182,21 +190,27 @@
       "file": "run_parallel_reviews.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Orphaned file (529 LOC): zero importers, not an entry point",
+      "summary": "Orphaned file (507 LOC): zero importers, not an entry point",
       "detail": {
-        "loc": 529
+        "loc": 507
       },
-      "status": "open",
-      "note": null,
+      "status": "false_positive",
+      "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "last_seen": "2026-02-28T22:27:37+00:00",
+      "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually verified all 8 files have #\\!/usr/bin/env python3 shebangs and if __name__ == '__main__' guards, confirming they are executable entry points, not orphaned library modules. I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:42:32+00:00",
+        "scan_verified": false
+      }
     },
     "orphaned::aggregate_findings.py": {
       "id": "orphaned::aggregate_findings.py",
@@ -204,21 +218,27 @@
       "file": "aggregate_findings.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Orphaned file (368 LOC): zero importers, not an entry point",
+      "summary": "Orphaned file (363 LOC): zero importers, not an entry point",
       "detail": {
-        "loc": 368
+        "loc": 363
       },
-      "status": "open",
-      "note": null,
+      "status": "false_positive",
+      "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "last_seen": "2026-02-28T22:27:37+00:00",
+      "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually verified all 8 files have #\\!/usr/bin/env python3 shebangs and if __name__ == '__main__' guards, confirming they are executable entry points, not orphaned library modules. I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:42:32+00:00",
+        "scan_verified": false
+      }
     },
     "orphaned::optimize.py": {
       "id": "orphaned::optimize.py",
@@ -226,21 +246,27 @@
       "file": "optimize.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Orphaned file (322 LOC): zero importers, not an entry point",
+      "summary": "Orphaned file (319 LOC): zero importers, not an entry point",
       "detail": {
-        "loc": 322
+        "loc": 319
       },
-      "status": "open",
-      "note": null,
+      "status": "false_positive",
+      "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "last_seen": "2026-02-28T22:27:37+00:00",
+      "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually verified all 8 files have #\\!/usr/bin/env python3 shebangs and if __name__ == '__main__' guards, confirming they are executable entry points, not orphaned library modules. I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:42:32+00:00",
+        "scan_verified": false
+      }
     },
     "orphaned::backfill_training.py": {
       "id": "orphaned::backfill_training.py",
@@ -248,21 +274,27 @@
       "file": "backfill_training.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Orphaned file (301 LOC): zero importers, not an entry point",
+      "summary": "Orphaned file (304 LOC): zero importers, not an entry point",
       "detail": {
-        "loc": 301
+        "loc": 304
       },
-      "status": "open",
-      "note": null,
+      "status": "false_positive",
+      "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "last_seen": "2026-02-28T22:27:37+00:00",
+      "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually verified all 8 files have #\\!/usr/bin/env python3 shebangs and if __name__ == '__main__' guards, confirming they are executable entry points, not orphaned library modules. I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:42:32+00:00",
+        "scan_verified": false
+      }
     },
     "orphaned::detect_security_level.py": {
       "id": "orphaned::detect_security_level.py",
@@ -270,21 +302,27 @@
       "file": "detect_security_level.py",
       "tier": 3,
       "confidence": "medium",
-      "summary": "Orphaned file (268 LOC): zero importers, not an entry point",
+      "summary": "Orphaned file (269 LOC): zero importers, not an entry point",
       "detail": {
-        "loc": 268
+        "loc": 269
       },
-      "status": "open",
-      "note": null,
+      "status": "false_positive",
+      "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "last_seen": "2026-02-28T22:27:37+00:00",
+      "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually verified all 8 files have #\\!/usr/bin/env python3 shebangs and if __name__ == '__main__' guards, confirming they are executable entry points, not orphaned library modules. I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:42:32+00:00",
+        "scan_verified": false
+      }
     },
     "orphaned::secrets.py": {
       "id": "orphaned::secrets.py",
@@ -296,17 +334,23 @@
       "detail": {
         "loc": 246
       },
-      "status": "open",
-      "note": null,
+      "status": "false_positive",
+      "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "last_seen": "2026-02-28T22:27:37+00:00",
+      "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually verified all 8 files have #\\!/usr/bin/env python3 shebangs and if __name__ == '__main__' guards, confirming they are executable entry points, not orphaned library modules. I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:42:32+00:00",
+        "scan_verified": false
+      }
     },
     "orphaned::collect_training.py": {
       "id": "orphaned::collect_training.py",
@@ -318,17 +362,23 @@
       "detail": {
         "loc": 108
       },
-      "status": "open",
-      "note": null,
+      "status": "false_positive",
+      "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "last_seen": "2026-02-28T22:27:37+00:00",
+      "resolved_at": "2026-02-28T22:42:32+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually verified all 8 files have #\\!/usr/bin/env python3 shebangs and if __name__ == '__main__' guards, confirming they are executable entry points, not orphaned library modules. I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:42:32+00:00",
+        "scan_verified": false
+      }
     },
     "test_coverage::run_parallel_reviews.py": {
       "id": "test_coverage::run_parallel_reviews.py",
@@ -336,18 +386,18 @@
       "file": "run_parallel_reviews.py",
       "tier": 2,
       "confidence": "high",
-      "summary": "Untested module (529 LOC, 0 importers) \u2014 no test files found",
+      "summary": "Untested module (507 LOC, 0 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_critical",
-        "loc": 529,
+        "loc": 507,
         "importer_count": 0,
-        "loc_weight": 23.0,
+        "loc_weight": 22.516660498395403,
         "complexity_score": 51
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -362,17 +412,17 @@
       "file": "aggregate_findings.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (368 LOC, 0 importers) \u2014 no test files found",
+      "summary": "Untested module (363 LOC, 0 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
-        "loc": 368,
+        "loc": 363,
         "importer_count": 0,
-        "loc_weight": 19.183326093250876
+        "loc_weight": 19.05255888325765
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -387,17 +437,17 @@
       "file": "optimize.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (322 LOC, 0 importers) \u2014 no test files found",
+      "summary": "Untested module (319 LOC, 0 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
-        "loc": 322,
+        "loc": 319,
         "importer_count": 0,
-        "loc_weight": 17.944358444926362
+        "loc_weight": 17.86057109949175
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -412,17 +462,17 @@
       "file": "backfill_training.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (301 LOC, 0 importers) \u2014 no test files found",
+      "summary": "Untested module (304 LOC, 0 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
-        "loc": 301,
+        "loc": 304,
         "importer_count": 0,
-        "loc_weight": 17.349351572897472
+        "loc_weight": 17.435595774162696
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -447,7 +497,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -462,17 +512,17 @@
       "file": "detect_security_level.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (268 LOC, 0 importers) \u2014 no test files found",
+      "summary": "Untested module (269 LOC, 0 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
-        "loc": 268,
+        "loc": 269,
         "importer_count": 0,
-        "loc_weight": 16.3707055437449
+        "loc_weight": 16.401219466856727
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -497,7 +547,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -522,7 +572,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -537,17 +587,17 @@
       "file": "parse_findings.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (223 LOC, 2 importers) \u2014 no test files found",
+      "summary": "Untested module (205 LOC, 2 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
-        "loc": 223,
+        "loc": 205,
         "importer_count": 2,
-        "loc_weight": 14.933184523068078
+        "loc_weight": 14.317821063276353
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -562,17 +612,17 @@
       "file": "training_metric.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (222 LOC, 2 importers) \u2014 no test files found",
+      "summary": "Untested module (222 LOC, 4 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
         "loc": 222,
-        "importer_count": 2,
+        "importer_count": 4,
         "loc_weight": 14.89966442575134
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -587,17 +637,17 @@
       "file": "dspy_reviewers.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (181 LOC, 4 importers) \u2014 no test files found",
+      "summary": "Untested module (173 LOC, 0 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
-        "loc": 181,
-        "importer_count": 4,
-        "loc_weight": 13.45362404707371
+        "loc": 173,
+        "importer_count": 0,
+        "loc_weight": 13.152946437965905
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -612,17 +662,17 @@
       "file": "review_runtime.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (168 LOC, 1 importers) \u2014 no test files found",
+      "summary": "Untested module (168 LOC, 3 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
         "loc": 168,
-        "importer_count": 1,
+        "importer_count": 3,
         "loc_weight": 12.96148139681572
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -637,17 +687,17 @@
       "file": "training_store.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (165 LOC, 1 importers) \u2014 no test files found",
+      "summary": "Untested module (165 LOC, 4 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
         "loc": 165,
-        "importer_count": 1,
+        "importer_count": 4,
         "loc_weight": 12.84523257866513
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -672,7 +722,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -687,17 +737,17 @@
       "file": "review_conversion.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (141 LOC, 1 importers) \u2014 no test files found",
+      "summary": "Untested module (141 LOC, 2 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
         "loc": 141,
-        "importer_count": 1,
+        "importer_count": 2,
         "loc_weight": 11.874342087037917
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -722,7 +772,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -747,7 +797,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -762,17 +812,17 @@
       "file": "review_module.py",
       "tier": 3,
       "confidence": "high",
-      "summary": "Untested module (77 LOC, 2 importers) \u2014 no test files found",
+      "summary": "Untested module (77 LOC, 3 importers) \u2014 no test files found",
       "detail": {
         "kind": "untested_module",
         "loc": 77,
-        "importer_count": 2,
+        "importer_count": 3,
         "loc_weight": 8.774964387392123
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -793,16 +843,16 @@
         "severity": "high",
         "count": 4,
         "lines": [
-          302,
-          306,
-          363,
-          364
+          297,
+          301,
+          358,
+          359
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -823,14 +873,14 @@
         "severity": "high",
         "count": 2,
         "lines": [
-          251,
-          270
+          254,
+          273
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -860,7 +910,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -889,7 +939,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -918,7 +968,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -939,15 +989,15 @@
         "severity": "high",
         "count": 3,
         "lines": [
-          225,
-          232,
-          239
+          226,
+          233,
+          240
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -974,7 +1024,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -995,14 +1045,14 @@
         "severity": "high",
         "count": 2,
         "lines": [
-          180,
-          219
+          162,
+          201
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1023,18 +1073,18 @@
         "severity": "high",
         "count": 6,
         "lines": [
-          434,
-          436,
-          447,
-          460,
-          524,
-          525
+          412,
+          414,
+          425,
+          438,
+          502,
+          503
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1064,7 +1114,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1088,17 +1138,23 @@
           26
         ]
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "lang": "python",
       "zone": "production",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "smells::run_parallel_reviews.py::monster_function": {
       "id": "smells::run_parallel_reviews.py::monster_function",
@@ -1145,13 +1201,13 @@
         "severity": "medium",
         "count": 1,
         "lines": [
-          219
+          221
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1178,7 +1234,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1199,13 +1255,13 @@
         "severity": "medium",
         "count": 1,
         "lines": [
-          182
+          183
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1226,13 +1282,13 @@
         "severity": "medium",
         "count": 1,
         "lines": [
-          130
+          122
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1253,13 +1309,13 @@
         "severity": "medium",
         "count": 1,
         "lines": [
-          158
+          140
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1313,13 +1369,13 @@
         "severity": "medium",
         "count": 1,
         "lines": [
-          205
+          202
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1346,7 +1402,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1367,13 +1423,13 @@
         "severity": "low",
         "count": 1,
         "lines": [
-          272
+          267
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1394,13 +1450,13 @@
         "severity": "low",
         "count": 1,
         "lines": [
-          220
+          222
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1427,7 +1483,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1454,7 +1510,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1481,7 +1537,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1502,13 +1558,13 @@
         "severity": "low",
         "count": 1,
         "lines": [
-          195
+          196
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1529,13 +1585,13 @@
         "severity": "low",
         "count": 1,
         "lines": [
-          132
+          124
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1556,13 +1612,13 @@
         "severity": "low",
         "count": 1,
         "lines": [
-          160
+          142
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1589,7 +1645,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1616,7 +1672,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1637,13 +1693,13 @@
         "severity": "low",
         "count": 1,
         "lines": [
-          423
+          401
         ]
       },
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1670,7 +1726,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1696,7 +1752,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "zone": "production",
@@ -1722,7 +1778,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "zone": "production",
@@ -1747,17 +1803,23 @@
         "test_name": "blacklist",
         "source": "bandit"
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "zone": "production",
       "lang": "python",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "security::call_codex.py::security::B607::call_codex.py::54": {
       "id": "security::call_codex.py::security::B607::call_codex.py::54",
@@ -1775,17 +1837,23 @@
         "test_name": "start_process_with_partial_path",
         "source": "bandit"
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "zone": "production",
       "lang": "python",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "security::call_codex.py::security::B603::call_codex.py::54": {
       "id": "security::call_codex.py::security::B603::call_codex.py::54",
@@ -1803,17 +1871,23 @@
         "test_name": "subprocess_without_shell_equals_true",
         "source": "bandit"
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "zone": "production",
       "lang": "python",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "security::call_codex.py::security::B607::call_codex.py::65": {
       "id": "security::call_codex.py::security::B607::call_codex.py::65",
@@ -1831,17 +1905,23 @@
         "test_name": "start_process_with_partial_path",
         "source": "bandit"
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "zone": "production",
       "lang": "python",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "security::call_codex.py::security::B603::call_codex.py::65": {
       "id": "security::call_codex.py::security::B603::call_codex.py::65",
@@ -1859,17 +1939,23 @@
         "test_name": "subprocess_without_shell_equals_true",
         "source": "bandit"
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "zone": "production",
       "lang": "python",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "security::call_codex.py::security::B603::call_codex.py::116": {
       "id": "security::call_codex.py::security::B603::call_codex.py::116",
@@ -1887,17 +1973,23 @@
         "test_name": "subprocess_without_shell_equals_true",
         "source": "bandit"
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "zone": "production",
       "lang": "python",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "security::codex_lm.py::security::B404::codex_lm.py::15": {
       "id": "security::codex_lm.py::security::B404::codex_lm.py::15",
@@ -1915,17 +2007,23 @@
         "test_name": "blacklist",
         "source": "bandit"
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "zone": "production",
       "lang": "python",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "security::codex_lm.py::security::B603::codex_lm.py::85": {
       "id": "security::codex_lm.py::security::B603::codex_lm.py::85",
@@ -1943,17 +2041,23 @@
         "test_name": "subprocess_without_shell_equals_true",
         "source": "bandit"
       },
-      "status": "open",
-      "note": null,
+      "status": "auto_resolved",
+      "note": "Disappeared from scan \u2014 likely fixed",
       "first_seen": "2026-02-28T17:23:03+00:00",
       "last_seen": "2026-02-28T17:36:33+00:00",
-      "resolved_at": null,
+      "resolved_at": "2026-02-28T22:27:37+00:00",
       "reopen_count": 0,
       "zone": "production",
       "lang": "python",
       "suppressed": false,
       "suppressed_at": null,
-      "suppression_pattern": null
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "scan_verified",
+        "text": "Disappeared from detector output",
+        "attested_at": "2026-02-28T22:27:37+00:00",
+        "scan_verified": true
+      }
     },
     "dict_keys::call_codex.py::overwritten_key::result::installed": {
       "id": "dict_keys::call_codex.py::overwritten_key::result::installed",
@@ -1971,7 +2075,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -1996,7 +2100,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2021,7 +2125,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2046,7 +2150,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2071,7 +2175,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2096,7 +2200,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2121,7 +2225,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2146,7 +2250,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -2171,7 +2275,7 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:23:03+00:00",
-      "last_seen": "2026-02-28T17:36:33+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -3806,7 +3910,7 @@
       "confidence": "medium",
       "summary": "Mixed responsibilities: 8 top-level funcs across 2 disconnected clusters (6, 2)",
       "detail": {
-        "loc": 529,
+        "loc": 507,
         "function_count": 8,
         "component_count": 2,
         "component_sizes": [
@@ -3814,7 +3918,7 @@
           2
         ],
         "family_count": 6,
-        "import_cluster_count": 7,
+        "import_cluster_count": 8,
         "families": [
           "aggregate",
           "build",
@@ -3827,7 +3931,408 @@
       "status": "open",
       "note": null,
       "first_seen": "2026-02-28T17:36:30+00:00",
-      "last_seen": "2026-02-28T17:36:30+00:00",
+      "last_seen": "2026-02-28T22:27:37+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "orphaned::dspy_reviewers.py": {
+      "id": "orphaned::dspy_reviewers.py",
+      "detector": "orphaned",
+      "file": "dspy_reviewers.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "Orphaned file (173 LOC): zero importers, not an entry point",
+      "detail": {
+        "loc": 173
+      },
+      "status": "false_positive",
+      "note": "CLI entry points with if __name__ == '__main__', not library modules. All have #\\!/usr/bin/env python3 shebangs (standard marker for executable scripts).",
+      "first_seen": "2026-02-28T22:27:35+00:00",
+      "last_seen": "2026-02-28T22:27:35+00:00",
+      "resolved_at": "2026-02-28T22:42:32+00:00",
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null,
+      "resolution_attestation": {
+        "kind": "manual",
+        "text": "I have actually verified all 8 files have #\\!/usr/bin/env python3 shebangs and if __name__ == '__main__' guards, confirming they are executable entry points, not orphaned library modules. I am not gaming the score by resolving without fixing.",
+        "attested_at": "2026-02-28T22:42:32+00:00",
+        "scan_verified": false
+      }
+    },
+    "smells::aggregate_findings.py::high_cyclomatic_complexity": {
+      "id": "smells::aggregate_findings.py::high_cyclomatic_complexity",
+      "detector": "smells",
+      "file": "aggregate_findings.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x High cyclomatic complexity (>12 decision points)",
+      "detail": {
+        "smell_id": "high_cyclomatic_complexity",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          138
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:35+00:00",
+      "last_seen": "2026-02-28T22:27:35+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::detect_security_level.py::high_cyclomatic_complexity": {
+      "id": "smells::detect_security_level.py::high_cyclomatic_complexity",
+      "detector": "smells",
+      "file": "detect_security_level.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x High cyclomatic complexity (>12 decision points)",
+      "detail": {
+        "smell_id": "high_cyclomatic_complexity",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          85
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:35+00:00",
+      "last_seen": "2026-02-28T22:27:35+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::parse_findings.py::high_cyclomatic_complexity": {
+      "id": "smells::parse_findings.py::high_cyclomatic_complexity",
+      "detector": "smells",
+      "file": "parse_findings.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x High cyclomatic complexity (>12 decision points)",
+      "detail": {
+        "smell_id": "high_cyclomatic_complexity",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          33
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:35+00:00",
+      "last_seen": "2026-02-28T22:27:35+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::review_conversion.py::high_cyclomatic_complexity": {
+      "id": "smells::review_conversion.py::high_cyclomatic_complexity",
+      "detector": "smells",
+      "file": "review_conversion.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x High cyclomatic complexity (>12 decision points)",
+      "detail": {
+        "smell_id": "high_cyclomatic_complexity",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          68
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:35+00:00",
+      "last_seen": "2026-02-28T22:27:35+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::review_runtime.py::high_cyclomatic_complexity": {
+      "id": "smells::review_runtime.py::high_cyclomatic_complexity",
+      "detector": "smells",
+      "file": "review_runtime.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x High cyclomatic complexity (>12 decision points)",
+      "detail": {
+        "smell_id": "high_cyclomatic_complexity",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          93
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:35+00:00",
+      "last_seen": "2026-02-28T22:27:35+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::run_parallel_reviews.py::high_cyclomatic_complexity": {
+      "id": "smells::run_parallel_reviews.py::high_cyclomatic_complexity",
+      "detector": "smells",
+      "file": "run_parallel_reviews.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x High cyclomatic complexity (>12 decision points)",
+      "detail": {
+        "smell_id": "high_cyclomatic_complexity",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          399
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:35+00:00",
+      "last_seen": "2026-02-28T22:27:35+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "smells::training_metric.py::high_cyclomatic_complexity": {
+      "id": "smells::training_metric.py::high_cyclomatic_complexity",
+      "detector": "smells",
+      "file": "training_metric.py",
+      "tier": 3,
+      "confidence": "medium",
+      "summary": "1x High cyclomatic complexity (>12 decision points)",
+      "detail": {
+        "smell_id": "high_cyclomatic_complexity",
+        "severity": "medium",
+        "count": 1,
+        "lines": [
+          68
+        ]
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:35+00:00",
+      "last_seen": "2026-02-28T22:27:35+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::aggregate_findings.py::changed": {
+      "id": "subjective_review::aggregate_findings.py::changed",
+      "detector": "subjective_review",
+      "file": "aggregate_findings.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 363
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:36+00:00",
+      "last_seen": "2026-02-28T22:27:36+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::backfill_training.py::changed": {
+      "id": "subjective_review::backfill_training.py::changed",
+      "detector": "subjective_review",
+      "file": "backfill_training.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 304
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:36+00:00",
+      "last_seen": "2026-02-28T22:27:36+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::collect_training.py::changed": {
+      "id": "subjective_review::collect_training.py::changed",
+      "detector": "subjective_review",
+      "file": "collect_training.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 108
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:36+00:00",
+      "last_seen": "2026-02-28T22:27:36+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::detect_security_level.py::changed": {
+      "id": "subjective_review::detect_security_level.py::changed",
+      "detector": "subjective_review",
+      "file": "detect_security_level.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 269
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:36+00:00",
+      "last_seen": "2026-02-28T22:27:36+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::dspy_reviewers.py::changed": {
+      "id": "subjective_review::dspy_reviewers.py::changed",
+      "detector": "subjective_review",
+      "file": "dspy_reviewers.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 173
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:36+00:00",
+      "last_seen": "2026-02-28T22:27:36+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::optimize.py::changed": {
+      "id": "subjective_review::optimize.py::changed",
+      "detector": "subjective_review",
+      "file": "optimize.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 319
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:36+00:00",
+      "last_seen": "2026-02-28T22:27:36+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::parse_findings.py::changed": {
+      "id": "subjective_review::parse_findings.py::changed",
+      "detector": "subjective_review",
+      "file": "parse_findings.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 205
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:36+00:00",
+      "last_seen": "2026-02-28T22:27:36+00:00",
+      "resolved_at": null,
+      "reopen_count": 0,
+      "lang": "python",
+      "zone": "production",
+      "suppressed": false,
+      "suppressed_at": null,
+      "suppression_pattern": null
+    },
+    "subjective_review::run_parallel_reviews.py::changed": {
+      "id": "subjective_review::run_parallel_reviews.py::changed",
+      "detector": "subjective_review",
+      "file": "run_parallel_reviews.py",
+      "tier": 4,
+      "confidence": "medium",
+      "summary": "File changed since last review \u2014 re-review recommended",
+      "detail": {
+        "reason": "changed",
+        "loc": 507
+      },
+      "status": "open",
+      "note": null,
+      "first_seen": "2026-02-28T22:27:36+00:00",
+      "last_seen": "2026-02-28T22:27:36+00:00",
       "resolved_at": null,
       "reopen_count": 0,
       "lang": "python",
@@ -3839,29 +4344,53 @@
   },
   "scan_coverage": {
     "python": {
-      "status": "full",
-      "confidence": 1.0,
+      "status": "reduced",
+      "confidence": 0.6,
       "detectors": {
         "security": {
           "detector": "security",
-          "status": "full",
-          "confidence": 1.0,
-          "summary": "Security coverage complete for enabled detectors.",
-          "impact": "",
-          "remediation": "",
-          "tool": "",
-          "reason": ""
+          "status": "reduced",
+          "confidence": 0.6,
+          "summary": "bandit is not installed \u2014 Python-specific security checks will be skipped. | bandit is not installed \u2014 Python-specific security checks were skipped.",
+          "impact": "Python-specific security coverage is reduced; clean security output may miss shell injection, unsafe deserialization, and risky SQL/subprocess patterns. | Python-specific security checks were skipped; this can miss shell injection, unsafe deserialization, and risky SQL/subprocess patterns.",
+          "remediation": "Install Bandit: pip install bandit",
+          "tool": "bandit",
+          "reason": "missing_dependency"
         }
       },
-      "warnings": [],
-      "updated_at": "2026-02-28T17:36:33+00:00"
+      "warnings": [
+        {
+          "detector": "security",
+          "status": "reduced",
+          "confidence": 0.6,
+          "summary": "bandit is not installed \u2014 Python-specific security checks will be skipped.",
+          "impact": "Python-specific security coverage is reduced; clean security output may miss shell injection, unsafe deserialization, and risky SQL/subprocess patterns.",
+          "remediation": "Install Bandit: pip install bandit",
+          "tool": "bandit",
+          "reason": "missing_dependency"
+        }
+      ],
+      "updated_at": "2026-02-28T22:27:37+00:00"
     }
   },
   "score_confidence": {
-    "status": "full",
-    "confidence": 1.0,
-    "detectors": [],
-    "dimensions": []
+    "status": "reduced",
+    "confidence": 0.6,
+    "detectors": [
+      {
+        "detector": "security",
+        "status": "reduced",
+        "confidence": 0.6,
+        "summary": "bandit is not installed \u2014 Python-specific security checks will be skipped. | bandit is not installed \u2014 Python-specific security checks were skipped.",
+        "impact": "Python-specific security coverage is reduced; clean security output may miss shell injection, unsafe deserialization, and risky SQL/subprocess patterns. | Python-specific security checks were skipped; this can miss shell injection, unsafe deserialization, and risky SQL/subprocess patterns.",
+        "remediation": "Install Bandit: pip install bandit",
+        "tool": "bandit",
+        "reason": "missing_dependency"
+      }
+    ],
+    "dimensions": [
+      "Security"
+    ]
   },
   "subjective_integrity": {
     "status": "disabled",
@@ -3918,12 +4447,18 @@
     "design_coherence": {
       "score": 49.2,
       "source": "holistic",
-      "assessed_at": "2026-02-28T17:36:29+00:00"
+      "assessed_at": "2026-02-28T17:36:29+00:00",
+      "needs_review_refresh": true,
+      "refresh_reason": "mechanical_findings_changed",
+      "stale_since": "2026-02-28T22:27:37+00:00"
     },
     "error_consistency": {
       "score": 64.0,
       "source": "holistic",
-      "assessed_at": "2026-02-28T17:36:29+00:00"
+      "assessed_at": "2026-02-28T17:36:29+00:00",
+      "needs_review_refresh": true,
+      "refresh_reason": "mechanical_findings_changed",
+      "stale_since": "2026-02-28T22:27:37+00:00"
     },
     "high_level_elegance": {
       "score": 59.0,
@@ -3958,7 +4493,7 @@
     }
   },
   "zone_distribution": {
-    "production": 20
+    "production": 21
   },
   "scan_history": [
     {
@@ -4251,33 +4786,162 @@
           "strict": 49.2
         }
       }
+    },
+    {
+      "timestamp": "2026-02-28T22:27:37+00:00",
+      "lang": "python",
+      "strict_score": 46.6,
+      "verified_strict_score": 55.0,
+      "objective_score": 55.0,
+      "overall_score": 46.6,
+      "open": 114,
+      "diff_new": 16,
+      "diff_resolved": 9,
+      "ignored": 0,
+      "raw_findings": 89,
+      "suppressed_pct": 0.0,
+      "ignore_patterns": 0,
+      "subjective_integrity": {
+        "status": "pass",
+        "matched_count": 0,
+        "reset_count": 0,
+        "target_score": 95.0
+      },
+      "score_confidence": {
+        "status": "reduced",
+        "confidence": 0.6,
+        "detector_count": 1,
+        "dimension_count": 1
+      },
+      "dimension_scores": {
+        "File health": {
+          "score": 83.3,
+          "strict": 83.3
+        },
+        "Code quality": {
+          "score": 81.7,
+          "strict": 81.7
+        },
+        "Duplication": {
+          "score": 100.0,
+          "strict": 100.0
+        },
+        "Test health": {
+          "score": 5.0,
+          "strict": 5.0
+        },
+        "Security": {
+          "score": 97.6,
+          "strict": 97.6
+        },
+        "Naming quality": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Logic clarity": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Type safety": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Contracts": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Error consistency": {
+          "score": 64.0,
+          "strict": 64.0
+        },
+        "Abstraction fit": {
+          "score": 66.2,
+          "strict": 66.2
+        },
+        "AI generated debt": {
+          "score": 75.8,
+          "strict": 75.8
+        },
+        "High elegance": {
+          "score": 59.0,
+          "strict": 59.0
+        },
+        "Mid elegance": {
+          "score": 58.2,
+          "strict": 58.2
+        },
+        "Low elegance": {
+          "score": 59.9,
+          "strict": 59.9
+        },
+        "Cross-module arch": {
+          "score": 59.3,
+          "strict": 59.3
+        },
+        "Init coupling": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Convention drift": {
+          "score": 60.9,
+          "strict": 60.9
+        },
+        "Dep health": {
+          "score": 77.7,
+          "strict": 77.7
+        },
+        "Test strategy": {
+          "score": 48.6,
+          "strict": 48.6
+        },
+        "API coherence": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Auth consistency": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Stale migration": {
+          "score": 0.0,
+          "strict": 0.0
+        },
+        "Structure nav": {
+          "score": 41.2,
+          "strict": 41.2
+        },
+        "Design coherence": {
+          "score": 49.2,
+          "strict": 49.2
+        }
+      }
     }
   ],
-  "tool_hash": "e073c6da67fa",
+  "tool_hash": "a7379f3d09b2",
   "scan_path": ".",
   "scan_completeness": {
     "python": "full"
   },
   "potentials": {
     "python": {
-      "unused": 20,
-      "structural": 20,
+      "unused": 21,
+      "structural": 21,
       "flat_dirs": 1,
       "props": 0,
       "responsibility_cohesion": 1,
-      "single_use": 4,
-      "cycles": 20,
-      "orphaned": 20,
-      "facade": 20,
+      "single_use": 1,
+      "cycles": 21,
+      "orphaned": 21,
+      "facade": 21,
       "coupling": 0,
       "uncalled_functions": 7,
-      "test_coverage": 265,
-      "smells": 20,
-      "global_mutable_config": 20,
-      "security": 20,
-      "private_imports": 20,
-      "dict_keys": 20,
-      "subjective_review": 19,
+      "test_coverage": 263,
+      "smells": 21,
+      "global_mutable_config": 21,
+      "security": 21,
+      "private_imports": 21,
+      "dict_keys": 21,
+      "subjective_review": 20,
       "boilerplate_duplication": 0,
       "dupes": 67,
       "stale_wontfix": 0
@@ -4285,66 +4949,66 @@
   },
   "codebase_metrics": {
     "python": {
-      "total_files": 20,
-      "total_loc": 4506,
+      "total_files": 21,
+      "total_loc": 4533,
       "total_directories": 1
     }
   },
   "dimension_scores": {
     "File health": {
-      "score": 82.5,
-      "strict_score": 82.5,
-      "verified_strict_score": 82.5,
-      "checks": 20,
+      "score": 83.3,
+      "strict_score": 83.3,
+      "verified_strict_score": 83.3,
+      "checks": 21,
       "issues": 5,
       "tier": 3,
       "detectors": {
         "structural": {
-          "potential": 20,
-          "pass_rate": 0.825,
+          "potential": 21,
+          "pass_rate": 0.8333333333333334,
           "issues": 5,
           "weighted_failures": 3.5
         }
       },
-      "strict": 82.5
+      "strict": 83.3
     },
     "Code quality": {
-      "score": 83.5,
-      "strict_score": 83.5,
-      "verified_strict_score": 83.5,
-      "checks": 146,
-      "issues": 48,
+      "score": 85.5,
+      "strict_score": 85.5,
+      "verified_strict_score": 81.7,
+      "checks": 150,
+      "issues": 47,
       "tier": 3,
       "detectors": {
         "unused": {
-          "potential": 20,
+          "potential": 21,
           "pass_rate": 1.0,
           "issues": 0,
           "weighted_failures": 0.0
         },
         "smells": {
-          "potential": 20,
-          "pass_rate": 0.25999999999999995,
-          "issues": 30,
-          "weighted_failures": 14.8
+          "potential": 21,
+          "pass_rate": 0.17142857142857149,
+          "issues": 36,
+          "weighted_failures": 17.4
         },
         "dict_keys": {
-          "potential": 20,
-          "pass_rate": 0.85,
+          "potential": 21,
+          "pass_rate": 0.8571428571428571,
           "issues": 9,
           "weighted_failures": 3.0
         },
         "global_mutable_config": {
-          "potential": 20,
+          "potential": 21,
           "pass_rate": 1.0,
           "issues": 0,
           "weighted_failures": 0.0
         },
         "orphaned": {
-          "potential": 20,
-          "pass_rate": 0.755,
-          "issues": 7,
-          "weighted_failures": 4.9
+          "potential": 21,
+          "pass_rate": 1.0,
+          "issues": 0,
+          "weighted_failures": 0.0
         },
         "flat_dirs": {
           "potential": 1,
@@ -4353,13 +5017,13 @@
           "weighted_failures": 0.7
         },
         "facade": {
-          "potential": 20,
+          "potential": 21,
           "pass_rate": 1.0,
           "issues": 0,
           "weighted_failures": 0.0
         },
         "single_use": {
-          "potential": 4,
+          "potential": 1,
           "pass_rate": 1.0,
           "issues": 0,
           "weighted_failures": 0.0
@@ -4371,13 +5035,13 @@
           "weighted_failures": 0.7
         },
         "private_imports": {
-          "potential": 20,
+          "potential": 21,
           "pass_rate": 1.0,
           "issues": 0,
           "weighted_failures": 0.0
         }
       },
-      "strict": 83.5
+      "strict": 85.5
     },
     "Duplication": {
       "score": 100.0,
@@ -4397,50 +5061,151 @@
       "strict": 100.0
     },
     "Test health": {
-      "score": 6.7,
-      "strict_score": 6.7,
-      "verified_strict_score": 6.7,
-      "checks": 284,
-      "issues": 18,
+      "score": 5.0,
+      "strict_score": 5.0,
+      "verified_strict_score": 5.0,
+      "checks": 283,
+      "issues": 26,
       "tier": 4,
       "detectors": {
         "test_coverage": {
-          "potential": 265,
-          "pass_rate": 0.0004662663755470502,
+          "potential": 263,
+          "pass_rate": 0.0,
           "issues": 18,
-          "weighted_failures": 264.87643941048003
+          "weighted_failures": 263.3792624089251
         },
         "subjective_review": {
-          "potential": 19,
-          "pass_rate": 1.0,
-          "issues": 0,
-          "weighted_failures": 0.0
+          "potential": 20,
+          "pass_rate": 0.72,
+          "issues": 8,
+          "weighted_failures": 5.6
         }
       },
-      "strict": 6.7
+      "strict": 5.0
     },
     "Security": {
-      "score": 91.5,
-      "strict_score": 91.5,
-      "verified_strict_score": 91.5,
-      "checks": 40,
-      "issues": 10,
+      "score": 97.6,
+      "strict_score": 97.6,
+      "verified_strict_score": 97.6,
+      "checks": 42,
+      "issues": 2,
       "tier": 4,
       "detectors": {
         "security": {
-          "potential": 20,
-          "pass_rate": 0.8300000000000001,
-          "issues": 10,
-          "weighted_failures": 3.4
+          "potential": 21,
+          "pass_rate": 0.9523809523809523,
+          "issues": 2,
+          "weighted_failures": 1.0,
+          "coverage_status": "reduced",
+          "coverage_confidence": 0.6,
+          "coverage_summary": "bandit is not installed \u2014 Python-specific security checks will be skipped. | bandit is not installed \u2014 Python-specific security checks were skipped."
         },
         "cycles": {
-          "potential": 20,
+          "potential": 21,
           "pass_rate": 1.0,
           "issues": 0,
           "weighted_failures": 0.0
         }
       },
-      "strict": 91.5
+      "strict": 97.6,
+      "coverage_status": "reduced",
+      "coverage_confidence": 0.6,
+      "coverage_impacts": [
+        {
+          "detector": "security",
+          "status": "reduced",
+          "confidence": 0.6,
+          "summary": "bandit is not installed \u2014 Python-specific security checks will be skipped. | bandit is not installed \u2014 Python-specific security checks were skipped."
+        }
+      ]
+    },
+    "Naming quality": {
+      "score": 0.0,
+      "strict_score": 0.0,
+      "verified_strict_score": 0.0,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.0,
+          "issues": 0,
+          "weighted_failures": 10.0,
+          "assessment_score": 0.0,
+          "placeholder": true,
+          "dimension_key": "naming_quality",
+          "configured_weight": 2.0,
+          "components": []
+        }
+      },
+      "strict": 0.0
+    },
+    "Logic clarity": {
+      "score": 0.0,
+      "strict_score": 0.0,
+      "verified_strict_score": 0.0,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.0,
+          "issues": 0,
+          "weighted_failures": 10.0,
+          "assessment_score": 0.0,
+          "placeholder": true,
+          "dimension_key": "logic_clarity",
+          "configured_weight": 6.0,
+          "components": []
+        }
+      },
+      "strict": 0.0
+    },
+    "Type safety": {
+      "score": 0.0,
+      "strict_score": 0.0,
+      "verified_strict_score": 0.0,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.0,
+          "issues": 0,
+          "weighted_failures": 10.0,
+          "assessment_score": 0.0,
+          "placeholder": true,
+          "dimension_key": "type_safety",
+          "configured_weight": 12.0,
+          "components": []
+        }
+      },
+      "strict": 0.0
+    },
+    "Contracts": {
+      "score": 0.0,
+      "strict_score": 0.0,
+      "verified_strict_score": 0.0,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.0,
+          "issues": 0,
+          "weighted_failures": 10.0,
+          "assessment_score": 0.0,
+          "placeholder": true,
+          "dimension_key": "contract_coherence",
+          "configured_weight": 12.0,
+          "components": []
+        }
+      },
+      "strict": 0.0
     },
     "Error consistency": {
       "score": 64.0,
@@ -4605,6 +5370,28 @@
       },
       "strict": 59.3
     },
+    "Init coupling": {
+      "score": 0.0,
+      "strict_score": 0.0,
+      "verified_strict_score": 0.0,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.0,
+          "issues": 0,
+          "weighted_failures": 10.0,
+          "assessment_score": 0.0,
+          "placeholder": true,
+          "dimension_key": "initialization_coupling",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 0.0
+    },
     "Convention drift": {
       "score": 60.9,
       "strict_score": 60.9,
@@ -4671,6 +5458,72 @@
       },
       "strict": 48.6
     },
+    "API coherence": {
+      "score": 0.0,
+      "strict_score": 0.0,
+      "verified_strict_score": 0.0,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.0,
+          "issues": 0,
+          "weighted_failures": 10.0,
+          "assessment_score": 0.0,
+          "placeholder": true,
+          "dimension_key": "api_surface_coherence",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 0.0
+    },
+    "Auth consistency": {
+      "score": 0.0,
+      "strict_score": 0.0,
+      "verified_strict_score": 0.0,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.0,
+          "issues": 0,
+          "weighted_failures": 10.0,
+          "assessment_score": 0.0,
+          "placeholder": true,
+          "dimension_key": "authorization_consistency",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 0.0
+    },
+    "Stale migration": {
+      "score": 0.0,
+      "strict_score": 0.0,
+      "verified_strict_score": 0.0,
+      "checks": 10,
+      "issues": 0,
+      "tier": 4,
+      "detectors": {
+        "subjective_assessment": {
+          "potential": 10,
+          "pass_rate": 0.0,
+          "issues": 0,
+          "weighted_failures": 10.0,
+          "assessment_score": 0.0,
+          "placeholder": true,
+          "dimension_key": "incomplete_migration",
+          "configured_weight": 1.0,
+          "components": []
+        }
+      },
+      "strict": 0.0
+    },
     "Structure nav": {
       "score": 41.2,
       "strict_score": 41.2,
@@ -4717,10 +5570,10 @@
     }
   },
   "reminder_history": {
-    "report_scores": 2,
-    "review_findings_pending": 1,
+    "report_scores": 3,
+    "review_findings_pending": 2,
     "stagnant_nudge": 4,
-    "feedback_nudge": 1
+    "feedback_nudge": 2
   },
   "review_cache": {
     "files": {
