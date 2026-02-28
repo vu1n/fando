@@ -193,7 +193,7 @@ def list_all_profiles() -> dict:
     }
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     import argparse
 

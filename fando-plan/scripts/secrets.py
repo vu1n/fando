@@ -180,7 +180,7 @@ def scan_and_handle_secrets(
     return text, warnings
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     import argparse
 

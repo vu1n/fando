@@ -19,11 +19,10 @@ import json
 import logging
 from pathlib import Path
 
+from constants import SIGNIFICANT_WORD_MIN_LENGTH, FINDING_ADDRESS_THRESHOLD
 from paths import get_training_dir
 from training_metric import (
     ReviewExample,
-    SIGNIFICANT_WORD_MIN_LENGTH,
-    FINDING_ADDRESS_THRESHOLD,
     _extract_finding_texts,
 )
 

@@ -32,6 +32,7 @@ from typing import Any, Optional
 from call_codex import call_codex, verify_codex_cli, CodexError
 from parse_findings import parse_findings, ParseResult
 from detect_profiles import PROFILES, get_profile_prompt_path
+from constants import DEFAULT_CODEX_TIMEOUT, DEFAULT_SECURITY_LEVEL
 
 # DSPy backend - optional
 try:
@@ -134,8 +135,8 @@ def load_profile_prompt(profile_name: str) -> Optional[str]:
 def run_single_review(
     profile: str,
     plan: str,
-    timeout: int = 600,
-    security_level: str = 'public',
+    timeout: int = DEFAULT_CODEX_TIMEOUT,
+    security_level: str = DEFAULT_SECURITY_LEVEL,
 ) -> ReviewResult:
     """
     Run a single reviewer profile against the plan.
@@ -208,8 +209,8 @@ def run_parallel_reviews(
     plan: str,
     profiles: list[str],
     max_workers: Optional[int] = None,
-    timeout: int = 600,
-    security_level: str = 'public'
+    timeout: int = DEFAULT_CODEX_TIMEOUT,
+    security_level: str = DEFAULT_SECURITY_LEVEL
 ) -> ParallelReviewResult:
     """
     Run multiple reviewers in parallel on the same plan version.

@@ -190,7 +190,7 @@ def list_all_levels() -> dict:
     }
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     import argparse
 

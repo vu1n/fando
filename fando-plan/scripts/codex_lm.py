@@ -17,6 +17,7 @@ import time
 from typing import Any
 
 from call_codex import build_codex_command, verify_codex_cli, CodexError
+from constants import DEFAULT_CODEX_TIMEOUT
 
 try:
     from dspy.clients.base_lm import BaseLM
@@ -27,7 +28,7 @@ except ImportError:
 class CodexLM(BaseLM):
     """DSPy LM adapter that routes inference through `codex exec` subprocess."""
 
-    def __init__(self, timeout: int = 600, **kwargs):
+    def __init__(self, timeout: int = DEFAULT_CODEX_TIMEOUT, **kwargs):
         super().__init__(model="codex/exec", model_type="chat", **kwargs)
         self.timeout = timeout
 

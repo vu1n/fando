@@ -11,6 +11,8 @@ import sys
 from dataclasses import dataclass
 from typing import TypedDict
 
+from constants import DEFAULT_CODEX_TIMEOUT
+
 
 # Shared exception class for Codex invocation errors
 class CodexError(Exception):
@@ -129,7 +131,7 @@ def run_codex_subprocess(
 def call_codex(
     prompt: str,
     plan: str,
-    timeout: int = 600,
+    timeout: int = DEFAULT_CODEX_TIMEOUT,
 ) -> CodexResult:
     """
     Call Codex exec with plan passed via stdin.

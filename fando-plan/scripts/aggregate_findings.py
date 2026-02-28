@@ -267,7 +267,7 @@ def format_for_display(result: AggregatedResult) -> str:
     return '\n'.join(lines)
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     import argparse
 

@@ -22,7 +22,7 @@ import sys
 from pathlib import Path
 
 
-def main():
+def main() -> None:
     from dspy_reviewers import collect_training_example, save_training_example
 
     parser = argparse.ArgumentParser(

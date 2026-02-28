@@ -15,21 +15,24 @@ import re
 from dataclasses import dataclass, field
 from typing import Any
 
+# Import training-related constants from centralized constants module
+from constants import (
+    SIGNIFICANT_WORD_MIN_LENGTH,
+    FINDING_ADDRESS_THRESHOLD,
+    DOMAIN_FOCUS_WEIGHT_IN_LANE,
+    DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE,
+)
 
-# ===========================================================================
-# Training Labeling Constants and Policies
-# ===========================================================================
 
-# Minimum word length to consider a word "significant" for matching
-SIGNIFICANT_WORD_MIN_LENGTH = 4
-
-# Threshold for considering a finding "acted on" based on word overlap
-# If > this fraction of significant words appear in the diff, count as addressed
-FINDING_ADDRESS_THRESHOLD = 0.3
-
-# Domain focus weight for staying in lane vs crossing domains
-DOMAIN_FOCUS_WEIGHT_IN_LANE = 1.0
-DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE = 0.3
+# Re-export for backward compatibility
+__all__ = [
+    "ReviewExample",
+    "review_metric",
+    "SIGNIFICANT_WORD_MIN_LENGTH",
+    "FINDING_ADDRESS_THRESHOLD",
+    "DOMAIN_FOCUS_WEIGHT_IN_LANE",
+    "DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE",
+]
 
 
 # ===========================================================================
