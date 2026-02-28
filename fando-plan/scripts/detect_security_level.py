@@ -28,7 +28,8 @@ from typing import Optional
 
 
 # Security level definitions with keywords and descriptions
-SECURITY_LEVELS = {
+# Note: For just the list of valid level names, import SECURITY_LEVEL_CHOICES from constants.py
+SECURITY_LEVEL_CONFIG = {
     'personal': {
         'keywords': [
             'side project', 'learning', 'prototype', 'hobby',
@@ -95,7 +96,7 @@ def detect_security_level(plan: str) -> DetectionResult:
 
     if not plan or not plan.strip():
         result.error = "Empty plan"
-        result.description = SECURITY_LEVELS[DEFAULT_LEVEL]['description']
+        result.description = SECURITY_LEVEL_CONFIG[DEFAULT_LEVEL]['description']
         return result
 
     plan_lower = plan.lower()
@@ -128,7 +129,7 @@ def detect_security_level(plan: str) -> DetectionResult:
         # No matches - use default with low confidence
         result.level = DEFAULT_LEVEL
         result.confidence = 0.3
-        result.description = SECURITY_LEVELS[DEFAULT_LEVEL]['description']
+        result.description = SECURITY_LEVEL_CONFIG[DEFAULT_LEVEL]['description']
         return result
 
     # Find level with most matches
@@ -169,7 +170,7 @@ def detect_security_level(plan: str) -> DetectionResult:
     result.level = best_level
     result.confidence = round(base_confidence, 2)
     result.matched_keywords = best_matches
-    result.description = SECURITY_LEVELS[best_level]['description']
+    result.description = SECURITY_LEVEL_CONFIG[best_level]['description']
 
     return result
 

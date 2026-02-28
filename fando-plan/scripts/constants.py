@@ -29,8 +29,10 @@ DEFAULT_CODEX_TIMEOUT_SHORT = 120
 # Default security level for plan review when not specified
 DEFAULT_SECURITY_LEVEL = "public"
 
-# Valid security levels for review
-SECURITY_LEVELS = ("personal", "internal", "public", "enterprise")
+# Valid security level names for CLI choices
+# Note: This is just the list of valid level names for argparse/detection
+# For full keyword-based detection metadata, see detect_security_level.py
+SECURITY_LEVEL_CHOICES = ("personal", "internal", "public", "enterprise")
 
 
 # ===========================================================================

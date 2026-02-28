@@ -33,7 +33,7 @@ from call_codex import call_codex, verify_codex_cli, CodexError
 from parse_findings import parse_findings
 from review_models import ParseResult, ReviewResult, ParallelReviewResult
 from detect_profiles import PROFILES, get_profile_prompt_path
-from constants import DEFAULT_CODEX_TIMEOUT, DEFAULT_SECURITY_LEVEL
+from constants import DEFAULT_CODEX_TIMEOUT, DEFAULT_SECURITY_LEVEL, SECURITY_LEVEL_CHOICES
 
 # DSPy backend - optional
 try:
@@ -381,7 +381,7 @@ def build_argument_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         '--security-level',
         default=DEFAULT_SECURITY_LEVEL,
-        choices=list(SECURITY_LEVELS),
+        choices=list(SECURITY_LEVEL_CHOICES),
         help=f'Security level for severity calibration (default: {DEFAULT_SECURITY_LEVEL})'
     )
     parser.add_argument(
