@@ -10,11 +10,14 @@ Usage:
 """
 import argparse
 import json
+import logging
 import os
 import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -40,7 +43,8 @@ def get_project_name() -> str:
             # git@github.com:user/repo.git -> repo
             name = url.removesuffix('.git').split('/')[-1].split(':')[-1]
             return name
-    except (subprocess.TimeoutExpired, FileNotFoundError):
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        logger.debug(f"Could not get project name from git remote: {e}")
         pass
 
     # Fall back to current directory name

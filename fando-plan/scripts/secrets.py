@@ -76,7 +76,7 @@ def redact_secret(secret: str) -> str:
 
     Examples:
         sk-abcdefgh12345678 -> sk-abcd****5678
-        ghp_1234567890abcdefghijklmnopqrstuvwxyz -> ghp_1234****wxyz
+        ghp_EXAMPLEabcdefghijklmn -> ghp_EXAM****lmn  # example token, not real
     """
     if len(secret) <= 8:
         return '*' * len(secret)

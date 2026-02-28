@@ -21,13 +21,12 @@ import argparse
 import sys
 from pathlib import Path
 
-# Add parent scripts dir for imports
-sys.path.insert(0, str(Path(__file__).parent))
-
-from dspy_reviewers import collect_training_example, save_training_example
-
 
 def main():
+    # Add parent scripts dir for imports (only when run as script)
+    sys.path.insert(0, str(Path(__file__).parent))
+
+    from dspy_reviewers import collect_training_example, save_training_example
     parser = argparse.ArgumentParser(
         description="Collect a training example from a plan review iteration"
     )

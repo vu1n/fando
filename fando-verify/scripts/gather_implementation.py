@@ -29,7 +29,7 @@ def is_git_repo() -> bool:
     """Check if current directory is in a git repository."""
     result = subprocess.run(
         ['git', 'rev-parse', '--git-dir'],
-        capture_output=True, text=True
+        capture_output=True, text=True, timeout=30
     )
     return result.returncode == 0
 
@@ -38,7 +38,7 @@ def get_current_ref() -> str | None:
     """Get current HEAD reference."""
     result = subprocess.run(
         ['git', 'rev-parse', '--short', 'HEAD'],
-        capture_output=True, text=True
+        capture_output=True, text=True, timeout=30
     )
     if result.returncode == 0:
         return result.stdout.strip()
@@ -56,7 +56,7 @@ def get_merge_base(target: str = "main") -> str | None:
     for branch in branches_to_try:
         result = subprocess.run(
             ['git', 'merge-base', 'HEAD', branch],
-            capture_output=True, text=True
+            capture_output=True, text=True, timeout=30
         )
         if result.returncode == 0:
             return result.stdout.strip()
@@ -67,7 +67,7 @@ def get_diff_stats(ref: str) -> tuple[int, int]:
     """Get additions and deletions count."""
     result = subprocess.run(
         ['git', 'diff', '--shortstat', ref],
-        capture_output=True, text=True
+        capture_output=True, text=True, timeout=30
     )
     if result.returncode != 0:
         return 0, 0
@@ -119,14 +119,14 @@ def gather_diff(ref: str = None, target_branch: str = "main") -> ImplementationD
     # Get list of changed files
     files_result = subprocess.run(
         ['git', 'diff', '--name-only', ref],
-        capture_output=True, text=True
+        capture_output=True, text=True, timeout=30
     )
     files = files_result.stdout.strip().split('\n') if files_result.stdout.strip() else []
 
     # Get full diff
     diff_result = subprocess.run(
         ['git', 'diff', ref],
-        capture_output=True, text=True
+        capture_output=True, text=True, timeout=30
     )
 
     if diff_result.returncode != 0:
@@ -166,14 +166,14 @@ def gather_working_tree_diff() -> ImplementationDiff:
     # Get staged + unstaged changes
     files_result = subprocess.run(
         ['git', 'diff', '--name-only', 'HEAD'],
-        capture_output=True, text=True
+        capture_output=True, text=True, timeout=30
     )
     files = files_result.stdout.strip().split('\n') if files_result.stdout.strip() else []
 
     # Include untracked files
     untracked_result = subprocess.run(
         ['git', 'ls-files', '--others', '--exclude-standard'],
-        capture_output=True, text=True
+        capture_output=True, text=True, timeout=30
     )
     if untracked_result.stdout.strip():
         files.extend(untracked_result.stdout.strip().split('\n'))
@@ -181,7 +181,7 @@ def gather_working_tree_diff() -> ImplementationDiff:
     # Get diff
     diff_result = subprocess.run(
         ['git', 'diff', 'HEAD'],
-        capture_output=True, text=True
+        capture_output=True, text=True, timeout=30
     )
 
     additions, deletions = get_diff_stats('HEAD')

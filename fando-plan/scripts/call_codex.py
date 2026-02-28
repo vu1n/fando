@@ -9,6 +9,7 @@ Usage:
 import subprocess
 import sys
 from dataclasses import dataclass
+from typing import TypedDict
 
 
 @dataclass
@@ -19,7 +20,15 @@ class CodexResult:
     error: str | None = None
 
 
-def verify_codex_cli() -> dict:
+class CodexCliInfo(TypedDict):
+    """Return type for verify_codex_cli()."""
+    installed: bool
+    version: str | None
+    supports_skip_git: bool
+    error: str | None
+
+
+def verify_codex_cli() -> CodexCliInfo:
     """Check Codex CLI availability and capabilities."""
     result = {
         'installed': False,
@@ -129,7 +138,7 @@ def call_codex(
         )
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     import argparse
 

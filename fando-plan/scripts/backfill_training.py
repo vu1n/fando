@@ -15,12 +15,6 @@ import re
 import sys
 from pathlib import Path
 
-# Add parent scripts dir for imports
-sys.path.insert(0, str(Path(__file__).parent))
-
-from detect_profiles import PROFILES
-from dspy_reviewers import ReviewExample, save_training_example, load_training_examples
-
 PLAN_REVIEWS_DIR = Path("~/.claude/plan-reviews").expanduser()
 
 
@@ -207,6 +201,12 @@ def parse_jj_workspace(path: Path) -> list[ReviewExample]:
 
 
 def main():
+    # Add parent scripts dir for imports (only when run as script)
+    sys.path.insert(0, str(Path(__file__).parent))
+
+    from detect_profiles import PROFILES
+    from dspy_reviewers import ReviewExample, save_training_example, load_training_examples
+
     parser = argparse.ArgumentParser(
         description="Backfill training data from plan review logs"
     )
@@ -218,7 +218,7 @@ def main():
     )
     args = parser.parse_args()
 
-    all_examples: list[ReviewExample] = []
+    all_examples: list["ReviewExample"] = []
 
     # Parse zellij-bridge-phase2
     zellij_path = PLAN_REVIEWS_DIR / "willo" / "2026-01-19-zellij-bridge-phase2.md"

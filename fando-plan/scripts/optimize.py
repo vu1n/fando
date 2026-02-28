@@ -26,6 +26,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from typing import Any, Optional
 
 try:
     import dspy
@@ -45,7 +46,7 @@ from dspy_reviewers import (
 )
 
 
-def show_stats():
+def show_stats() -> None:
     """Display training data statistics per domain."""
     examples = load_training_examples()
 
@@ -98,7 +99,7 @@ def optimize_domain(
     reflection_model: str,
     auto: str = "light",
     val_split: float = 0.2,
-):
+) -> Optional[Any]:
     """Run GEPA optimization for a single domain.
 
     Args:
@@ -172,7 +173,7 @@ def optimize_domain(
     return optimized
 
 
-def export_optimized():
+def export_optimized() -> None:
     """Export optimized instructions to markdown for human inspection."""
     if not OPTIMIZED_DIR.exists():
         print("No optimized modules found.")
@@ -235,7 +236,7 @@ def _to_dspy_example(ex: ReviewExample):
     ).with_inputs("plan", "other_reviewers", "security_level")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="GEPA optimization for fando-plan reviewers",
         formatter_class=argparse.RawDescriptionHelpFormatter,

@@ -15,11 +15,14 @@ Usage:
         parsed = parse_findings(text)
 """
 import json
+import logging
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
 
 # DSPy import - optional dependency
 try:
@@ -849,7 +852,8 @@ def load_training_examples(domain: str | None = None) -> list[ReviewExample]:
                     iteration=data.get("iteration"),
                 )
             )
-        except (json.JSONDecodeError, KeyError):
+        except (json.JSONDecodeError, KeyError) as e:
+            logger.warning(f"Skipping malformed training file {f.name}: {e}")
             continue
 
     return examples
