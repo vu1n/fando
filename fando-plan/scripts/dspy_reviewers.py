@@ -42,12 +42,10 @@ except ImportError:
 
 
 # ---------------------------------------------------------------------------
-# Paths for persistent state
+# Paths for persistent state - now imported from centralized config
 # ---------------------------------------------------------------------------
 
-SKILL_DIR = Path("~/.claude/skills/fando-plan").expanduser()
-OPTIMIZED_DIR = SKILL_DIR / "optimized"
-TRAINING_DIR = SKILL_DIR / "training_data"
+from paths import get_optimized_dir, get_training_dir
 
 
 # ===========================================================================
@@ -881,8 +879,8 @@ def save_optimized_module(domain: str, module: Any) -> Path:
     Returns:
         Path to the saved file
     """
-    OPTIMIZED_DIR.mkdir(parents=True, exist_ok=True)
-    path = OPTIMIZED_DIR / f"{domain}.json"
+    get_optimized_dir().mkdir(parents=True, exist_ok=True)
+    path = get_optimized_dir() / f"{domain}.json"
     module.save(str(path))
     return path
 
@@ -898,7 +896,7 @@ def load_optimized_module(domain: str) -> Optional[Any]:
     if not DSPY_AVAILABLE:
         return None
 
-    path = OPTIMIZED_DIR / f"{domain}.json"
+    path = get_optimized_dir() / f"{domain}.json"
     if not path.exists():
         return None
 
@@ -921,12 +919,12 @@ def load_optimized_module(domain: str) -> Optional[Any]:
 
 def save_training_example(example: ReviewExample) -> Path:
     """Persist a training example to the training data directory."""
-    TRAINING_DIR.mkdir(parents=True, exist_ok=True)
+    get_training_dir().mkdir(parents=True, exist_ok=True)
 
     # Filename: {domain}_{plan_id or timestamp}.json
     name_part = example.plan_id or str(int(__import__("time").time()))
     iter_part = f"_iter{example.iteration}" if example.iteration is not None else ""
-    path = TRAINING_DIR / f"{example.domain}_{name_part}{iter_part}.json"
+    path = get_training_dir() / f"{example.domain}_{name_part}{iter_part}.json"
 
     data = {
         "plan": example.plan,
@@ -956,10 +954,10 @@ def load_training_examples(domain: str | None = None) -> list[ReviewExample]:
         List of ReviewExample
     """
     examples = []
-    if not TRAINING_DIR.exists():
+    if not get_training_dir().exists():
         return examples
 
-    for f in sorted(TRAINING_DIR.glob("*.json")):
+    for f in sorted(get_training_dir().glob("*.json")):
         try:
             data = json.loads(f.read_text())
             if domain and data.get("domain") != domain:
@@ -1026,7 +1024,7 @@ def main():
         examples = load_training_examples()
         if not examples:
             print("No training data found.")
-            print(f"  Expected location: {TRAINING_DIR}")
+            print(f"  Expected location: {get_training_dir()}")
             return
 
         domains: dict[str, int] = {}

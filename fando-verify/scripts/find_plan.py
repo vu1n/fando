@@ -16,6 +16,18 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
+
+# Import path configuration with fallback for standalone usage
+try:
+    # When running from within fando-plan repository
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent / "fando-plan" / "scripts"))
+    from paths import get_plan_reviews_dir
+except (ImportError, ValueError):
+    # Fallback for standalone usage
+    def get_plan_reviews_dir():
+        return Path.home() / ".claude" / "plan-reviews"
 
 logger = logging.getLogger(__name__)
 
@@ -49,11 +61,6 @@ def get_project_name() -> str:
 
     # Fall back to current directory name
     return os.path.basename(os.getcwd()) or "standalone"
-
-
-def get_plan_reviews_dir() -> Path:
-    """Get the base directory for plan reviews."""
-    return Path.home() / ".claude" / "plan-reviews"
 
 
 def find_latest_plan(project: str = None) -> PlanInfo | None:

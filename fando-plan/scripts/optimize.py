@@ -36,14 +36,13 @@ except ImportError:
 
 from dspy_reviewers import (
     DOMAIN_SIGNATURES,
-    OPTIMIZED_DIR,
-    TRAINING_DIR,
     DomainReviewModule,
     ReviewExample,
     load_training_examples,
     review_metric,
     save_optimized_module,
 )
+from paths import get_optimized_dir, get_export_dir, get_training_dir
 
 
 def show_stats() -> None:
@@ -52,7 +51,7 @@ def show_stats() -> None:
 
     if not examples:
         print("No training data found.")
-        print(f"  Expected location: {TRAINING_DIR}")
+        print(f"  Expected location: {get_training_dir()}")
         print("\nTraining data is collected automatically during fando-plan sessions.")
         print("Run a few plan reviews to generate data, then come back to optimize.")
         return
@@ -175,15 +174,16 @@ def optimize_domain(
 
 def export_optimized() -> None:
     """Export optimized instructions to markdown for human inspection."""
-    if not OPTIMIZED_DIR.exists():
+    optimized_dir = get_optimized_dir()
+    if not optimized_dir.exists():
         print("No optimized modules found.")
-        print(f"  Expected location: {OPTIMIZED_DIR}")
+        print(f"  Expected location: {optimized_dir}")
         return
 
-    export_dir = Path("~/.claude/skills/fando-plan/exported_prompts").expanduser()
+    export_dir = get_export_dir()
     export_dir.mkdir(parents=True, exist_ok=True)
 
-    for json_file in sorted(OPTIMIZED_DIR.glob("*.json")):
+    for json_file in sorted(optimized_dir.glob("*.json")):
         domain = json_file.stem
         print(f"  Exporting {domain}...")
 

@@ -15,7 +15,10 @@ import re
 import sys
 from pathlib import Path
 
-PLAN_REVIEWS_DIR = Path("~/.claude/plan-reviews").expanduser()
+# Import centralized path configuration
+from paths import get_plan_reviews_dir
+
+PLAN_REVIEWS_DIR = get_plan_reviews_dir()
 
 
 def classify_domain(text: str, profiles: dict[str, dict]) -> str:
