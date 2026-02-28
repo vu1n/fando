@@ -152,7 +152,7 @@ def format_result_text(result: VerificationResult) -> str:
     return '\n'.join(lines)
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(
         description='Parse Codex verification response',

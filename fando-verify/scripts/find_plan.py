@@ -163,7 +163,7 @@ def find_plan(explicit_path: str = None, project: str = None) -> tuple[str | Non
     return None, f"No plan found for project '{project_name}' in {get_plan_reviews_dir()}"
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(
         description='Find plan file to verify against',

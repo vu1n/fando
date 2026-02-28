@@ -196,7 +196,7 @@ def gather_working_tree_diff() -> ImplementationDiff:
     )
 
 
-def main():
+def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(
         description='Gather git diff for verification',
