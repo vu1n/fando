@@ -309,9 +309,8 @@ def run_parallel_reviews_dspy(
                 # Check if the prediction resulted in an error
                 if review.findings.error:
                     review.error = review.findings.error
-                    # Still aggregate to track the failure
-                    result.profiles_failed += 1
-                    result.results[profile] = review
+                    # Use shared aggregation to track the failure consistently
+                    aggregate_review_result(result, profile, review)
                 else:
                     # Successful review - also generate text output for display
                     review.output = prediction_to_review_output(prediction)
