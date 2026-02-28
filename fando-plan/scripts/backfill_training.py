@@ -18,15 +18,20 @@ from pathlib import Path
 PLAN_REVIEWS_DIR = Path("~/.claude/plan-reviews").expanduser()
 
 
-def classify_domain(text: str) -> str:
+def classify_domain(text: str, profiles: dict[str, dict]) -> str:
     """Classify finding text into a domain using PROFILES keyword lists.
 
-    Counts keyword matches per domain. Highest wins, fallback to 'architect'.
+    Args:
+        text: Finding text to classify
+        profiles: PROFILES dictionary with domain keyword mappings
+
+    Returns:
+        Domain name with highest keyword match count, or 'architect' as fallback
     """
     text_lower = text.lower()
     scores: dict[str, int] = {}
 
-    for domain, config in PROFILES.items():
+    for domain, config in profiles.items():
         count = 0
         for keyword in config["keywords"]:
             pattern = rf"\b{re.escape(keyword)}\b"
@@ -40,8 +45,12 @@ def classify_domain(text: str) -> str:
     return max(scores, key=scores.get)
 
 
-def parse_zellij_bridge(path: Path) -> list[ReviewExample]:
+def parse_zellij_bridge(path: Path, profiles: dict[str, dict]) -> list[ReviewExample]:
     """Parse willo/zellij-bridge-phase2.md into training examples.
+
+    Args:
+        path: Path to the markdown file
+        profiles: PROFILES dictionary with domain keyword mappings
 
     Structure: ### Iteration N: Title, then **SEVERITY (count):** blocks
     with bullet findings, then **Resolution:** line.
@@ -96,7 +105,7 @@ def parse_zellij_bridge(path: Path) -> list[ReviewExample]:
 
         # Determine domain from finding content
         all_finding_text = " ".join(f for _, f in findings)
-        domain = classify_domain(all_finding_text)
+        domain = classify_domain(all_finding_text, profiles)
 
         # All findings were acted on (each iteration has Resolution confirming)
         example = ReviewExample(
@@ -118,8 +127,12 @@ def parse_zellij_bridge(path: Path) -> list[ReviewExample]:
     return examples
 
 
-def parse_jj_workspace(path: Path) -> list[ReviewExample]:
+def parse_jj_workspace(path: Path, profiles: dict[str, dict]) -> list[ReviewExample]:
     """Parse bacchus/jj-workspace-migration.md into training examples.
+
+    Args:
+        path: Path to the markdown file
+        profiles: PROFILES dictionary with domain keyword mappings
 
     The plan body (lines before '## Addressed Codex Findings') is the plan context.
     Findings in '### SEVERITY - Title (vN finding)' blocks with '**Fix**:' lines.
@@ -164,7 +177,7 @@ def parse_jj_workspace(path: Path) -> list[ReviewExample]:
 
         # Classify domain from finding content
         all_text = " ".join(f"{title} {fix}" for _, title, fix in findings)
-        domain = classify_domain(all_text)
+        domain = classify_domain(all_text, profiles)
 
         # Determine other domains present in this plan
         other_domains = []
@@ -221,7 +234,7 @@ def main():
     zellij_path = PLAN_REVIEWS_DIR / "willo" / "2026-01-19-zellij-bridge-phase2.md"
     if zellij_path.exists():
         try:
-            examples = parse_zellij_bridge(zellij_path)
+            examples = parse_zellij_bridge(zellij_path, PROFILES)
             print(f"Parsed {zellij_path.name}: {len(examples)} examples")
             for ex in examples:
                 sev = ex.severity_gold
@@ -240,7 +253,7 @@ def main():
     jj_path = PLAN_REVIEWS_DIR / "bacchus" / "2026-01-20-jj-workspace-migration.md"
     if jj_path.exists():
         try:
-            examples = parse_jj_workspace(jj_path)
+            examples = parse_jj_workspace(jj_path, PROFILES)
             print(f"\nParsed {jj_path.name}: {len(examples)} examples")
             for ex in examples:
                 sev = ex.severity_gold
