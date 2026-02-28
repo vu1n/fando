@@ -273,16 +273,28 @@ def run_parallel_reviews_dspy(
         review = ReviewResult(profile=profile)
 
         try:
-            text_output = prediction_to_review_output(prediction)
-            review.output = text_output
-            review.findings = parse_findings(text_output)
-            result.profiles_completed += 1
+            # Check if prediction is an exception before processing
+            if isinstance(prediction, Exception):
+                review.error = f"DSPy prediction failed: {prediction}"
+                result.profiles_failed += 1
+            else:
+                text_output = prediction_to_review_output(prediction)
+                review.output = text_output
+                review.findings = parse_findings(text_output)
 
-            if review.findings:
-                result.total_high += review.findings.high
-                result.total_medium += review.findings.medium
-                result.total_low += review.findings.low
-                result.total_nitpick += review.findings.nitpick
+                # Check for explicit error markers in the output
+                if review.output and "Error:" in review.output and "## Findings\n\n## Summary" in review.output:
+                    # This is the error format from prediction_to_review_output
+                    review.error = "DSPy review produced error output"
+                    result.profiles_failed += 1
+                else:
+                    # Only count as completed if no error
+                    result.profiles_completed += 1
+                    if review.findings:
+                        result.total_high += review.findings.high
+                        result.total_medium += review.findings.medium
+                        result.total_low += review.findings.low
+                        result.total_nitpick += review.findings.nitpick
         except Exception as e:
             review.error = f"DSPy review error: {e}"
             result.profiles_failed += 1

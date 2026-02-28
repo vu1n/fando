@@ -44,6 +44,22 @@ TRAINING_DIR = SKILL_DIR / "training_data"
 
 
 # ===========================================================================
+# Training Labeling Constants and Policies
+# ===========================================================================
+
+# Minimum word length to consider a word "significant" for matching
+SIGNIFICANT_WORD_MIN_LENGTH = 4
+
+# Threshold for considering a finding "acted on" based on word overlap
+# If > this fraction of significant words appear in the diff, count as addressed
+FINDING_ADDRESS_THRESHOLD = 0.3
+
+# Domain focus weight for staying in lane vs crossing domains
+DOMAIN_FOCUS_WEIGHT_IN_LANE = 1.0
+DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE = 0.3
+
+
+# ===========================================================================
 # Per-Domain Signatures — docstrings encode domain knowledge from profiles/*.md
 # ===========================================================================
 
@@ -481,9 +497,13 @@ def prediction_to_review_output(prediction: Any) -> str:
 
         ## Summary
         X high, Y medium...
+
+    Note: If prediction is an Exception, returns error text that should be
+    detected as a failure by the caller.
     """
     if isinstance(prediction, Exception):
-        return f"## Findings\n\n## Summary\nError: {prediction}"
+        # Return explicit error marker that can be detected
+        return f"## Findings\n\n## Summary\nError: DSPY_EXECUTION_FAILED: {prediction}"
 
     findings = getattr(prediction, "findings", "")
     summary = getattr(prediction, "summary", "")
@@ -590,7 +610,7 @@ def review_metric(
     feedback_parts.append(f"Recall: {recall:.0%} of important issues caught")
 
     # --- Domain Focus (20%) ---
-    domain_focus = 1.0 if gold.stayed_in_lane else 0.3
+    domain_focus = DOMAIN_FOCUS_WEIGHT_IN_LANE if gold.stayed_in_lane else DOMAIN_FOCUS_WEIGHT_OUT_OF_LANE
     if not gold.stayed_in_lane:
         feedback_parts.append("Domain focus: reviewer flagged issues outside their domain")
     else:
@@ -715,11 +735,11 @@ def collect_training_example(
     added_text = _get_added_text(plan_before, plan_after).lower()
 
     for finding in pred_findings:
-        # Extract significant words (>4 chars) from the finding
-        sig_words = [w for w in finding.lower().split() if len(w) > 4]
+        # Extract significant words from the finding
+        sig_words = [w for w in finding.lower().split() if len(w) > SIGNIFICANT_WORD_MIN_LENGTH]
         if sig_words:
             matches = sum(1 for w in sig_words if w in added_text)
-            if matches / len(sig_words) > 0.3:
+            if matches / len(sig_words) > FINDING_ADDRESS_THRESHOLD:
                 findings_acted_on.append(finding)
             else:
                 findings_ignored.append(finding)
