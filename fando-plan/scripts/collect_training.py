@@ -70,9 +70,18 @@ def main():
         print("Error: No review output on stdin", file=sys.stderr)
         sys.exit(1)
 
-    # Read plan files
-    plan_before = args.plan_before.read_text()
-    plan_after = args.plan_after.read_text()
+    # Read plan files with consistent error handling
+    try:
+        plan_before = args.plan_before.read_text()
+    except OSError as e:
+        print(f"Error: Failed to read plan-before file {args.plan_before}: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        plan_after = args.plan_after.read_text()
+    except OSError as e:
+        print(f"Error: Failed to read plan-after file {args.plan_after}: {e}", file=sys.stderr)
+        sys.exit(1)
 
     other_domains = [d.strip() for d in args.other_domains.split(",") if d.strip()]
 

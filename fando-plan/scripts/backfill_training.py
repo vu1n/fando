@@ -223,30 +223,38 @@ def main():
     # Parse zellij-bridge-phase2
     zellij_path = PLAN_REVIEWS_DIR / "willo" / "2026-01-19-zellij-bridge-phase2.md"
     if zellij_path.exists():
-        examples = parse_zellij_bridge(zellij_path)
-        print(f"Parsed {zellij_path.name}: {len(examples)} examples")
-        for ex in examples:
-            sev = ex.severity_gold
-            print(
-                f"  Iteration {ex.iteration}: {len(ex.findings_acted_on)} findings "
-                f"({sev}) → domain={ex.domain}"
-            )
-        all_examples.extend(examples)
+        try:
+            examples = parse_zellij_bridge(zellij_path)
+            print(f"Parsed {zellij_path.name}: {len(examples)} examples")
+            for ex in examples:
+                sev = ex.severity_gold
+                print(
+                    f"  Iteration {ex.iteration}: {len(ex.findings_acted_on)} findings "
+                    f"({sev}) → domain={ex.domain}"
+                )
+            all_examples.extend(examples)
+        except (OSError, UnicodeDecodeError) as e:
+            print(f"Error: Failed to read {zellij_path}: {e}", file=sys.stderr)
+            sys.exit(1)
     else:
         print(f"Not found: {zellij_path}")
 
     # Parse jj-workspace-migration
     jj_path = PLAN_REVIEWS_DIR / "bacchus" / "2026-01-20-jj-workspace-migration.md"
     if jj_path.exists():
-        examples = parse_jj_workspace(jj_path)
-        print(f"\nParsed {jj_path.name}: {len(examples)} examples")
-        for ex in examples:
-            sev = ex.severity_gold
-            print(
-                f"  v{ex.iteration}: {len(ex.findings_acted_on)} findings "
-                f"({sev}) → domain={ex.domain}"
-            )
-        all_examples.extend(examples)
+        try:
+            examples = parse_jj_workspace(jj_path)
+            print(f"\nParsed {jj_path.name}: {len(examples)} examples")
+            for ex in examples:
+                sev = ex.severity_gold
+                print(
+                    f"  v{ex.iteration}: {len(ex.findings_acted_on)} findings "
+                    f"({sev}) → domain={ex.domain}"
+                )
+            all_examples.extend(examples)
+        except (OSError, UnicodeDecodeError) as e:
+            print(f"Error: Failed to read {jj_path}: {e}", file=sys.stderr)
+            sys.exit(1)
     else:
         print(f"Not found: {jj_path}")
 
